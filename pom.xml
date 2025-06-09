@@ -18,6 +18,11 @@
   <name>SpringMicroservices-Hotel</name>
   <packaging>pom</packaging>
 
+  <modules>
+    <module>microservice-gateway</module>
+    <module>microservice-config</module>
+    <module>microservice-eureka</module>
+  </modules>
 
 
 
