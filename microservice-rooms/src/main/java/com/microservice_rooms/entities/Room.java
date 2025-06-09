@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -17,7 +19,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Room {
 
     @Id
@@ -44,10 +45,33 @@ public class Room {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    // Enum interno
+    // Faltan campos que pediste: capacity, roomSize, description
+
+    @Column(name = "capacity")
+    private Integer capacity;
+
+    @Column(name = "room_size")
+    private Double roomSize;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    // Relaciones que faltan: imágenes y etiquetas
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoomImage> images = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "room_tags",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+
+
     public enum AvailabilityStatus {
         AVAILABLE, BOOKED, MAINTENANCE
     }
-
-
 }
+

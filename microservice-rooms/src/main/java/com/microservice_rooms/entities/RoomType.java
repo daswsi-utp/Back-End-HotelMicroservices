@@ -2,20 +2,19 @@ package com.microservice_rooms.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "room_types")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class RoomType {
 
     @Id
@@ -28,11 +27,12 @@ public class RoomType {
     @Column(name = "room_type_description", columnDefinition = "TEXT")
     private String roomTypeDescription;
 
+    @Column(name = "max_occupancy")
+    private Integer maxOccupancy;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
-
-
 }
