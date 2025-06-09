@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: microservice-users
+          uri: lb://microservice-users
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=2

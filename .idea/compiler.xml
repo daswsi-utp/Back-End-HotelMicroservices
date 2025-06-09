@@ -7,17 +7,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-eureka" />
+        <module name="demo" />
         <module name="microservice-config" />
+        <module name="msvc-gateway-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="demo" target="21" />
+      <module name="microservicios-rooms" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="demo" options="-parameters" />
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
+      <module name="microservicios-rooms" options="-parameters" />
       <module name="msvc-gateway-server" options="-parameters" />
     </option>
   </component>
