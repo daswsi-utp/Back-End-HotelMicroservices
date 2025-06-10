@@ -21,9 +21,9 @@
   <modules>
     <module>microservice-gateway</module>
     <module>microservice-config</module>
-    <module>microservice-eureka</module>
     <module>microservice-rooms</module>
     <module>microservice-promotions</module>
+    <module>microservice-eureka</module>
   </modules>
 
 
