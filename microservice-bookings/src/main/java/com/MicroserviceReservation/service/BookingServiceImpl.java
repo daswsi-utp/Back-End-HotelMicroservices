@@ -1,6 +1,6 @@
 package com.MicroserviceReservation.service;
 
-import com.MicroserviceReservation.Entities.booking;
+import com.MicroserviceReservation.Entities.Booking;
 import com.MicroserviceReservation.persistence.bookingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -18,13 +18,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public booking createBooking(booking booking) {
+    public Booking createBooking(Booking booking) {
         return bookingRepository.save(booking);
     }
 
     @Override
-    public booking updateBooking(Long id, booking booking) {
-        booking current = bookingRepository.findById(id)
+    public Booking updateBooking(Long id, Booking booking) {
+        Booking current = bookingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found: " + id));
 
         current.setRoom(booking.getRoom());
@@ -43,13 +43,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public booking getBookingById(Long id) {
+    public Booking getBookingById(Long id) {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found: " + id));
     }
 
     @Override
-    public List<booking> getAllBookings() {
+    public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 }

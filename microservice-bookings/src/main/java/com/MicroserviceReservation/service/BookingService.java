@@ -1,13 +1,13 @@
 package com.MicroserviceReservation.service;
 
-import com.MicroserviceReservation.Entities.booking;
+import com.MicroserviceReservation.Entities.Booking;
 
 import java.util.List;
 
 public interface BookingService {
-    booking createBooking(booking booking);
-    booking updateBooking(Long id, booking booking);
+    Booking createBooking(Booking booking);
+    Booking updateBooking(Long id, Booking booking);
     void deleteBooking(Long id);
-    booking getBookingById(Long id);
-    List<booking> getAllBookings();
+    Booking getBookingById(Long id);
+    List<Booking> getAllBookings();
 }

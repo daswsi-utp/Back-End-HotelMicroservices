@@ -2,12 +2,11 @@ package com.MicroserviceReservation.Entities;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "bookings")
-public class booking {
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

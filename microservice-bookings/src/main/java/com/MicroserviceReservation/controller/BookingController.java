@@ -1,6 +1,6 @@
 package com.MicroserviceReservation.controller;
 
-import com.MicroserviceReservation.Entities.booking;
+import com.MicroserviceReservation.Entities.Booking;
 import com.MicroserviceReservation.service.BookingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +19,14 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<booking> create(@RequestBody booking booking) {
-        booking saved = bookingService.createBooking(booking);
+    public ResponseEntity<Booking> create(@RequestBody Booking booking) {
+        Booking saved = bookingService.createBooking(booking);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<booking> update(@PathVariable Long id, @RequestBody booking booking) {
-        booking updated = bookingService.updateBooking(id, booking);
+    public ResponseEntity<Booking> update(@PathVariable Long id, @RequestBody Booking booking) {
+        Booking updated = bookingService.updateBooking(id, booking);
         return ResponseEntity.ok(updated);
     }
 
@@ -37,12 +37,12 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<booking> getById(@PathVariable Long id) {
+    public ResponseEntity<Booking> getById(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 
     @GetMapping
-    public List<booking> getAll() {
+    public List<Booking> getAll() {
         return bookingService.getAllBookings();
     }
 }
