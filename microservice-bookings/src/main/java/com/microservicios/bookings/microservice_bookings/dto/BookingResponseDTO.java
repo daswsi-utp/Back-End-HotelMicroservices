@@ -10,7 +10,6 @@ public class BookingResponseDTO
 {
 
     private Long id;
-    private Long roomId;
     private LocalDate checkIn;
     private LocalDate checkOut;
     private Double total;
@@ -23,4 +22,7 @@ public class BookingResponseDTO
     private String userEmail;
     private String phone;
 
+    //Datos del Room
+    private Long roomId;
+    private String roomName;
 }

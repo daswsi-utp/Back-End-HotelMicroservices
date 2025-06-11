@@ -1,17 +1,44 @@
+server:
+  port: 8080
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: microservice-gateway
+
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: 'http://localhost:5473'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowedCredentials: true
+      discovery:
+        locator:
+          enabled: true
       routes:
+        - id: microservice-rooms
+          uri: http://localhost:9093
+          predicates:
+            - Path=/api/rooms/**
         - id: microservice-users
-          uri: lb://microservice-users
+          uri: http://localhost:8092
           predicates:
             - Path=/api/users/**
-          filters:
-            - StripPrefix=2
-
         - id: microservice-bookings
-          uri: lb://microservice-bookings
+          uri: http://localhost:9092
           predicates:
             - Path=/api/bookings/**
-          filters:
-            - StripPrefix=2

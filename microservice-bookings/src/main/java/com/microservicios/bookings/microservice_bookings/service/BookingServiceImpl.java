@@ -1,7 +1,9 @@
 package com.microservicios.bookings.microservice_bookings.service;
 
+import com.microservicios.bookings.microservice_bookings.client.RoomClient;
 import com.microservicios.bookings.microservice_bookings.client.UserClient;
 import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto.RoomDTO;
 import com.microservicios.bookings.microservice_bookings.dto.UserDTO;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.repositories.BookingRepository;
@@ -20,6 +22,9 @@ public class BookingServiceImpl implements IBookingService
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private RoomClient roomClient;
 
     @Override
     @Transactional(readOnly = true)
@@ -69,10 +74,9 @@ public class BookingServiceImpl implements IBookingService
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
         UserDTO user = userClient.getUserById(booking.getUserId());
-
+        RoomDTO room= roomClient.getRoomById(booking.getRoomId());
         BookingResponseDTO dto = new BookingResponseDTO();
         dto.setId(booking.getId());
-        dto.setRoomId(booking.getRoomId());
         dto.setCheckIn(booking.getCheckIn());
         dto.setCheckOut(booking.getCheckOut());
         dto.setTotal(booking.getTotal());
@@ -82,6 +86,9 @@ public class BookingServiceImpl implements IBookingService
         dto.setUserName(user.getName());
         dto.setUserLastName(user.getLastName());
         dto.setUserEmail(user.getEmail());
+
+        dto.setRoomId(room.getId());
+        dto.setRoomName(room.getNameRoom());
         return dto;
     }
 
