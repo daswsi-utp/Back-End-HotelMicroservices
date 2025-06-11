@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Builder
 @Table(name = "promotions")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +33,7 @@ public class Promotion {
     @Column(name = "updated_at")
     Timestamp updatedAt;
     String type;
+    //In the DB a status of 1 indicates an active promotion, a status of 0 indicates an inactive one
+    @Column(name = "is_active")
+    boolean isActive;
 }
