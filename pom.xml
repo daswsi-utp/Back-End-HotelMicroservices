@@ -23,6 +23,7 @@
     <module>microservice-config</module>
     <module>microservice-eureka</module>
     <module>microservice-users</module>
+    <module>microservice-bookings</module>
   </modules>
 
 

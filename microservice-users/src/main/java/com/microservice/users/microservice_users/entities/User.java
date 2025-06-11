@@ -23,7 +23,7 @@ public class User
 
     private String cellPhone;
 
-    private String JoinDate;
+    private LocalDate joinDate;
 
     private String country;
 
@@ -76,12 +76,12 @@ public class User
         this.cellPhone = cellPhone;
     }
 
-    public String getJoinDate() {
-        return JoinDate;
+    public LocalDate getJoinDate() {
+        return joinDate;
     }
 
-    public void setJoinDate(String joinDate) {
-        JoinDate = joinDate;
+    public void setJoinDate(LocalDate joinDate) {
+        this.joinDate = joinDate;
     }
 
     public String getCountry() {
