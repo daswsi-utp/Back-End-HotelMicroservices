@@ -2,7 +2,6 @@ package com.microservice.promotions.microservice_promotions.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -14,6 +13,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Data
 public class Promotion {
+    public enum Type{
+        percentage, fixed, added_value
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "promotion_id")
@@ -32,9 +34,11 @@ public class Promotion {
     Timestamp createdAt;
     @Column(name = "updated_at")
     Timestamp updatedAt;
-    String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "promotion_type")
+    Type type;
     //In the DB a status of 1 indicates an active promotion, a status of 0 indicates an inactive one
     @Column(name = "is_active")
     boolean isActive;
-
 }
+

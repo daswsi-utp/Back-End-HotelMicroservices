@@ -3,10 +3,12 @@ package com.microservice.promotions.microservice_promotions.service;
 import com.microservice.promotions.microservice_promotions.entities.Promotion;
 import com.microservice.promotions.microservice_promotions.persistence.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PromotionServiceImp implements  IPromotionService{
     @Autowired
     private PromotionRepository promotionRepository;
