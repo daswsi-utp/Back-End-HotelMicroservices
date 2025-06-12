@@ -10,5 +10,5 @@ public interface IPromotionService {
     Promotion save(Promotion promotion);
     Promotion update(Long id, Promotion promotion);
     List<Promotion> getPromotionsByName(String name);
-    List<Promotion> getPromotionsByStatus(boolean status);
+    List<Promotion> getPromotionsByIsActive(boolean isActive);
 }

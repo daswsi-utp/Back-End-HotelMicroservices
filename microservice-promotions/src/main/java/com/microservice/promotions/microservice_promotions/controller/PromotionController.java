@@ -36,8 +36,8 @@ public class PromotionController {
     public ResponseEntity<?> findPromotionByName(@PathVariable String name){
         return ResponseEntity.ok(iPromotionService.getPromotionsByName(name));
     }
-    @GetMapping("/status/{status}")
-    public ResponseEntity<?> findPromotionByStatus(@PathVariable boolean status){
-        return ResponseEntity.ok(iPromotionService.getPromotionsByStatus(status));
+    @GetMapping("/status/{isActive}")
+    public ResponseEntity<?> findPromotionByStatus(@PathVariable boolean isActive){
+        return ResponseEntity.ok(iPromotionService.getPromotionsByIsActive(isActive));
     }
 }

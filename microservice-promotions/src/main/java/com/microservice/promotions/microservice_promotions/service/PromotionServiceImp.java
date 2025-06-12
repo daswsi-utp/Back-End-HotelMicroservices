@@ -49,7 +49,7 @@ public class PromotionServiceImp implements  IPromotionService{
     }
 
     @Override
-    public List<Promotion> getPromotionsByStatus(boolean status) {
-        return promotionRepository.findByStatus(status);
+    public List<Promotion> getPromotionsByIsActive(boolean isActive) {
+        return promotionRepository.findByIsActive(isActive);
     }
 }
