@@ -1,5 +1,6 @@
 package com.microservice_rooms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Tag {
     @Column(name = "name", unique = true, nullable = false, length = 100)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags")
     private Set<Room> rooms = new HashSet<>();
 }

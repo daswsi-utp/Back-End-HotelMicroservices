@@ -59,6 +59,7 @@ public class Room {
     // Relaciones que faltan: imágenes y etiquetas
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private Set<RoomImage> images = new HashSet<>();
 
     @ManyToMany

@@ -1,6 +1,7 @@
 package com.microservice_rooms.controllers;
 import com.microservice_rooms.entities.Room;
 import com.microservice_rooms.service.IServiceRoom;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.*;
 @RequestMapping("/api/rooms")
 public class RoomController {
 
+    @Autowired
     private final IServiceRoom roomService;
 
     public RoomController(IServiceRoom roomService) {

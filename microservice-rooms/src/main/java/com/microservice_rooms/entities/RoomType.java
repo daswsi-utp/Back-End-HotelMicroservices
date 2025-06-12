@@ -19,13 +19,13 @@ public class RoomType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomTypeId;
+    private Long id;
 
-    @Column(name = "room_type_name", nullable = false, length = 100)
-    private String roomTypeName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "room_type_description", columnDefinition = "TEXT")
-    private String roomTypeDescription;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
     @Column(name = "max_occupancy")
     private Integer maxOccupancy;
