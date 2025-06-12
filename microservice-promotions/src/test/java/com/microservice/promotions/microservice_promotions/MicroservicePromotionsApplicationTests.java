@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.util.List;
 
 @SpringBootTest
 class MicroservicePromotionsApplicationTests {
@@ -26,7 +27,47 @@ class MicroservicePromotionsApplicationTests {
 				.build();
 		Promotion savedPromotion = iPromotionService.save(promotion);
 		Assertions.assertThat(savedPromotion).isNotNull();
+		Assertions.assertThat(savedPromotion.getCreatedAt()).isNotNull();
+		Assertions.assertThat(savedPromotion.getUpdatedAt()).isNotNull();
 		Assertions.assertThat(savedPromotion.getPromotionId()).isGreaterThan(0);
+	}
+
+	@Test
+	public void Promotion_FindByID_ReturnFoundPromotion(){
+		Promotion promotion = Promotion.builder().
+				name("Test")
+				.description("Test description")
+				.discountValue(20.0)
+				.startDate(Date.valueOf("2025-06-15"))
+				.endDate(Date.valueOf( "2025-07-15"))
+				.type(Promotion.Type.percentage)
+				.build();
+		iPromotionService.save(promotion);
+		Promotion foundPromotion = iPromotionService.findById(promotion.getPromotionId());
+		Assertions.assertThat(foundPromotion).isNotNull();
+	}
+	@Test
+	public void Promotion_FindAll_ReturnPromotionList(){
+		Promotion promotion1 = Promotion.builder().
+				name("Test1")
+				.description("Test description")
+				.discountValue(20.0)
+				.startDate(Date.valueOf("2025-06-15"))
+				.endDate(Date.valueOf( "2025-07-15"))
+				.type(Promotion.Type.percentage)
+				.build();
+		iPromotionService.save(promotion1);
+		Promotion promotion2 = Promotion.builder().
+				name("Test2")
+				.description("Test description")
+				.discountValue(null)
+				.startDate(Date.valueOf("2025-06-15"))
+				.endDate(Date.valueOf( "2025-07-15"))
+				.type(Promotion.Type.added_value)
+				.build();
+		iPromotionService.save(promotion2);
+		List<Promotion> foundPromotionList = iPromotionService.findAll();
+		Assertions.assertThat(foundPromotionList).isNotNull();
 	}
 	@Test
 	void contextLoads() {
