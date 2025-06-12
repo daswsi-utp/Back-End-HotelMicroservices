@@ -24,21 +24,21 @@ public class Promotion {
     String name;
     @Column(name = "promotion_description")
     String description;
-    @Column(name = "discount_value")
-    double discountValue;
+    @Column(name = "discount_value", nullable = true)
+    Double discountValue;
     @Column(name = "start_date")
     Date startDate;
     @Column(name = "end_date")
     Date endDate;
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false, insertable = false)
     Timestamp createdAt;
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", updatable = false, insertable = false)
     Timestamp updatedAt;
     @Enumerated(EnumType.STRING)
     @Column(name = "type", columnDefinition = "promotion_type")
     Type type;
     //In the DB a status of 1 indicates an active promotion, a status of 0 indicates an inactive one
-    @Column(name = "is_active")
+    @Column(name = "is_active", insertable = false)
     boolean isActive;
 }
 

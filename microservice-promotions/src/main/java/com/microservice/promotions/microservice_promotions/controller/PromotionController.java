@@ -29,7 +29,7 @@ public class PromotionController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatePromotion(@PathVariable Long id, Promotion promotion){
+    public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody Promotion promotion){
         return ResponseEntity.ok(iPromotionService.update(id, promotion));
     }
 }
