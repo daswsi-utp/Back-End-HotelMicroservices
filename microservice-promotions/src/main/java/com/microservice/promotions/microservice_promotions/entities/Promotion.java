@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Promotion {
     public enum Type{
         percentage, fixed, added_value
