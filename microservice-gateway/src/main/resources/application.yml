@@ -1,17 +1,16 @@
 server:
   port: 8080
+
 spring:
-  config:
-    import: optional:configserver:http://localhost:8888
   application:
-    name: msvc-gateway
+    name: microservice-gateway
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
-        routes:
-          - id: microservice-promotions
-          - uri: http://localhost:9091
-            predicates:
-              - Path=/api/promotion/**
+    routes:
+      - id: promotions
+        uri: http://localhost:9091
+        predicates:
+          - Path=/api/promotion/**
