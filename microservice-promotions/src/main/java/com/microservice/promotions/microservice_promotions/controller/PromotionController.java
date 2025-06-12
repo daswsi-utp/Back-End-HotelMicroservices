@@ -32,4 +32,12 @@ public class PromotionController {
     public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody Promotion promotion){
         return ResponseEntity.ok(iPromotionService.update(id, promotion));
     }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> findPromotionByName(@PathVariable String name){
+        return ResponseEntity.ok(iPromotionService.getPromotionsByName(name));
+    }
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> findPromotionByStatus(@PathVariable boolean status){
+        return ResponseEntity.ok(iPromotionService.getPromotionsByStatus(status));
+    }
 }

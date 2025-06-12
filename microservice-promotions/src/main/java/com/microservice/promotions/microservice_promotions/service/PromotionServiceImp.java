@@ -42,4 +42,14 @@ public class PromotionServiceImp implements  IPromotionService{
         }
         return null;
     }
+
+    @Override
+    public List<Promotion> getPromotionsByName(String name) {
+        return promotionRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<Promotion> getPromotionsByStatus(boolean status) {
+        return promotionRepository.findByStatus(status);
+    }
 }
