@@ -1,18 +1,67 @@
 server:
   port: 8080
-
+logging:
+  level:
+    root: INFO                                # General logging level for the application
+    org.springframework.data.jpa.repository: DEBUG  # Log JPA repository method calls
+    org.hibernate.SQL: DEBUG                   # Log SQL statements executed by Hibernate
+    org.hibernate.type.descriptor.sql: TRACE
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 spring:
   config:
     import: optional:configserver:http://localhost:8888
   application:
     name: microservice-gateway
+      #security:
+      # oauth2:
+      #     resourceserver:
+      # jwt:
+      #   issuer-uri: http://127.0.0.1:9100
+      #client:
+      # registration:
+      #   client-app:
+      #     provider: spring
+      #     client-id: gateway-app
+      #     client-secret: 12345
+      #     authorization-grant-type: authorization_code
+      #     redirect-uri: http://127.0.0.1:8090/login/oauth2/code/client-app
+      #     scope:
+      #       - openid
+      #       - profile
+      #
+      #     client-name: client-app
+      # provider:
+    #   spring:
+    #     issuer-uri: http://127.0.0.1:9100
+
   cloud:
+    config:
+      enabled: false
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: 'http://localhost:3000'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowedCredentials: true
       discovery:
         locator:
           enabled: true
-    routes:
-      - id: promotions
-        uri: http://localhost:9091
-        predicates:
-          - Path=/api/promotion/**
+          # default-filters:
+        # - TokenRelay
+      routes:
+        - id: microservice-promotions
+          uri: lb://micro-promotions
+          predicates:
+            - Path=/api/promotion/**
