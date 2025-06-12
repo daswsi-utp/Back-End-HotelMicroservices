@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
         <module name="microservice-rooms" />
+        <module name="microservice-promotions" />
         <module name="microservice-eureka" />
         <module name="microservice-config" />
       </profile>
@@ -19,6 +20,7 @@
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-promotions" options="-parameters" />
       <module name="microservice-rooms" options="-parameters" />
     </option>
   </component>

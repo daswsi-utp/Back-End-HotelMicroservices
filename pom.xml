@@ -23,6 +23,7 @@
     <module>microservice-config</module>
     <module>microservice-eureka</module>
     <module>microservice-rooms</module>
+    <module>microservice-promotions</module>
   </modules>
 
 
