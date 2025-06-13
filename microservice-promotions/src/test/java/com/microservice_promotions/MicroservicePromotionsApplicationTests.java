@@ -30,6 +30,20 @@ class MicroservicePromotionsApplicationTests {
 		Assertions.assertThat(savedPromotion.getUpdatedAt()).isNotNull();
 		Assertions.assertThat(savedPromotion.getPromotionId()).isGreaterThan(0);
 	}
+	@Test
+	public void Promotion_FindByID_ReturnFoundPromotion(){
+		Promotion promotion = Promotion.builder().
+				name("Test")
+				.description("Test description")
+				.discountValue(20.0)
+				.startDate(Date.valueOf("2025-06-15"))
+				.endDate(Date.valueOf( "2025-07-15"))
+				.type(Promotion.Type.percentage)
+				.build();
+		iPromotionService.save(promotion);
+		Promotion foundPromotion = iPromotionService.findById(promotion.getPromotionId());
+		Assertions.assertThat(foundPromotion).isNotNull();
+	}
 
 	@Test
 	void contextLoads() {
