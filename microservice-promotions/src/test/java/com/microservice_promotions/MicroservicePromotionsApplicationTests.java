@@ -1,4 +1,4 @@
-package com.microservice.promotions.microservice_promotions;
+package com.microservice_promotions;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

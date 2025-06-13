@@ -1,4 +1,4 @@
-package com.microservice.promotions.microservice_promotions;
+package com.microservice_promotions;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

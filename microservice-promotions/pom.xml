@@ -11,7 +11,7 @@
 	<artifactId>microservice-promotions</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>microservice-promotions</name>
-	<description>Microservice to handle all functions related to hotel room promotions.</description>
+	<description>Redo of the microservice-promotions</description>
 	<url/>
 	<licenses>
 		<license/>
