@@ -52,4 +52,12 @@ public class PromotionServiceImp implements IPromotionService{
     public List<Promotion> getPromotionsByIsActive(boolean isActive) {
         return promotionRepository.findByIsActive(isActive);
     }
+    @Override
+    public boolean deletePromotion(Long id){
+        if(promotionRepository.existsById(id)){
+            promotionRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

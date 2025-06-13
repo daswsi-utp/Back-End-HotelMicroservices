@@ -40,4 +40,8 @@ public class PromotionController {
     public ResponseEntity<?> findPromotionByStatus(@PathVariable boolean isActive){
         return ResponseEntity.ok(iPromotionService.getPromotionsByIsActive(isActive));
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePromotionById(@PathVariable Long id){
+        return ResponseEntity.ok(iPromotionService.deletePromotion(id));
+    }
 }
