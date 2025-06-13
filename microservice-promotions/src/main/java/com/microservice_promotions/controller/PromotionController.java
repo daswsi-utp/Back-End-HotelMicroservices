@@ -1,0 +1,43 @@
+package com.microservice_promotions.controller;
+
+import com.microservice_promotions.entitites.Promotion;
+import com.microservice_promotions.service.IPromotionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/promotions")
+public class PromotionController {
+    @Autowired
+    private IPromotionService iPromotionService;
+
+    @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Promotion savePromotion(@RequestBody Promotion promotion){
+        return iPromotionService.save(promotion);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> findAllPromotions(){
+        return ResponseEntity.ok(iPromotionService.findAll());
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<?> findPromotionById(@PathVariable Long id){
+        return ResponseEntity.ok(iPromotionService.findById(id));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody Promotion promotion){
+        return ResponseEntity.ok(iPromotionService.update(id, promotion));
+    }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> findPromotionByName(@PathVariable String name){
+        return ResponseEntity.ok(iPromotionService.getPromotionsByName(name));
+    }
+    @GetMapping("/status/{isActive}")
+    public ResponseEntity<?> findPromotionByStatus(@PathVariable boolean isActive){
+        return ResponseEntity.ok(iPromotionService.getPromotionsByIsActive(isActive));
+    }
+}
