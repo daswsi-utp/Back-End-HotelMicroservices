@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/promotions")
+@RequestMapping
 public class PromotionController {
     @Autowired
     private IPromotionService iPromotionService;

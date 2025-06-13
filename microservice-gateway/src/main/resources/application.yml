@@ -8,10 +8,15 @@ spring:
             - Path=/api/users/**
           filters:
             - StripPrefix=2
-
         - id: microservice-bookings
           uri: lb://microservice-bookings
           predicates:
             - Path=/api/bookings/**
           filters:
             - StripPrefix=2
+        - id: microservice-promotions
+          uri: lb://microservice-promotions
+          predicates:
+            - Path=/api/promotions/**
+          filters:
+              - StripPrefix=2
