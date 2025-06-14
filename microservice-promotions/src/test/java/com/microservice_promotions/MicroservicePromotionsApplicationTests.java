@@ -25,11 +25,14 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.build();
-		Promotion savedPromotion = iPromotionService.save(promotion);
+		iPromotionService.save(promotion);
+		Promotion savedPromotion = iPromotionService.findById(promotion.getPromotionId());
 		Assertions.assertThat(savedPromotion).isNotNull();
+		System.out.println(savedPromotion);
 		Assertions.assertThat(savedPromotion.getCreatedAt()).isNotNull();
 		Assertions.assertThat(savedPromotion.getUpdatedAt()).isNotNull();
 		Assertions.assertThat(savedPromotion.getPromotionId()).isGreaterThan(0);
+		iPromotionService.deletePromotion(promotion.getPromotionId());
 	}
 	@Test
 	public void Promotion_FindByID_ReturnFoundPromotion(){
@@ -44,6 +47,7 @@ class MicroservicePromotionsApplicationTests {
 		iPromotionService.save(promotion);
 		Promotion foundPromotion = iPromotionService.findById(promotion.getPromotionId());
 		Assertions.assertThat(foundPromotion).isNotNull();
+		iPromotionService.deletePromotion(promotion.getPromotionId());
 	}
 	@Test
 	public void Promotion_FindAll_ReturnPromotionList(){
@@ -67,6 +71,7 @@ class MicroservicePromotionsApplicationTests {
 		iPromotionService.save(promotion2);
 		List<Promotion> foundPromotionList = iPromotionService.findAll();
 		Assertions.assertThat(foundPromotionList).isNotNull();
+		iPromotionService.deletePromotion(promotion1.getPromotionId());
 	}
 	@Test
 	public void Promotion_UpdatePromotion_ReturnUpdatedPromotion(){
@@ -80,13 +85,14 @@ class MicroservicePromotionsApplicationTests {
 				.build();
 		iPromotionService.save(promotion);
 		Assertions.assertThat(promotion).isNotNull();
-		promotion.setName("Updated Test");
+		promotion.setName("Test_updated");
 		promotion.setDiscountValue(null);
 		promotion.setType(Promotion.Type.added_value);
 		iPromotionService.update(promotion.getPromotionId(), promotion);
 		Assertions.assertThat(promotion).isNotNull();
 		Assertions.assertThat(promotion.getName()).isNotEqualTo("Test");
 		Assertions.assertThat(promotion.getDiscountValue()).isNull();
+		iPromotionService.deletePromotion(promotion.getPromotionId());
 	}
 	@Test
 	void contextLoads() {

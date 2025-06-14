@@ -2,15 +2,14 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.4
--- Dumped by pg_dump version 17.4
+-- Dumped from database version 16.8
+-- Dumped by pg_dump version 16.8
 
--- Started on 2025-06-12 16:41:12
+-- Started on 2025-06-13 19:22:22 -05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -20,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 851 (class 1247 OID 24971)
+-- TOC entry 843 (class 1247 OID 25045)
 -- Name: promotion_type; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -34,7 +33,7 @@ CREATE TYPE public.promotion_type AS ENUM (
 ALTER TYPE public.promotion_type OWNER TO postgres;
 
 --
--- TOC entry 4566 (class 2605 OID 25008)
+-- TOC entry 4200 (class 2605 OID 25051)
 -- Name: CAST (character varying AS public.promotion_type); Type: CAST; Schema: -; Owner: -
 --
 
@@ -42,7 +41,30 @@ CREATE CAST (character varying AS public.promotion_type) WITH INOUT AS IMPLICIT;
 
 
 --
--- TOC entry 219 (class 1255 OID 24968)
+-- TOC entry 218 (class 1255 OID 25070)
+-- Name: delete_test_entries(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.delete_test_entries() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+	max_id BIGINT;
+BEGIN
+	IF OLD.promotion_name ILIKE 'test%' THEN
+		DELETE FROM promotions WHERE promotion_name ILIKE 'test%';
+		SELECT COALESCE(MAX(promotion_id), 0) into max_id from promotions;
+		perform setval('promotions_promotion_id_seq', max_id, true);
+	END IF;
+	RETURN OLD;
+END;
+$$;
+
+
+ALTER FUNCTION public.delete_test_entries() OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1255 OID 25052)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -63,7 +85,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 218 (class 1259 OID 24958)
+-- TOC entry 215 (class 1259 OID 25053)
 -- Name: promotions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -85,7 +107,7 @@ CREATE TABLE public.promotions (
 ALTER TABLE public.promotions OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 24957)
+-- TOC entry 216 (class 1259 OID 25063)
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -101,8 +123,8 @@ CREATE SEQUENCE public.promotions_promotion_id_seq
 ALTER SEQUENCE public.promotions_promotion_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4807 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 4440 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -110,7 +132,7 @@ ALTER SEQUENCE public.promotions_promotion_id_seq OWNED BY public.promotions.pro
 
 
 --
--- TOC entry 4646 (class 2604 OID 24980)
+-- TOC entry 4280 (class 2604 OID 25064)
 -- Name: promotions promotion_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -118,8 +140,8 @@ ALTER TABLE ONLY public.promotions ALTER COLUMN promotion_id SET DEFAULT nextval
 
 
 --
--- TOC entry 4801 (class 0 OID 24958)
--- Dependencies: 218
+-- TOC entry 4433 (class 0 OID 25053)
+-- Dependencies: 215
 -- Data for Name: promotions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -130,27 +152,21 @@ COPY public.promotions (promotion_id, promotion_name, promotion_description, dis
 1	Summer Sale	20% off all summer items	20	2025-06-14	2025-07-15	\N	2025-06-11 18:30:16.060139	percentage	f
 5	Spooky Sale	20% off all hallowing items	20	2025-06-14	2025-07-15	2025-06-11 18:34:47.58427	2025-06-11 18:34:47.58427	percentage	f
 7	Spooky Sale Added Value	20% off all hallowing items + Free Wine	\N	2025-06-14	2025-07-15	2025-06-11 18:42:04.111194	2025-06-11 18:42:04.111194	added_value	f
-10	Test	Test description	20	2025-06-15	2025-07-15	2025-06-11 19:29:19.143397	2025-06-11 19:29:19.143397	percentage	t
-11	Test	Test description	20	2025-06-15	2025-07-15	2025-06-11 19:39:09.385561	2025-06-11 19:39:09.385561	percentage	t
-12	Test1	Test description	20	2025-06-15	2025-07-15	2025-06-11 19:45:29.140515	2025-06-11 19:45:29.140515	percentage	t
-13	Test2	Test description	\N	2025-06-15	2025-07-15	2025-06-11 19:45:29.186007	2025-06-11 19:45:29.186007	added_value	t
-14	Updated Test	Test description	\N	2025-06-15	2025-07-15	2025-06-11 20:33:24.155522	2025-06-11 20:33:24.475084	added_value	f
-15	Updated Test	Test description	\N	2025-06-15	2025-07-15	2025-06-11 20:35:11.700769	2025-06-11 20:35:11.838611	added_value	f
-16	Updated Test	Test description	\N	2025-06-15	2025-07-15	2025-06-11 20:36:38.617071	2025-06-11 20:36:38.73708	added_value	f
+14	Regular	Test description	20	2025-06-15	2025-07-15	2025-06-13 19:16:41.736387	2025-06-13 19:16:41.736387	percentage	t
 \.
 
 
 --
--- TOC entry 4808 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 4441 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.promotions_promotion_id_seq', 16, true);
+SELECT pg_catalog.setval('public.promotions_promotion_id_seq', 14, true);
 
 
 --
--- TOC entry 4653 (class 2606 OID 24982)
+-- TOC entry 4287 (class 2606 OID 25066)
 -- Name: promotions promotions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -159,14 +175,22 @@ ALTER TABLE ONLY public.promotions
 
 
 --
--- TOC entry 4654 (class 2620 OID 24969)
+-- TOC entry 4288 (class 2620 OID 25071)
+-- Name: promotions trigger_delete_test_promotions; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER trigger_delete_test_promotions AFTER DELETE ON public.promotions FOR EACH ROW EXECUTE FUNCTION public.delete_test_entries();
+
+
+--
+-- TOC entry 4289 (class 2620 OID 25067)
 -- Name: promotions trigger_promotions_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
 CREATE TRIGGER trigger_promotions_updated_at BEFORE UPDATE ON public.promotions FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
 
--- Completed on 2025-06-12 16:41:13
+-- Completed on 2025-06-13 19:22:23 -05
 
 --
 -- PostgreSQL database dump complete
