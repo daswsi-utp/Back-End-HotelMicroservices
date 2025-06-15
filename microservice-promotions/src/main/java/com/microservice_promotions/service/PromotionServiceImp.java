@@ -37,7 +37,7 @@ public class PromotionServiceImp implements IPromotionService{
             updatePromotion.setStartDate(promotion.getStartDate());
             updatePromotion.setEndDate(promotion.getEndDate());
             updatePromotion.setType(promotion.getType());
-            updatePromotion.setActive(promotion.isActive());
+            updatePromotion.setIsActive(promotion.getIsActive());
             updatePromotion.setMinStay(promotion.getMinStay());
             return promotionRepository.save(updatePromotion);
         }
@@ -60,5 +60,10 @@ public class PromotionServiceImp implements IPromotionService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Promotion> findByNameAndIsActive(String name, Boolean isActive) {
+        return promotionRepository.findByNameAndStatus(name, isActive);
     }
 }

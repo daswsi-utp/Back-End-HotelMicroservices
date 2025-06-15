@@ -11,4 +11,5 @@ public interface IPromotionService {
     List<Promotion> getPromotionsByName(String name);
     List<Promotion> getPromotionsByIsActive(boolean isActive);
     boolean deletePromotion(Long id);
+    List<Promotion> findByNameAndIsActive(String name, Boolean isActive);
 }

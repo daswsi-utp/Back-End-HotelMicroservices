@@ -40,7 +40,7 @@ public class Promotion {
     Type type;
     //In the DB a status of 1 indicates an active promotion, a status of 0 indicates an inactive one
     @Column(name = "is_active", insertable = false)
-    boolean isActive;
+    Boolean isActive;
     @Column(name = "minimun_stay")
     int minStay;
 }

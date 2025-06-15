@@ -23,7 +23,7 @@ public class PromotionController {
         return ResponseEntity.ok(iPromotionService.findAll());
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findPromotionById(@PathVariable Long id){
         return ResponseEntity.ok(iPromotionService.findById(id));
     }
@@ -31,6 +31,10 @@ public class PromotionController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody Promotion promotion){
         return ResponseEntity.ok(iPromotionService.update(id, promotion));
+    }
+    @GetMapping("/find")
+    public ResponseEntity<?> findPromotionByNameAndStatus(@RequestParam(required = false) String name, @RequestParam(required = false) Boolean isActive){
+        return ResponseEntity.ok(iPromotionService.findByNameAndIsActive(name, isActive));
     }
     @GetMapping("/name/{name}")
     public ResponseEntity<?> findPromotionByName(@PathVariable String name){
