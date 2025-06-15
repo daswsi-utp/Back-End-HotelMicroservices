@@ -95,6 +95,35 @@ class MicroservicePromotionsApplicationTests {
 		iPromotionService.deletePromotion(promotion.getPromotionId());
 	}
 	@Test
+	public void Promotion_FindByNameAndOrStatus_BothParametersProvided(){
+		Promotion promotion1 = Promotion.builder().
+				name("Test1")
+				.description("Test description")
+				.discountValue(20.0)
+				.startDate(Date.valueOf("2025-06-15"))
+				.endDate(Date.valueOf( "2025-07-15"))
+				.type(Promotion.Type.percentage)
+				.build();
+		iPromotionService.save(promotion1);
+		Promotion promotion2 = Promotion.builder().
+				name("Test2")
+				.description("Test description")
+				.discountValue(null)
+				.startDate(Date.valueOf("2025-06-15"))
+				.endDate(Date.valueOf( "2025-07-15"))
+				.type(Promotion.Type.added_value)
+				.build();
+		iPromotionService.save(promotion2);
+		//Both parameters provided
+		List<Promotion> foundPromotions = iPromotionService.findByNameAndIsActive("Test", true);
+		Assertions.assertThat(foundPromotions.size()).isEqualTo(2);
+		promotion2.setIsActive(false);
+		iPromotionService.update(promotion2.getPromotionId(), promotion2);
+		foundPromotions = iPromotionService.findByNameAndIsActive("Test2", null);
+		Assertions.assertThat(foundPromotions.size()).isEqualTo(1);
+		iPromotionService.deletePromotion(promotion2.getPromotionId());
+	}
+	@Test
 	void contextLoads() {
 	}
 
