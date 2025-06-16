@@ -39,6 +39,7 @@ public class PromotionServiceImp implements IPromotionService{
             updatePromotion.setType(promotion.getType());
             updatePromotion.setIsActive(promotion.getIsActive());
             updatePromotion.setMinStay(promotion.getMinStay());
+            updatePromotion.setRoomApplicability(promotion.getRoomApplicability());
             return promotionRepository.save(updatePromotion);
         }
         return null;
