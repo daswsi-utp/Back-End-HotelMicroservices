@@ -84,15 +84,16 @@ class MicroservicePromotionsApplicationTests {
 				.type(Promotion.Type.percentage)
 				.build();
 		iPromotionService.save(promotion);
-		Assertions.assertThat(promotion).isNotNull();
-		promotion.setName("Test_updated");
-		promotion.setDiscountValue(null);
-		promotion.setType(Promotion.Type.added_value);
-		iPromotionService.update(promotion.getPromotionId(), promotion);
-		Assertions.assertThat(promotion).isNotNull();
-		Assertions.assertThat(promotion.getName()).isNotEqualTo("Test");
-		Assertions.assertThat(promotion.getDiscountValue()).isNull();
-		iPromotionService.deletePromotion(promotion.getPromotionId());
+		Promotion foundPromotion = iPromotionService.findById(promotion.getPromotionId());
+		Assertions.assertThat(foundPromotion).isNotNull();
+		foundPromotion.setName("Test_updated");
+		foundPromotion.setDiscountValue(null);
+		foundPromotion.setType(Promotion.Type.added_value);
+		iPromotionService.update(foundPromotion.getPromotionId(), foundPromotion);
+		Assertions.assertThat(foundPromotion).isNotNull();
+		Assertions.assertThat(foundPromotion.getName()).isNotEqualTo("Test");
+		Assertions.assertThat(foundPromotion.getDiscountValue()).isNull();
+		iPromotionService.deletePromotion(foundPromotion.getPromotionId());
 	}
 	@Test
 	public void Promotion_FindByNameAndOrStatus_BothParametersProvided(){
