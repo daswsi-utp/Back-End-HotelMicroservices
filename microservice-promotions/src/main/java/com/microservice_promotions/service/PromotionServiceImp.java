@@ -28,7 +28,9 @@ public class PromotionServiceImp implements IPromotionService{
         List<Promotion> promotionList = promotionRepository.findAll();
         List<PromotionResponseDTO> responseList = new ArrayList<>();
         for(Promotion promotion : promotionList){
-
+          List<RoomDTO> rooms = getRoomName(promotion.getPromotionId());
+          PromotionResponseDTO responseDTO = PromotionResponseDTO.builder()
+                  .promotionId(promotion.getPromotionId());
         }
         return responseList;
     }
