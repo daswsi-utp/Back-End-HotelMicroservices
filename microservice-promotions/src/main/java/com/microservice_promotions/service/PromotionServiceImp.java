@@ -1,7 +1,6 @@
 package com.microservice_promotions.service;
 
 import com.microservice_promotions.client.RoomClient;
-import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.dto.PromotionResponseDTO;
 import com.microservice_promotions.dto.RoomDTO;
 import com.microservice_promotions.entitites.Promotion;
@@ -11,9 +10,7 @@ import com.microservice_promotions.persistence.PromotionRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PromotionServiceImp implements IPromotionService{
@@ -26,17 +23,27 @@ public class PromotionServiceImp implements IPromotionService{
     @Override
     public List<PromotionResponseDTO> findAll() {
         List<Promotion> promotionList = promotionRepository.findAll();
-        List<PromotionResponseDTO> responseList = new ArrayList<>();
-        for(Promotion promotion : promotionList){
-          List<RoomDTO> rooms = getRoomName(promotion.getPromotionId());
-          PromotionResponseDTO responseDTO = PromotionResponseDTO.builder()
-                  .promotionId(promotion.getPromotionId());
-        }
-        return responseList;
+        return createPromotionResponseList(promotionList);
     }
     @Override
-    public Promotion findById(Long id) {
-        return promotionRepository.findById(id).orElseThrow();
+    public PromotionResponseDTO findById(Long id) {
+        Promotion promotion = promotionRepository.findById(id).orElseThrow();
+        Set<RoomDTO> roomList = getRoomName(id);
+        return PromotionResponseDTO.builder()
+                .promotionId(promotion.getPromotionId())
+                .name(promotion.getName())
+                .description(promotion.getDescription())
+                .discountValue(promotion.getDiscountValue())
+                .startDate(promotion.getStartDate())
+                .endDate(promotion.getEndDate())
+                .createdAt(promotion.getCreatedAt())
+                .updatedAt(promotion.getUpdatedAt())
+                .type(promotion.getType())
+                .isActive(promotion.getIsActive())
+                .minStay(promotion.getMinStay())
+                .roomApplicability(promotion.getRoomApplicability())
+                .rooms(roomList)
+                .build();
     }
 
     @Override
@@ -65,12 +72,14 @@ public class PromotionServiceImp implements IPromotionService{
 
     @Override
     public List<PromotionResponseDTO> getPromotionsByName(String name) {
-        return promotionRepository.findByNameContainingIgnoreCase(name);
+        List<Promotion> matchingPromotions = promotionRepository.findByNameContainingIgnoreCase(name);
+        return createPromotionResponseList(matchingPromotions);
     }
 
     @Override
     public List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive) {
-        return promotionRepository.findByIsActive(isActive);
+        List<Promotion> matchingPromotions = promotionRepository.findByIsActive(isActive);
+        return createPromotionResponseList(matchingPromotions);
     }
     @Override
     public boolean deletePromotion(Long id){
@@ -83,17 +92,42 @@ public class PromotionServiceImp implements IPromotionService{
 
     @Override
     public List<PromotionResponseDTO> findByNameAndIsActive(String name, Boolean isActive) {
-        return promotionRepository.findByNameAndStatus(name, isActive);
+        List<Promotion> matchingPromotions = promotionRepository.findByNameAndStatus(name, isActive);
+        return createPromotionResponseList(matchingPromotions);
     }
     @Override
-    public List<RoomDTO> getRoomName(Long id){
-        List<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotionIdPromotion(id);
-        List<RoomDTO> roomDTOS = new ArrayList<>();
+    public Set<RoomDTO> getRoomName(Long id){
+        Set<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotionIdPromotion(id);
+        Set<RoomDTO> roomDTOS = new HashSet<>();
         for(PromotionRoom pr : promotionRooms){
             Long promotionId = pr.getId().getPromotionId();
             RoomDTO roomDTO = roomClient.getRoomById(promotionId);
             roomDTOS.add(roomDTO);
         }
         return roomDTOS;
+    }
+    @Override
+    public List<PromotionResponseDTO> createPromotionResponseList(List<Promotion> promotions){
+        List<PromotionResponseDTO> responseList = new ArrayList<>();
+        for(Promotion promotion : promotions){
+            Set<RoomDTO> roomList = getRoomName(promotion.getPromotionId());
+            PromotionResponseDTO responseDTO = PromotionResponseDTO.builder()
+                    .promotionId(promotion.getPromotionId())
+                    .name(promotion.getName())
+                    .description(promotion.getDescription())
+                    .discountValue(promotion.getDiscountValue())
+                    .startDate(promotion.getStartDate())
+                    .endDate(promotion.getEndDate())
+                    .createdAt(promotion.getCreatedAt())
+                    .updatedAt(promotion.getUpdatedAt())
+                    .type(promotion.getType())
+                    .isActive(promotion.getIsActive())
+                    .minStay(promotion.getMinStay())
+                    .roomApplicability(promotion.getRoomApplicability())
+                    .rooms(roomList)
+                    .build();
+            responseList.add(responseDTO);
+        }
+        return responseList;
     }
 }

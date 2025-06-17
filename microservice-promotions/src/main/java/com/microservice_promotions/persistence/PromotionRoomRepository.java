@@ -4,8 +4,8 @@ import com.microservice_promotions.entitites.PromotionRoom;
 import com.microservice_promotions.entitites.PromotionRoomKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Set;
 
 public interface PromotionRoomRepository extends JpaRepository<PromotionRoom, PromotionRoomKey> {
-    List<PromotionRoom> findByPromotionIdPromotion(Long id);
+    Set<PromotionRoom> findByPromotionIdPromotion(Long id);
 }
