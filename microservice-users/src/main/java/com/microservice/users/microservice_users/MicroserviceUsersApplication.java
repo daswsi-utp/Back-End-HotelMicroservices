@@ -15,6 +15,7 @@ public class MicroserviceUsersApplication {
 		return new BCryptPasswordEncoder();
 	}
 	public static void main(String[] args) {
+
 		SpringApplication.run(MicroserviceUsersApplication.class, args);
 	}
 

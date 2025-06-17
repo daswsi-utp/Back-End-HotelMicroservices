@@ -1,6 +1,23 @@
 spring:
   cloud:
     gateway:
+      # 1) Configuración global de CORS
+      globalcors:
+        corsConfigurations:
+          '[/**]':             # Aplica a todas las rutas del Gateway
+            allowedOrigins:
+              - http://localhost:5173
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+      # 2) Tus rutas existentes
       routes:
         - id: microservice-users
           uri: lb://microservice-users

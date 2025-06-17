@@ -2,6 +2,7 @@ package com.microservicios.bookings.microservice_bookings.service;
 
 import com.microservicios.bookings.microservice_bookings.client.UserClient;
 import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO;
 import com.microservicios.bookings.microservice_bookings.dto.UserDTO;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.repositories.BookingRepository;
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements IBookingService
@@ -82,7 +85,43 @@ public class BookingServiceImpl implements IBookingService
         dto.setUserName(user.getName());
         dto.setUserLastName(user.getLastName());
         dto.setUserEmail(user.getEmail());
+        dto.setCellPhone(user.getCellPhone());
         return dto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserBookingStatsDTO getUserBookingStats(Long userId) {
+        // 1) UserDTO via Feign
+        UserDTO user = userClient.getUserById(userId);
+
+        // 2) Estadísticas desde el repositorio
+        long count      = bookingRepository.countByUserId(userId);
+        double sum      = bookingRepository.sumTotalByUserId(userId);
+        LocalDate first = bookingRepository.findFirstBookingDateByUserId(userId);
+        String status   = bookingRepository.findOverallStatusByUserId(userId);
+
+        // 3) Mapear al DTO nuevo
+        UserBookingStatsDTO stats = new UserBookingStatsDTO();
+        stats.setId(user.getId());
+        stats.setUserName(user.getName());
+        stats.setUserLastName(user.getLastName());
+        stats.setUserEmail(user.getEmail());
+        stats.setCellPhone(user.getCellPhone());
+
+        stats.setFirstBookingDate(first);
+        stats.setTotalBookings(count);
+        stats.setTotalAmount(sum);
+        stats.setStatus(status);
+
+        return stats;
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserBookingStatsDTO> getAllUsersBookingStats() {
+        return bookingRepository.findDistinctUserIds().stream()
+                .map(this::getUserBookingStats)
+                .collect(Collectors.toList());
     }
 
 }

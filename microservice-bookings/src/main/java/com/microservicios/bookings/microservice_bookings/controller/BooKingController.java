@@ -1,6 +1,7 @@
 package com.microservicios.bookings.microservice_bookings.controller;
 
 import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,16 @@ public class BooKingController
     public ResponseEntity<BookingResponseDTO> getBookingWithUser(@PathVariable Long id) {
         BookingResponseDTO dto = bookingService.getBookingWithUser(id);
         return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/stats")
+    public ResponseEntity<List<UserBookingStatsDTO>> getAllUsersStats() {
+        List<UserBookingStatsDTO> stats = bookingService.getAllUsersBookingStats();
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping("/stats/{userId}")
+    public ResponseEntity<UserBookingStatsDTO> getUserStats(@PathVariable Long userId) {
+        return ResponseEntity.ok(bookingService.getUserBookingStats(userId));
     }
 
 }
