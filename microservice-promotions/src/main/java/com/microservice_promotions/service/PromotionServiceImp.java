@@ -1,10 +1,13 @@
 package com.microservice_promotions.service;
 
+import com.microservice_promotions.dto.PromotionRequestDTO;
+import com.microservice_promotions.dto.PromotionResponseDTO;
 import com.microservice_promotions.entitites.Promotion;
 import com.microservice_promotions.persistence.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +16,13 @@ public class PromotionServiceImp implements IPromotionService{
     @Autowired
     private PromotionRepository promotionRepository;
     @Override
-    public List<Promotion> findAll() {
-        return promotionRepository.findAll();
+    public List<PromotionResponseDTO> findAll() {
+        List<Promotion> promotionList = promotionRepository.findAll();
+        List<PromotionResponseDTO> responseList = new ArrayList<>();
+        for(Promotion promotion : promotionList){
+
+        }
+        return responseList;
     }
     @Override
     public Promotion findById(Long id) {
@@ -46,12 +54,12 @@ public class PromotionServiceImp implements IPromotionService{
     }
 
     @Override
-    public List<Promotion> getPromotionsByName(String name) {
+    public List<PromotionResponseDTO> getPromotionsByName(String name) {
         return promotionRepository.findByNameContainingIgnoreCase(name);
     }
 
     @Override
-    public List<Promotion> getPromotionsByIsActive(boolean isActive) {
+    public List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive) {
         return promotionRepository.findByIsActive(isActive);
     }
     @Override
@@ -64,7 +72,7 @@ public class PromotionServiceImp implements IPromotionService{
     }
 
     @Override
-    public List<Promotion> findByNameAndIsActive(String name, Boolean isActive) {
+    public List<PromotionResponseDTO> findByNameAndIsActive(String name, Boolean isActive) {
         return promotionRepository.findByNameAndStatus(name, isActive);
     }
 }
