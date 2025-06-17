@@ -1,8 +1,11 @@
 package com.microservice_promotions.service;
 
+import com.microservice_promotions.client.RoomClient;
 import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.dto.PromotionResponseDTO;
+import com.microservice_promotions.dto.RoomDTO;
 import com.microservice_promotions.entitites.Promotion;
+import com.microservice_promotions.entitites.PromotionRoom;
 import com.microservice_promotions.persistence.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ import java.util.Optional;
 public class PromotionServiceImp implements IPromotionService{
     @Autowired
     private PromotionRepository promotionRepository;
+    @Autowired
+    private RoomClient roomClient;
     @Override
     public List<PromotionResponseDTO> findAll() {
         List<Promotion> promotionList = promotionRepository.findAll();
@@ -74,5 +79,10 @@ public class PromotionServiceImp implements IPromotionService{
     @Override
     public List<PromotionResponseDTO> findByNameAndIsActive(String name, Boolean isActive) {
         return promotionRepository.findByNameAndStatus(name, isActive);
+    }
+    @Override
+    public List<RoomDTO> getRoomName(Long id){
+        List<PromotionRoom> promotionRooms = new ArrayList<>();
+        return roomClient.getRoomById(id);
     }
 }

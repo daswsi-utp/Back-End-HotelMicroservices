@@ -2,6 +2,7 @@ package com.microservice_promotions.service;
 
 import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.dto.PromotionResponseDTO;
+import com.microservice_promotions.dto.RoomDTO;
 import com.microservice_promotions.entitites.Promotion;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface IPromotionService {
     List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive);
     boolean deletePromotion(Long id);
     List<PromotionResponseDTO> findByNameAndIsActive(String name, Boolean isActive);
+    List<RoomDTO> getRoomName(Long id);
 }
