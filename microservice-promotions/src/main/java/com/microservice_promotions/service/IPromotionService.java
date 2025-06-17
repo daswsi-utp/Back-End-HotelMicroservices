@@ -1,5 +1,6 @@
 package com.microservice_promotions.service;
 
+import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.dto.PromotionResponseDTO;
 import com.microservice_promotions.dto.RoomDTO;
 import com.microservice_promotions.entitites.Promotion;
@@ -10,7 +11,7 @@ import java.util.Set;
 public interface IPromotionService {
     List<PromotionResponseDTO> findAll();
     PromotionResponseDTO findById(Long id);
-    Promotion save(Promotion promotion);
+    Promotion save(PromotionRequestDTO promotionRequest);
     Promotion update(Long id, Promotion promotion);
     List<PromotionResponseDTO> getPromotionsByName(String name);
     List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive);

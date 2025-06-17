@@ -1,10 +1,12 @@
 package com.microservice_promotions.service;
 
 import com.microservice_promotions.client.RoomClient;
+import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.dto.PromotionResponseDTO;
 import com.microservice_promotions.dto.RoomDTO;
 import com.microservice_promotions.entitites.Promotion;
 import com.microservice_promotions.entitites.PromotionRoom;
+import com.microservice_promotions.entitites.PromotionRoomKey;
 import com.microservice_promotions.persistence.PromotionRepository;
 import com.microservice_promotions.persistence.PromotionRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +49,27 @@ public class PromotionServiceImp implements IPromotionService{
     }
 
     @Override
-    public Promotion save(Promotion promotion) {
-        return promotionRepository.save(promotion);
+    public Promotion save(PromotionRequestDTO promotionRequest) {
+        Promotion promotion = new Promotion();
+        promotion.setName(promotionRequest.getName());
+        promotion.setDescription(promotionRequest.getDescription());
+        promotion.setDiscountValue(promotionRequest.getDiscountValue());
+        promotion.setStartDate(promotionRequest.getStartDate());
+        promotion.setEndDate(promotionRequest.getEndDate());
+        promotion.setType(promotionRequest.getType());
+        promotion.setIsActive(promotionRequest.getIsActive());
+        promotion.setMinStay(promotionRequest.getMinStay());
+        Promotion savedPromotion =promotionRepository.save(promotion);
+        for(Long roomId : promotionRequest.getRoomIds()){
+            PromotionRoom promotionRoom =  new PromotionRoom();
+            PromotionRoomKey key = new PromotionRoomKey();
+            key.setPromotionId(promotion.getPromotionId());
+            key.setRoomId(roomId);
+            promotionRoom.setId(key);
+            promotionRoom.setPromotion(savedPromotion);
+            promotionRoomRepository.save(promotionRoom);
+        }
+        return savedPromotion;
     }
 
     @Override

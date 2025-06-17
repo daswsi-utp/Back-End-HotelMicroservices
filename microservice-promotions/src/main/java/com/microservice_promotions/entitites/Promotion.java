@@ -6,6 +6,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -53,7 +55,8 @@ public class Promotion {
     @Enumerated(EnumType.STRING)
     @Column(name = "room_applicability")
     RoomApplicability roomApplicability;
-
+    @OneToMany(mappedBy = "promotions", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PromotionRoom> promotionRoomList;
     //This is the code for a trigger function to replace a "null" is_active field when a row is updated
     //This edgecase hasn't happened yet, but I'm paranoic so I'll write it anyways
     //This function doesn't exist YET in the DB but if this edgecase happens tell me
