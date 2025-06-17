@@ -7,6 +7,7 @@ import com.microservice_promotions.dto.RoomDTO;
 import com.microservice_promotions.entitites.Promotion;
 import com.microservice_promotions.entitites.PromotionRoom;
 import com.microservice_promotions.persistence.PromotionRepository;
+import com.microservice_promotions.persistence.PromotionRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,8 @@ public class PromotionServiceImp implements IPromotionService{
     private PromotionRepository promotionRepository;
     @Autowired
     private RoomClient roomClient;
+    @Autowired
+    private PromotionRoomRepository promotionRoomRepository;
     @Override
     public List<PromotionResponseDTO> findAll() {
         List<Promotion> promotionList = promotionRepository.findAll();
@@ -82,7 +85,13 @@ public class PromotionServiceImp implements IPromotionService{
     }
     @Override
     public List<RoomDTO> getRoomName(Long id){
-        List<PromotionRoom> promotionRooms = new ArrayList<>();
-        return roomClient.getRoomById(id);
+        List<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotionIdPromotion(id);
+        List<RoomDTO> roomDTOS = new ArrayList<>();
+        for(PromotionRoom pr : promotionRooms){
+            Long promotionId = pr.getId().getPromotionId();
+            RoomDTO roomDTO = roomClient.getRoomById(promotionId);
+            roomDTOS.add(roomDTO);
+        }
+        return roomDTOS;
     }
 }
