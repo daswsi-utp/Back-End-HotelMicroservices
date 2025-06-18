@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "promotions")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
 public class Promotion {
     public enum Type{

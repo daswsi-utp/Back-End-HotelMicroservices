@@ -17,6 +17,6 @@ public class PromotionRoom {
     private PromotionRoomKey id = new PromotionRoomKey();
     @ManyToOne
     @MapsId
-    @JoinColumn(name = "fk_sale", nullable = false)
+    @JoinColumn(name = "fk_promotion", nullable = false)
     private Promotion promotion;
 }
