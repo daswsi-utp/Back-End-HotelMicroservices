@@ -2,15 +2,14 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.4
--- Dumped by pg_dump version 17.4
+-- Dumped from database version 16.8
+-- Dumped by pg_dump version 16.8
 
--- Started on 2025-06-16 16:59:56
+-- Started on 2025-06-17 19:41:48 -05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -20,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 852 (class 1247 OID 25105)
+-- TOC entry 847 (class 1247 OID 25111)
 -- Name: applicability; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -33,7 +32,7 @@ CREATE TYPE public.applicability AS ENUM (
 ALTER TYPE public.applicability OWNER TO postgres;
 
 --
--- TOC entry 855 (class 1247 OID 25110)
+-- TOC entry 850 (class 1247 OID 25116)
 -- Name: promotion_type; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -47,7 +46,7 @@ CREATE TYPE public.promotion_type AS ENUM (
 ALTER TYPE public.promotion_type OWNER TO postgres;
 
 --
--- TOC entry 4579 (class 2605 OID 25117)
+-- TOC entry 4213 (class 2605 OID 25123)
 -- Name: CAST (character varying AS public.applicability); Type: CAST; Schema: -; Owner: -
 --
 
@@ -55,7 +54,7 @@ CREATE CAST (character varying AS public.applicability) WITH INOUT AS IMPLICIT;
 
 
 --
--- TOC entry 4580 (class 2605 OID 25118)
+-- TOC entry 4214 (class 2605 OID 25124)
 -- Name: CAST (character varying AS public.promotion_type); Type: CAST; Schema: -; Owner: -
 --
 
@@ -63,7 +62,7 @@ CREATE CAST (character varying AS public.promotion_type) WITH INOUT AS IMPLICIT;
 
 
 --
--- TOC entry 222 (class 1255 OID 25119)
+-- TOC entry 220 (class 1255 OID 25125)
 -- Name: delete_test_entries(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -86,7 +85,29 @@ $$;
 ALTER FUNCTION public.delete_test_entries() OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1255 OID 25120)
+-- TOC entry 222 (class 1255 OID 25167)
+-- Name: insert_all_rooms_to_promotion_room(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.insert_all_rooms_to_promotion_room() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF NEW.room_applicability = 'all'::applicability THEN
+        INSERT INTO promotion_room (fk_promotion, fk_room)
+        SELECT NEW.promotion_id, r.room_id
+        FROM rooms r;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.insert_all_rooms_to_promotion_room() OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1255 OID 25126)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -107,7 +128,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 221 (class 1259 OID 25161)
+-- TOC entry 215 (class 1259 OID 25127)
 -- Name: promotion_room; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -120,7 +141,7 @@ CREATE TABLE public.promotion_room (
 ALTER TABLE public.promotion_room OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 25121)
+-- TOC entry 216 (class 1259 OID 25130)
 -- Name: promotions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -144,7 +165,7 @@ CREATE TABLE public.promotions (
 ALTER TABLE public.promotions OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 25133)
+-- TOC entry 217 (class 1259 OID 25142)
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -160,8 +181,8 @@ CREATE SEQUENCE public.promotions_promotion_id_seq
 ALTER SEQUENCE public.promotions_promotion_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4834 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 4467 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -169,7 +190,7 @@ ALTER SEQUENCE public.promotions_promotion_id_seq OWNED BY public.promotions.pro
 
 
 --
--- TOC entry 220 (class 1259 OID 25140)
+-- TOC entry 218 (class 1259 OID 25143)
 -- Name: rooms; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -182,7 +203,7 @@ CREATE TABLE public.rooms (
 ALTER TABLE public.rooms OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 25139)
+-- TOC entry 219 (class 1259 OID 25146)
 -- Name: rooms_room_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -198,7 +219,7 @@ CREATE SEQUENCE public.rooms_room_id_seq
 ALTER SEQUENCE public.rooms_room_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4835 (class 0 OID 0)
+-- TOC entry 4468 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: rooms_room_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -207,7 +228,7 @@ ALTER SEQUENCE public.rooms_room_id_seq OWNED BY public.rooms.room_id;
 
 
 --
--- TOC entry 4660 (class 2604 OID 25134)
+-- TOC entry 4294 (class 2604 OID 25147)
 -- Name: promotions promotion_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -215,7 +236,7 @@ ALTER TABLE ONLY public.promotions ALTER COLUMN promotion_id SET DEFAULT nextval
 
 
 --
--- TOC entry 4667 (class 2604 OID 25143)
+-- TOC entry 4301 (class 2604 OID 25148)
 -- Name: rooms room_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -223,8 +244,8 @@ ALTER TABLE ONLY public.rooms ALTER COLUMN room_id SET DEFAULT nextval('public.r
 
 
 --
--- TOC entry 4828 (class 0 OID 25161)
--- Dependencies: 221
+-- TOC entry 4457 (class 0 OID 25127)
+-- Dependencies: 215
 -- Data for Name: promotion_room; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -233,8 +254,8 @@ COPY public.promotion_room (fk_promotion, fk_room) FROM stdin;
 
 
 --
--- TOC entry 4824 (class 0 OID 25121)
--- Dependencies: 217
+-- TOC entry 4458 (class 0 OID 25130)
+-- Dependencies: 216
 -- Data for Name: promotions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -250,8 +271,8 @@ COPY public.promotions (promotion_id, promotion_name, promotion_description, dis
 
 
 --
--- TOC entry 4827 (class 0 OID 25140)
--- Dependencies: 220
+-- TOC entry 4460 (class 0 OID 25143)
+-- Dependencies: 218
 -- Data for Name: rooms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -260,8 +281,8 @@ COPY public.rooms (room_id, name) FROM stdin;
 
 
 --
--- TOC entry 4836 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 4469 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -269,7 +290,7 @@ SELECT pg_catalog.setval('public.promotions_promotion_id_seq', 14, true);
 
 
 --
--- TOC entry 4837 (class 0 OID 0)
+-- TOC entry 4470 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: rooms_room_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -278,7 +299,7 @@ SELECT pg_catalog.setval('public.rooms_room_id_seq', 1, false);
 
 
 --
--- TOC entry 4674 (class 2606 OID 25165)
+-- TOC entry 4304 (class 2606 OID 25150)
 -- Name: promotion_room promotion_room_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -287,7 +308,7 @@ ALTER TABLE ONLY public.promotion_room
 
 
 --
--- TOC entry 4670 (class 2606 OID 25136)
+-- TOC entry 4306 (class 2606 OID 25152)
 -- Name: promotions promotions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -296,7 +317,7 @@ ALTER TABLE ONLY public.promotions
 
 
 --
--- TOC entry 4672 (class 2606 OID 25145)
+-- TOC entry 4308 (class 2606 OID 25154)
 -- Name: rooms rooms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -305,7 +326,15 @@ ALTER TABLE ONLY public.rooms
 
 
 --
--- TOC entry 4677 (class 2620 OID 25137)
+-- TOC entry 4311 (class 2620 OID 25168)
+-- Name: promotions insert_rooms_on_promotion_update; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER insert_rooms_on_promotion_update AFTER UPDATE ON public.promotions FOR EACH ROW WHEN (((new.room_applicability = 'all'::public.applicability) AND (old.room_applicability IS DISTINCT FROM new.room_applicability))) EXECUTE FUNCTION public.insert_all_rooms_to_promotion_room();
+
+
+--
+-- TOC entry 4312 (class 2620 OID 25155)
 -- Name: promotions trigger_delete_test_promotions; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -313,7 +342,7 @@ CREATE TRIGGER trigger_delete_test_promotions AFTER DELETE ON public.promotions 
 
 
 --
--- TOC entry 4678 (class 2620 OID 25138)
+-- TOC entry 4313 (class 2620 OID 25156)
 -- Name: promotions trigger_promotions_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -321,7 +350,7 @@ CREATE TRIGGER trigger_promotions_updated_at BEFORE UPDATE ON public.promotions 
 
 
 --
--- TOC entry 4675 (class 2606 OID 25166)
+-- TOC entry 4309 (class 2606 OID 25157)
 -- Name: promotion_room promotion_room_fk_promotion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -330,7 +359,7 @@ ALTER TABLE ONLY public.promotion_room
 
 
 --
--- TOC entry 4676 (class 2606 OID 25171)
+-- TOC entry 4310 (class 2606 OID 25162)
 -- Name: promotion_room promotion_room_fk_room_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -338,7 +367,7 @@ ALTER TABLE ONLY public.promotion_room
     ADD CONSTRAINT promotion_room_fk_room_fkey FOREIGN KEY (fk_room) REFERENCES public.rooms(room_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2025-06-16 16:59:58
+-- Completed on 2025-06-17 19:41:49 -05
 
 --
 -- PostgreSQL database dump complete
