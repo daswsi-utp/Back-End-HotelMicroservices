@@ -20,7 +20,7 @@
 
   <modules>
     <module>microservice-gateway</module>
-    <module>microservice-config</module>
+    <module>config-server</module>
     <module>microservice-eureka</module>
     <module>microservice-users</module>
     <module>microservice-bookings</module>
