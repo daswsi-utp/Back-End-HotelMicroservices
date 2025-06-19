@@ -1,5 +1,6 @@
 package com.microservice_promotions.controller;
 
+import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.entitites.Promotion;
 import com.microservice_promotions.service.IPromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class PromotionController {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Promotion savePromotion(@RequestBody Promotion promotion){
+    public Promotion savePromotion(@RequestBody PromotionRequestDTO promotion){
         return iPromotionService.save(promotion);
     }
     @GetMapping("/all")
@@ -29,7 +30,7 @@ public class PromotionController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody Promotion promotion){
+    public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody PromotionRequestDTO promotion){
         return ResponseEntity.ok(iPromotionService.update(id, promotion));
     }
     @GetMapping("/find")
