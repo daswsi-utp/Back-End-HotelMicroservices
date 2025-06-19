@@ -12,7 +12,7 @@ public class RedisMessageConfig {
     @Bean
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(10)) // Cache expira después de 10 minutos
+                .entryTtl(Duration.ofMinutes(10)) // Cache expire in 10 minutes later
                 .disableCachingNullValues();
     }
 }
