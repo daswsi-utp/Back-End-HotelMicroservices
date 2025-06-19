@@ -12,7 +12,7 @@ public interface IPromotionService {
     List<PromotionResponseDTO> findAll();
     PromotionResponseDTO findById(Long id);
     Promotion save(PromotionRequestDTO promotionRequest);
-    Promotion update(Long id, Promotion promotion);
+    PromotionResponseDTO update(Long id, PromotionRequestDTO promotion);
     List<PromotionResponseDTO> getPromotionsByName(String name);
     List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive);
     boolean deletePromotion(Long id);

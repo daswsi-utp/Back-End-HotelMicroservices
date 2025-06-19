@@ -9,10 +9,12 @@ import com.microservice_promotions.entitites.PromotionRoom;
 import com.microservice_promotions.entitites.PromotionRoomKey;
 import com.microservice_promotions.persistence.PromotionRepository;
 import com.microservice_promotions.persistence.PromotionRoomRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PromotionServiceImp implements IPromotionService{
@@ -73,22 +75,45 @@ public class PromotionServiceImp implements IPromotionService{
     }
 
     @Override
-    public Promotion update(Long id, Promotion promotion) {
+    @Transactional
+    public PromotionResponseDTO update(Long id, PromotionRequestDTO promotion) {
         Optional<Promotion> existingPromotion = promotionRepository.findById(id);
-        if(existingPromotion.isPresent()){
-            Promotion updatePromotion = existingPromotion.get();
-            updatePromotion.setName(promotion.getName());
-            updatePromotion.setDescription(promotion.getDescription());
-            updatePromotion.setDiscountValue(promotion.getDiscountValue());
-            updatePromotion.setStartDate(promotion.getStartDate());
-            updatePromotion.setEndDate(promotion.getEndDate());
-            updatePromotion.setType(promotion.getType());
-            updatePromotion.setIsActive(promotion.getIsActive());
-            updatePromotion.setMinStay(promotion.getMinStay());
-            updatePromotion.setRoomApplicability(promotion.getRoomApplicability());
-            return promotionRepository.save(updatePromotion);
+        if(existingPromotion.isEmpty()){
+            return null;
         }
-        return null;
+        Promotion updatePromotion = existingPromotion.get();
+        updatePromotion.setName(promotion.getName());
+        updatePromotion.setDescription(promotion.getDescription());
+        updatePromotion.setDiscountValue(promotion.getDiscountValue());
+        updatePromotion.setStartDate(promotion.getStartDate());
+        updatePromotion.setEndDate(promotion.getEndDate());
+        updatePromotion.setType(promotion.getType());
+        updatePromotion.setIsActive(promotion.getIsActive());
+        updatePromotion.setMinStay(promotion.getMinStay());
+        updatePromotion.setRoomApplicability(promotion.getRoomApplicability());
+        promotionRepository.save(updatePromotion);
+        PromotionResponseDTO updatedPromotion = findById(updatePromotion.getPromotionId());
+        //Promotion updatedPromotion = promotionRepository.findById(updatePromotion.getPromotionId());
+
+        if(promotion.getRoomApplicability().equals(Promotion.RoomApplicability.selected)){
+            Set<Long> newRoomIds =  promotion.getRoomIds() != null ? promotion.getRoomIds() : new HashSet<>();
+            Set<Long> currentRoomIds = promotionRoomRepository.findByPromotionIdPromotion(id).stream().map(pr -> pr.getId().getRoomId()).collect(Collectors.toSet());
+            for(Long roomId: currentRoomIds){
+                if(!currentRoomIds.contains(roomId)){
+                    promotionRoomRepository.deleteById(new PromotionRoomKey(id, roomId));
+                }
+            }
+            for(Long roomId: newRoomIds){
+                if(!currentRoomIds.contains(roomId)){
+                    PromotionRoom pr = new PromotionRoom();
+                    pr.setId(new PromotionRoomKey(id, roomId));
+                    pr.setPromotion(updatePromotion);
+                    promotionRoomRepository.save(pr);
+                }
+            }
+        }
+        return updatedPromotion;
+
     }
 
     @Override
