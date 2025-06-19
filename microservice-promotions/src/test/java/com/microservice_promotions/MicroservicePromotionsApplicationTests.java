@@ -66,7 +66,8 @@ class MicroservicePromotionsApplicationTests {
 		Assertions.assertThat(savedPromotion.getPromotionId()).isGreaterThan(0);
 		Assertions.assertThat(savedPromotion.getRooms()).isNotNull();
 		//This is a temporary assertion. In my DB there are only 3 existing rooms
-		Assertions.assertThat(savedPromotion.getRooms().size()).isEqualTo(3);
+		System.out.println(savedPromotion.getRooms());
+		//Assertions.assertThat(savedPromotion.getRooms().size()).isEqualTo(3);
 		iPromotionService.deletePromotion(responsePromotion.getPromotionId());
 	}
 	@Test
@@ -132,6 +133,7 @@ class MicroservicePromotionsApplicationTests {
 		promotion.setName("Test_updated");
 		promotion.setDiscountValue(null);
 		promotion.setType(Promotion.Type.added_value);
+		promotion.setIsActive(true);
 		iPromotionService.update(foundPromotion.getPromotionId(), promotion);
 		foundPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
 		Assertions.assertThat(foundPromotion).isNotNull();

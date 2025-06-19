@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Set;
 
 public interface PromotionRoomRepository extends JpaRepository<PromotionRoom, PromotionRoomKey> {
-    Set<PromotionRoom> findByPromotionIdPromotion(Long id);
+    Set<PromotionRoom> findByPromotion_PromotionId(Long id);
 }

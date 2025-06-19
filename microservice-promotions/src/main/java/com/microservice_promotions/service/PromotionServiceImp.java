@@ -62,14 +62,16 @@ public class PromotionServiceImp implements IPromotionService{
         promotion.setIsActive(promotionRequest.getIsActive());
         promotion.setMinStay(promotionRequest.getMinStay());
         Promotion savedPromotion =promotionRepository.save(promotion);
-        for(Long roomId : promotionRequest.getRoomIds()){
-            PromotionRoom promotionRoom =  new PromotionRoom();
-            PromotionRoomKey key = new PromotionRoomKey();
-            key.setPromotionId(promotion.getPromotionId());
-            key.setRoomId(roomId);
-            promotionRoom.setId(key);
-            promotionRoom.setPromotion(savedPromotion);
-            promotionRoomRepository.save(promotionRoom);
+        if(promotionRequest.getRoomIds() != null){
+            for(Long roomId : promotionRequest.getRoomIds()){
+                PromotionRoom promotionRoom =  new PromotionRoom();
+                PromotionRoomKey key = new PromotionRoomKey();
+                key.setPromotionId(promotion.getPromotionId());
+                key.setRoomId(roomId);
+                promotionRoom.setId(key);
+                promotionRoom.setPromotion(savedPromotion);
+                promotionRoomRepository.save(promotionRoom);
+            }
         }
         return savedPromotion;
     }
@@ -97,7 +99,7 @@ public class PromotionServiceImp implements IPromotionService{
 
         if(promotion.getRoomApplicability().equals(Promotion.RoomApplicability.selected)){
             Set<Long> newRoomIds =  promotion.getRoomIds() != null ? promotion.getRoomIds() : new HashSet<>();
-            Set<Long> currentRoomIds = promotionRoomRepository.findByPromotionIdPromotion(id).stream().map(pr -> pr.getId().getRoomId()).collect(Collectors.toSet());
+            Set<Long> currentRoomIds = promotionRoomRepository.findByPromotion_PromotionId(id).stream().map(pr -> pr.getId().getRoomId()).collect(Collectors.toSet());
             for(Long roomId: currentRoomIds){
                 if(!currentRoomIds.contains(roomId)){
                     promotionRoomRepository.deleteById(new PromotionRoomKey(id, roomId));
@@ -143,11 +145,11 @@ public class PromotionServiceImp implements IPromotionService{
     }
     @Override
     public Set<RoomDTO> getRoomName(Long id){
-        Set<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotionIdPromotion(id);
+        Set<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotion_PromotionId(id);
         Set<RoomDTO> roomDTOS = new HashSet<>();
         for(PromotionRoom pr : promotionRooms){
             Long promotionId = pr.getId().getPromotionId();
-            RoomDTO roomDTO = roomClient.getRoomById(promotionId);
+            RoomDTO roomDTO = roomClient.getRoomById(pr.getId().getRoomId());
             roomDTOS.add(roomDTO);
         }
         return roomDTOS;

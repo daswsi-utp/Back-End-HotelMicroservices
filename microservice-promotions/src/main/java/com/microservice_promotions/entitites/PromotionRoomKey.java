@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PromotionRoomKey {
+public class PromotionRoomKey implements Serializable {
     @Column(name = "fk_promotion")
     private Long promotionId;
     @Column(name = "fk_room")

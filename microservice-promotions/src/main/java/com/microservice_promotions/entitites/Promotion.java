@@ -2,11 +2,9 @@ package com.microservice_promotions.entitites;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -54,7 +52,7 @@ public class Promotion {
     @Enumerated(EnumType.STRING)
     @Column(name = "room_applicability")
     RoomApplicability roomApplicability;
-    @OneToMany(mappedBy = "promotions", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "promotion", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PromotionRoom> promotionRoomList;
     //This is the code for a trigger function to replace a "null" is_active field when a row is updated
     //This edgecase hasn't happened yet, but I'm paranoic so I'll write it anyways

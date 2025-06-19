@@ -2,6 +2,9 @@ server:
   port: 9091
 
 spring:
+  output:
+    ansi:
+      enabled: always
   application:
     name: microservice-promotions
   datasource:
@@ -11,7 +14,7 @@ spring:
     password: kenyiaqp10
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   config:
