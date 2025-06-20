@@ -51,7 +51,7 @@ public class PromotionServiceImp implements IPromotionService{
     }
 
     @Override
-    public Promotion save(PromotionRequestDTO promotionRequest) {
+    public PromotionResponseDTO save(PromotionRequestDTO promotionRequest) {
         Promotion promotion = new Promotion();
         promotion.setName(promotionRequest.getName());
         promotion.setDescription(promotionRequest.getDescription());
@@ -60,6 +60,7 @@ public class PromotionServiceImp implements IPromotionService{
         promotion.setEndDate(promotionRequest.getEndDate());
         promotion.setType(promotionRequest.getType());
         promotion.setIsActive(promotionRequest.getIsActive());
+        promotion.setRoomApplicability(promotionRequest.getRoomApplicability());
         promotion.setMinStay(promotionRequest.getMinStay());
         Promotion savedPromotion =promotionRepository.save(promotion);
         if(promotionRequest.getRoomIds() != null){
@@ -73,7 +74,7 @@ public class PromotionServiceImp implements IPromotionService{
                 promotionRoomRepository.save(promotionRoom);
             }
         }
-        return savedPromotion;
+        return findById(savedPromotion.getPromotionId());
     }
 
     @Override

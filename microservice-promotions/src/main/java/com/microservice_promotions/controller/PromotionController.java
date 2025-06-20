@@ -1,6 +1,7 @@
 package com.microservice_promotions.controller;
 
 import com.microservice_promotions.dto.PromotionRequestDTO;
+import com.microservice_promotions.dto.PromotionResponseDTO;
 import com.microservice_promotions.entitites.Promotion;
 import com.microservice_promotions.service.IPromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class PromotionController {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Promotion savePromotion(@RequestBody PromotionRequestDTO promotion){
+    public PromotionResponseDTO savePromotion(@RequestBody PromotionRequestDTO promotion){
         return iPromotionService.save(promotion);
     }
     @GetMapping("/all")

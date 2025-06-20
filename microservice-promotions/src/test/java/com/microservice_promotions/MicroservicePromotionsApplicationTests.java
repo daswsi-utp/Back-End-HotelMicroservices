@@ -34,7 +34,7 @@ class MicroservicePromotionsApplicationTests {
 				.roomApplicability(Promotion.RoomApplicability.selected)
 				.roomIds(ids)
 				.build();
-		Promotion responsePromotion = iPromotionService.save(promotion);
+		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		PromotionResponseDTO savedPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
 		Assertions.assertThat(savedPromotion).isNotNull();
 		System.out.println(savedPromotion);
@@ -57,18 +57,19 @@ class MicroservicePromotionsApplicationTests {
 				.roomApplicability(Promotion.RoomApplicability.all)
 				.roomIds(null)
 				.build();
-		Promotion responsePromotion = iPromotionService.save(promotion);
+		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
+		System.out.println(responsePromotion.getCreatedAt());
 		PromotionResponseDTO savedPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
 		Assertions.assertThat(savedPromotion).isNotNull();
 		System.out.println(savedPromotion);
 		Assertions.assertThat(savedPromotion.getCreatedAt()).isNotNull();
 		Assertions.assertThat(savedPromotion.getUpdatedAt()).isNotNull();
 		Assertions.assertThat(savedPromotion.getPromotionId()).isGreaterThan(0);
-		Assertions.assertThat(savedPromotion.getRooms()).isNotNull();
+		Assertions.assertThat(savedPromotion.getRooms()).isNotEmpty();
 		//This is a temporary assertion. In my DB there are only 3 existing rooms
 		System.out.println(savedPromotion.getRooms());
 		//Assertions.assertThat(savedPromotion.getRooms().size()).isEqualTo(3);
-		iPromotionService.deletePromotion(responsePromotion.getPromotionId());
+		//iPromotionService.deletePromotion(responsePromotion.getPromotionId());
 	}
 	@Test
 	public void Promotion_FindByID_ReturnFoundPromotion(){
@@ -82,7 +83,7 @@ class MicroservicePromotionsApplicationTests {
 				.roomApplicability(Promotion.RoomApplicability.all)
 				.roomIds(null)
 				.build();
-		Promotion responsePromotion = iPromotionService.save(promotion);
+		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		PromotionResponseDTO foundPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
 		Assertions.assertThat(foundPromotion).isNotNull();
 		iPromotionService.deletePromotion(foundPromotion.getPromotionId());
@@ -127,7 +128,7 @@ class MicroservicePromotionsApplicationTests {
 				.roomApplicability(Promotion.RoomApplicability.all)
 				.roomIds(null)
 				.build();
-		Promotion responsePromotion = iPromotionService.save(promotion);
+		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		PromotionResponseDTO foundPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
 		Assertions.assertThat(foundPromotion).isNotNull();
 		promotion.setName("Test_updated");
@@ -166,7 +167,7 @@ class MicroservicePromotionsApplicationTests {
 				.roomApplicability(Promotion.RoomApplicability.all)
 				.roomIds(null)
 				.build();
-		Promotion responsePromotion = iPromotionService.save(promotion2);
+		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion2);
 		//Both parameters provided
 		List<PromotionResponseDTO> foundPromotions = iPromotionService.findByNameAndIsActive("Test", true);
 		Assertions.assertThat(foundPromotions.size()).isEqualTo(2);

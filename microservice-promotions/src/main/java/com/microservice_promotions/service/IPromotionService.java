@@ -11,7 +11,7 @@ import java.util.Set;
 public interface IPromotionService {
     List<PromotionResponseDTO> findAll();
     PromotionResponseDTO findById(Long id);
-    Promotion save(PromotionRequestDTO promotionRequest);
+    PromotionResponseDTO save(PromotionRequestDTO promotionRequest);
     PromotionResponseDTO update(Long id, PromotionRequestDTO promotion);
     List<PromotionResponseDTO> getPromotionsByName(String name);
     List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive);
