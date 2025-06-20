@@ -5,7 +5,7 @@
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.4
 
--- Started on 2025-06-18 18:51:17
+-- Started on 2025-06-20 14:48:51
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -148,8 +148,8 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.promotion_room (
-    fk_promotion integer NOT NULL,
-    fk_room integer NOT NULL
+    fk_promotion bigint NOT NULL,
+    fk_room bigint NOT NULL
 );
 
 
@@ -196,7 +196,7 @@ CREATE SEQUENCE public.promotions_promotion_id_seq
 ALTER SEQUENCE public.promotions_promotion_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4891 (class 0 OID 0)
+-- TOC entry 4892 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -235,7 +235,7 @@ CREATE SEQUENCE public.room_images_id_seq
 ALTER SEQUENCE public.room_images_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4892 (class 0 OID 0)
+-- TOC entry 4893 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: room_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -290,7 +290,7 @@ CREATE SEQUENCE public.room_types_id_seq
 ALTER SEQUENCE public.room_types_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4893 (class 0 OID 0)
+-- TOC entry 4894 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: room_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -336,7 +336,7 @@ CREATE SEQUENCE public.rooms_room_id_seq
 ALTER SEQUENCE public.rooms_room_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4894 (class 0 OID 0)
+-- TOC entry 4895 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: rooms_room_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -374,7 +374,7 @@ CREATE SEQUENCE public.tags_id_seq
 ALTER SEQUENCE public.tags_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4895 (class 0 OID 0)
+-- TOC entry 4896 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -423,7 +423,7 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 
 
 --
--- TOC entry 4885 (class 0 OID 25532)
+-- TOC entry 4886 (class 0 OID 25532)
 -- Dependencies: 228
 -- Data for Name: promotion_room; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -433,24 +433,19 @@ COPY public.promotion_room (fk_promotion, fk_room) FROM stdin;
 
 
 --
--- TOC entry 4874 (class 0 OID 25399)
+-- TOC entry 4875 (class 0 OID 25399)
 -- Dependencies: 217
 -- Data for Name: promotions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.promotions (promotion_id, promotion_name, promotion_description, discount_value, start_date, end_date, created_at, updated_at, type, is_active, minimun_stay, room_applicability) FROM stdin;
-2	Summer Sale	20% off all summer items	30	2025-06-14	2025-07-15	\N	\N	percentage	f	1	all
-3	Summer Sale	20% off all summer items	30	2025-06-14	2025-07-15	\N	\N	percentage	f	1	all
-4	Summer Sale	20% off all summer items	40	2025-06-14	2025-07-15	\N	\N	percentage	f	1	all
-1	Summer Sale	20% off all summer items	20	2025-06-14	2025-07-15	\N	2025-06-11 18:30:16.060139	percentage	f	1	all
-5	Spooky Sale	20% off all hallowing items	20	2025-06-14	2025-07-15	2025-06-11 18:34:47.58427	2025-06-11 18:34:47.58427	percentage	f	1	all
 7	Spooky Sale Added Value	20% off all hallowing items + Free Wine	\N	2025-06-14	2025-07-15	2025-06-11 18:42:04.111194	2025-06-11 18:42:04.111194	added_value	f	1	all
 14	Regular	Test description	20	2025-06-15	2025-07-15	2025-06-13 19:16:41.736387	2025-06-13 19:16:41.736387	percentage	t	1	all
 \.
 
 
 --
--- TOC entry 4876 (class 0 OID 25461)
+-- TOC entry 4877 (class 0 OID 25461)
 -- Dependencies: 219
 -- Data for Name: room_images; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -464,7 +459,7 @@ COPY public.room_images (id, image_url, room_id) FROM stdin;
 
 
 --
--- TOC entry 4878 (class 0 OID 25467)
+-- TOC entry 4879 (class 0 OID 25467)
 -- Dependencies: 221
 -- Data for Name: room_tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -479,7 +474,7 @@ COPY public.room_tags (room_id, tag_id) FROM stdin;
 
 
 --
--- TOC entry 4879 (class 0 OID 25470)
+-- TOC entry 4880 (class 0 OID 25470)
 -- Dependencies: 222
 -- Data for Name: room_types; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -492,7 +487,7 @@ COPY public.room_types (id, name, description, max_occupancy, created_at, update
 
 
 --
--- TOC entry 4881 (class 0 OID 25478)
+-- TOC entry 4882 (class 0 OID 25478)
 -- Dependencies: 224
 -- Data for Name: rooms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -505,7 +500,7 @@ COPY public.rooms (room_id, room_number, room_type_id, price_per_night, capacity
 
 
 --
--- TOC entry 4883 (class 0 OID 25487)
+-- TOC entry 4884 (class 0 OID 25487)
 -- Dependencies: 226
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -519,7 +514,7 @@ COPY public.tags (id, name) FROM stdin;
 
 
 --
--- TOC entry 4896 (class 0 OID 0)
+-- TOC entry 4897 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -528,7 +523,7 @@ SELECT pg_catalog.setval('public.promotions_promotion_id_seq', 14, true);
 
 
 --
--- TOC entry 4897 (class 0 OID 0)
+-- TOC entry 4898 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: room_images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -537,7 +532,7 @@ SELECT pg_catalog.setval('public.room_images_id_seq', 12, true);
 
 
 --
--- TOC entry 4898 (class 0 OID 0)
+-- TOC entry 4899 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: room_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -546,7 +541,7 @@ SELECT pg_catalog.setval('public.room_types_id_seq', 9, true);
 
 
 --
--- TOC entry 4899 (class 0 OID 0)
+-- TOC entry 4900 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: rooms_room_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -555,7 +550,7 @@ SELECT pg_catalog.setval('public.rooms_room_id_seq', 9, true);
 
 
 --
--- TOC entry 4900 (class 0 OID 0)
+-- TOC entry 4901 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -564,7 +559,7 @@ SELECT pg_catalog.setval('public.tags_id_seq', 8, true);
 
 
 --
--- TOC entry 4719 (class 2606 OID 25536)
+-- TOC entry 4719 (class 2606 OID 25559)
 -- Name: promotion_room promotion_room_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -662,7 +657,15 @@ CREATE TRIGGER insert_rooms_on_promotion_update AFTER UPDATE ON public.promotion
 
 
 --
--- TOC entry 4727 (class 2620 OID 25425)
+-- TOC entry 4727 (class 2620 OID 25700)
+-- Name: promotions trg_insert_all_rooms; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER trg_insert_all_rooms AFTER INSERT ON public.promotions FOR EACH ROW EXECUTE FUNCTION public.insert_all_rooms_to_promotion_room();
+
+
+--
+-- TOC entry 4728 (class 2620 OID 25425)
 -- Name: promotions trigger_delete_test_promotions; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -670,7 +673,7 @@ CREATE TRIGGER trigger_delete_test_promotions AFTER DELETE ON public.promotions 
 
 
 --
--- TOC entry 4728 (class 2620 OID 25426)
+-- TOC entry 4729 (class 2620 OID 25426)
 -- Name: promotions trigger_promotions_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -678,7 +681,7 @@ CREATE TRIGGER trigger_promotions_updated_at BEFORE UPDATE ON public.promotions 
 
 
 --
--- TOC entry 4724 (class 2606 OID 25537)
+-- TOC entry 4724 (class 2606 OID 25560)
 -- Name: promotion_room promotion_room_fk_promotion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -687,7 +690,7 @@ ALTER TABLE ONLY public.promotion_room
 
 
 --
--- TOC entry 4725 (class 2606 OID 25542)
+-- TOC entry 4725 (class 2606 OID 25549)
 -- Name: promotion_room promotion_room_fk_room_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -731,7 +734,7 @@ ALTER TABLE ONLY public.rooms
     ADD CONSTRAINT rooms_room_type_id_fkey FOREIGN KEY (room_type_id) REFERENCES public.room_types(id) ON DELETE RESTRICT;
 
 
--- Completed on 2025-06-18 18:51:17
+-- Completed on 2025-06-20 14:48:51
 
 --
 -- PostgreSQL database dump complete

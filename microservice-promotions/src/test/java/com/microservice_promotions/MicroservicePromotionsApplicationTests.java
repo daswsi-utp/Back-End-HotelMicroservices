@@ -69,7 +69,7 @@ class MicroservicePromotionsApplicationTests {
 		//This is a temporary assertion. In my DB there are only 3 existing rooms
 		System.out.println(savedPromotion.getRooms());
 		//Assertions.assertThat(savedPromotion.getRooms().size()).isEqualTo(3);
-		//iPromotionService.deletePromotion(responsePromotion.getPromotionId());
+		iPromotionService.deletePromotion(responsePromotion.getPromotionId());
 	}
 	@Test
 	public void Promotion_FindByID_ReturnFoundPromotion(){
