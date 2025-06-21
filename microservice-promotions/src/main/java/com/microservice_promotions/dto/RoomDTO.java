@@ -10,5 +10,5 @@ import lombok.*;
 @Data
 public class RoomDTO {
     private Long roomId;
-    private String name;
+    private int roomNumber;
 }

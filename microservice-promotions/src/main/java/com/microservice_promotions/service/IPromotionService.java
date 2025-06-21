@@ -17,6 +17,6 @@ public interface IPromotionService {
     List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive);
     boolean deletePromotion(Long id);
     List<PromotionResponseDTO> findByNameAndIsActive(String name, Boolean isActive);
-    Set<RoomDTO> getRoomName(Long id);
+    Set<RoomDTO> getRoomNumber(Long id);
     List<PromotionResponseDTO> createPromotionResponseList(List<Promotion> promotions);
 }
