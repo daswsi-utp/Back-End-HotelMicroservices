@@ -32,7 +32,7 @@ public class PromotionServiceImp implements IPromotionService{
     @Override
     public PromotionResponseDTO findById(Long id) {
         Promotion promotion = promotionRepository.findById(id).orElseThrow();
-        Set<RoomDTO> roomList = getRoomNumber(id);
+        Set<RoomDTO> roomList = getRoomType(id);
         return PromotionResponseDTO.builder()
                 .promotionId(promotion.getPromotionId())
                 .name(promotion.getName())
@@ -145,7 +145,7 @@ public class PromotionServiceImp implements IPromotionService{
         return createPromotionResponseList(matchingPromotions);
     }
     @Override
-    public Set<RoomDTO> getRoomNumber(Long id){
+    public Set<RoomDTO> getRoomType(Long id){
         Set<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotion_PromotionId(id);
         Set<RoomDTO> roomDTOS = new HashSet<>();
         for(PromotionRoom pr : promotionRooms){
@@ -159,7 +159,7 @@ public class PromotionServiceImp implements IPromotionService{
     public List<PromotionResponseDTO> createPromotionResponseList(List<Promotion> promotions){
         List<PromotionResponseDTO> responseList = new ArrayList<>();
         for(Promotion promotion : promotions){
-            Set<RoomDTO> roomList = getRoomNumber(promotion.getPromotionId());
+            Set<RoomDTO> roomList = getRoomType(promotion.getPromotionId());
             PromotionResponseDTO responseDTO = PromotionResponseDTO.builder()
                     .promotionId(promotion.getPromotionId())
                     .name(promotion.getName())
