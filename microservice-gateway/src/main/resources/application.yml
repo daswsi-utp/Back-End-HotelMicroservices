@@ -33,4 +33,10 @@ spring:
           predicates:
             - Path=/api/promotions/**
           filters:
-              - StripPrefix=2
+            - StripPrefix=2
+        - id: microservice-rooms
+          uri: lb://micro-rooms
+          predicates:
+            - Path=/api/rooms/**
+          filters:
+            - StripPrefix=2

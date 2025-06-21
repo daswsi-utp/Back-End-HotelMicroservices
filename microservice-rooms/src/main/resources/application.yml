@@ -25,7 +25,7 @@ eureka:
     hostname: localhost
   client:
     #This line is used for testing.
-    enabled: false
+    #enabled: false
     service-url:
       defaultZone: http://localhost:8761/eureka
 

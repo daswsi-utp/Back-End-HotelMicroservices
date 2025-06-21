@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/rooms")
+//@RequestMapping("/api/rooms")
+@RequestMapping
 public class RoomController {
 
     @Autowired
