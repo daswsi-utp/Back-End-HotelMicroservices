@@ -10,5 +10,5 @@ spring:
       server:
         git:
           uri: https://github.com/daswsi-utp/Back-End-HotelMicroservices.git
-          default-label: ggwp
+          default-label: italo_promotion_gateway_redo
           search-paths: config
