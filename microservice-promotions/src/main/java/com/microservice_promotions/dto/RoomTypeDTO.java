@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class RoomDTO {
+public class RoomTypeDTO {
     private Long roomId;
     private String roomType;
 }

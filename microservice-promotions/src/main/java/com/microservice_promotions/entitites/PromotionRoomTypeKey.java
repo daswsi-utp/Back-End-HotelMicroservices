@@ -15,20 +15,20 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PromotionRoomKey implements Serializable {
+public class PromotionRoomTypeKey implements Serializable {
     @Column(name = "fk_promotion")
     private Long promotionId;
-    @Column(name = "fk_room")
-    private Long roomId;
+    @Column(name = "fk_roomType")
+    private Long roomTypeId;
 
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
-        if(!(o instanceof PromotionRoomKey that)) return false;
-        return Objects.equals(promotionId, that.promotionId) && Objects.equals(roomId, that.roomId);
+        if(!(o instanceof PromotionRoomTypeKey that)) return false;
+        return Objects.equals(promotionId, that.promotionId) && Objects.equals(roomTypeId, that.roomTypeId);
     }
     @Override
     public int hashCode(){
-        return Objects.hash(promotionId, roomId);
+        return Objects.hash(promotionId, roomTypeId);
     }
 }

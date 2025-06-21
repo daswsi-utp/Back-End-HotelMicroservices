@@ -20,5 +20,5 @@ public class PromotionRequestDTO {
     Boolean isActive;
     int minStay;
     Promotion.RoomApplicability roomApplicability;
-    Set<Long> roomIds;
+    Set<Long> roomTypeIds;
 }

@@ -3,10 +3,10 @@ package com.microservice_promotions.service;
 import com.microservice_promotions.client.RoomClient;
 import com.microservice_promotions.dto.PromotionRequestDTO;
 import com.microservice_promotions.dto.PromotionResponseDTO;
-import com.microservice_promotions.dto.RoomDTO;
+import com.microservice_promotions.dto.RoomTypeDTO;
 import com.microservice_promotions.entitites.Promotion;
-import com.microservice_promotions.entitites.PromotionRoom;
-import com.microservice_promotions.entitites.PromotionRoomKey;
+import com.microservice_promotions.entitites.PromotionRoomType;
+import com.microservice_promotions.entitites.PromotionRoomTypeKey;
 import com.microservice_promotions.persistence.PromotionRepository;
 import com.microservice_promotions.persistence.PromotionRoomRepository;
 import jakarta.transaction.Transactional;
@@ -32,7 +32,7 @@ public class PromotionServiceImp implements IPromotionService{
     @Override
     public PromotionResponseDTO findById(Long id) {
         Promotion promotion = promotionRepository.findById(id).orElseThrow();
-        Set<RoomDTO> roomList = getRoomType(id);
+        Set<RoomTypeDTO> roomList = getRoomType(id);
         return PromotionResponseDTO.builder()
                 .promotionId(promotion.getPromotionId())
                 .name(promotion.getName())
@@ -63,15 +63,15 @@ public class PromotionServiceImp implements IPromotionService{
         promotion.setRoomApplicability(promotionRequest.getRoomApplicability());
         promotion.setMinStay(promotionRequest.getMinStay());
         Promotion savedPromotion =promotionRepository.save(promotion);
-        if(promotionRequest.getRoomIds() != null){
-            for(Long roomId : promotionRequest.getRoomIds()){
-                PromotionRoom promotionRoom =  new PromotionRoom();
-                PromotionRoomKey key = new PromotionRoomKey();
+        if(promotionRequest.getRoomTypeIds() != null){
+            for(Long roomId : promotionRequest.getRoomTypeIds()){
+                PromotionRoomType promotionRoomType =  new PromotionRoomType();
+                PromotionRoomTypeKey key = new PromotionRoomTypeKey();
                 key.setPromotionId(promotion.getPromotionId());
-                key.setRoomId(roomId);
-                promotionRoom.setId(key);
-                promotionRoom.setPromotion(savedPromotion);
-                promotionRoomRepository.save(promotionRoom);
+                key.setRoomTypeId(roomId);
+                promotionRoomType.setId(key);
+                promotionRoomType.setPromotion(savedPromotion);
+                promotionRoomRepository.save(promotionRoomType);
             }
         }
         return findById(savedPromotion.getPromotionId());
@@ -99,17 +99,17 @@ public class PromotionServiceImp implements IPromotionService{
         //Promotion updatedPromotion = promotionRepository.findById(updatePromotion.getPromotionId());
 
         if(promotion.getRoomApplicability().equals(Promotion.RoomApplicability.selected)){
-            Set<Long> newRoomIds =  promotion.getRoomIds() != null ? promotion.getRoomIds() : new HashSet<>();
-            Set<Long> currentRoomIds = promotionRoomRepository.findByPromotion_PromotionId(id).stream().map(pr -> pr.getId().getRoomId()).collect(Collectors.toSet());
+            Set<Long> newRoomIds =  promotion.getRoomTypeIds() != null ? promotion.getRoomTypeIds() : new HashSet<>();
+            Set<Long> currentRoomIds = promotionRoomRepository.findByPromotion_PromotionId(id).stream().map(pr -> pr.getId().getRoomTypeId()).collect(Collectors.toSet());
             for(Long roomId: currentRoomIds){
                 if(!currentRoomIds.contains(roomId)){
-                    promotionRoomRepository.deleteById(new PromotionRoomKey(id, roomId));
+                    promotionRoomRepository.deleteById(new PromotionRoomTypeKey(id, roomId));
                 }
             }
             for(Long roomId: newRoomIds){
                 if(!currentRoomIds.contains(roomId)){
-                    PromotionRoom pr = new PromotionRoom();
-                    pr.setId(new PromotionRoomKey(id, roomId));
+                    PromotionRoomType pr = new PromotionRoomType();
+                    pr.setId(new PromotionRoomTypeKey(id, roomId));
                     pr.setPromotion(updatePromotion);
                     promotionRoomRepository.save(pr);
                 }
@@ -145,21 +145,21 @@ public class PromotionServiceImp implements IPromotionService{
         return createPromotionResponseList(matchingPromotions);
     }
     @Override
-    public Set<RoomDTO> getRoomType(Long id){
-        Set<PromotionRoom> promotionRooms = promotionRoomRepository.findByPromotion_PromotionId(id);
-        Set<RoomDTO> roomDTOS = new HashSet<>();
-        for(PromotionRoom pr : promotionRooms){
+    public Set<RoomTypeDTO> getRoomType(Long id){
+        Set<PromotionRoomType> promotionRoomTypes = promotionRoomRepository.findByPromotion_PromotionId(id);
+        Set<RoomTypeDTO> roomTypeDTOS = new HashSet<>();
+        for(PromotionRoomType pr : promotionRoomTypes){
             Long promotionId = pr.getId().getPromotionId();
-            RoomDTO roomDTO = roomClient.getRoomById(pr.getId().getRoomId());
-            roomDTOS.add(roomDTO);
+            RoomTypeDTO roomTypeDTO = roomClient.getRoomById(pr.getId().getRoomTypeId());
+            roomTypeDTOS.add(roomTypeDTO);
         }
-        return roomDTOS;
+        return roomTypeDTOS;
     }
     @Override
     public List<PromotionResponseDTO> createPromotionResponseList(List<Promotion> promotions){
         List<PromotionResponseDTO> responseList = new ArrayList<>();
         for(Promotion promotion : promotions){
-            Set<RoomDTO> roomList = getRoomType(promotion.getPromotionId());
+            Set<RoomTypeDTO> roomList = getRoomType(promotion.getPromotionId());
             PromotionResponseDTO responseDTO = PromotionResponseDTO.builder()
                     .promotionId(promotion.getPromotionId())
                     .name(promotion.getName())

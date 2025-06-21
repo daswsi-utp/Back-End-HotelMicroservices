@@ -32,7 +32,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.roomApplicability(Promotion.RoomApplicability.selected)
-				.roomIds(ids)
+				.roomTypeIds(ids)
 				.build();
 		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		PromotionResponseDTO savedPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
@@ -55,7 +55,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		System.out.println(responsePromotion.getCreatedAt());
@@ -81,7 +81,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		PromotionResponseDTO foundPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
@@ -98,7 +98,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		iPromotionService.save(promotion1);
 		PromotionRequestDTO promotion2 = PromotionRequestDTO.builder().
@@ -109,7 +109,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.added_value)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		iPromotionService.save(promotion2);
 		List<PromotionResponseDTO> foundPromotionList = iPromotionService.findAll();
@@ -126,7 +126,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion);
 		PromotionResponseDTO foundPromotion = iPromotionService.findById(responsePromotion.getPromotionId());
@@ -154,7 +154,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.percentage)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		iPromotionService.save(promotion1);
 		PromotionRequestDTO promotion2 = PromotionRequestDTO.builder().
@@ -165,7 +165,7 @@ class MicroservicePromotionsApplicationTests {
 				.endDate(Date.valueOf( "2025-07-15"))
 				.type(Promotion.Type.added_value)
 				.roomApplicability(Promotion.RoomApplicability.all)
-				.roomIds(null)
+				.roomTypeIds(null)
 				.build();
 		PromotionResponseDTO responsePromotion = iPromotionService.save(promotion2);
 		//Both parameters provided

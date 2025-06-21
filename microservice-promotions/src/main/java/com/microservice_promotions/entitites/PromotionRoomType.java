@@ -11,10 +11,10 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "promotion_room")
-public class PromotionRoom {
+@Table(name = "promotion_roomType")
+public class PromotionRoomType {
     @EmbeddedId
-    private PromotionRoomKey id = new PromotionRoomKey();
+    private PromotionRoomTypeKey id = new PromotionRoomTypeKey();
     @ManyToOne
     @MapsId("promotionId")
     @JoinColumn(name = "fk_promotion", nullable = false)

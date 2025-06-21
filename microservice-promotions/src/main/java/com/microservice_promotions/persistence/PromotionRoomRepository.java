@@ -1,11 +1,11 @@
 package com.microservice_promotions.persistence;
 
-import com.microservice_promotions.entitites.PromotionRoom;
-import com.microservice_promotions.entitites.PromotionRoomKey;
+import com.microservice_promotions.entitites.PromotionRoomType;
+import com.microservice_promotions.entitites.PromotionRoomTypeKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;
 
-public interface PromotionRoomRepository extends JpaRepository<PromotionRoom, PromotionRoomKey> {
-    Set<PromotionRoom> findByPromotion_PromotionId(Long id);
+public interface PromotionRoomRepository extends JpaRepository<PromotionRoomType, PromotionRoomTypeKey> {
+    Set<PromotionRoomType> findByPromotion_PromotionId(Long id);
 }
