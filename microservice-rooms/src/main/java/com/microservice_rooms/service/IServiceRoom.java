@@ -16,4 +16,5 @@ public interface IServiceRoom {
     Room updateRoom(Long id, Room roomDetails, Set<String> tagNames);
     void deleteRoom(Long id);
     RoomTypeDTO getRoomTypeDTOById(Long id);
+    List<RoomTypeDTO> getAllRoomTypesDTO();
 }

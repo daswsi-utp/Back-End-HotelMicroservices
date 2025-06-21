@@ -95,6 +95,17 @@ public class ImplServiceRoom implements IServiceRoom{
         return new RoomTypeDTO(foundRoomType.getId(), foundRoomType.getName());
     }
 
+    @Override
+    public List<RoomTypeDTO> getAllRoomTypesDTO() {
+        List<RoomType> foundRoomTypes = roomTypeRepository.findAll();
+        List<RoomTypeDTO> foundRoomTypesDTO = new ArrayList<>();
+        for(RoomType rt : foundRoomTypes){
+            RoomTypeDTO dto = new RoomTypeDTO(rt.getId(), rt.getName());
+           foundRoomTypesDTO.add(dto);
+        }
+        return foundRoomTypesDTO;
+    }
+
     private Set<Tag> getOrCreateTags(Set<String> tagNames) {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {

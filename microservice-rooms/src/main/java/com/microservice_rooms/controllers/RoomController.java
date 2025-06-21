@@ -59,4 +59,8 @@ public class RoomController {
     public RoomTypeDTO getRoomTypeById(@PathVariable Long id){
         return roomService.getRoomTypeDTOById(id);
     }
+    @GetMapping("/type/all")
+    public List<RoomTypeDTO> getAllRoomTypes(){
+        return roomService.getAllRoomTypesDTO();
+    }
 }
