@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;
 
-public interface PromotionRoomRepository extends JpaRepository<PromotionRoomType, PromotionRoomTypeKey> {
+public interface PromotionRoomTypeRepository extends JpaRepository<PromotionRoomType, PromotionRoomTypeKey> {
     Set<PromotionRoomType> findByPromotion_PromotionId(Long id);
 }

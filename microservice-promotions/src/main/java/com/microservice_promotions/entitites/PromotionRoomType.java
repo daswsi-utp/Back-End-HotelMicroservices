@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "promotion_roomType")
+@Table(name = "promotion_room_type")
 public class PromotionRoomType {
     @EmbeddedId
     private PromotionRoomTypeKey id = new PromotionRoomTypeKey();

@@ -18,7 +18,7 @@ import java.util.Objects;
 public class PromotionRoomTypeKey implements Serializable {
     @Column(name = "fk_promotion")
     private Long promotionId;
-    @Column(name = "fk_roomType")
+    @Column(name = "fk_room_type")
     private Long roomTypeId;
 
     @Override

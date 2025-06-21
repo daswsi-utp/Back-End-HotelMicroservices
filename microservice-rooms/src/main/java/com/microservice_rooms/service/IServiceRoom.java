@@ -1,6 +1,8 @@
 package com.microservice_rooms.service;
 
+import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
+import com.microservice_rooms.entities.RoomType;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +15,5 @@ public interface IServiceRoom {
     List<Room> findRoomsByTags(Set<String> tagNames);
     Room updateRoom(Long id, Room roomDetails, Set<String> tagNames);
     void deleteRoom(Long id);
+    RoomTypeDTO getRoomTypeDTOById(Long id);
 }

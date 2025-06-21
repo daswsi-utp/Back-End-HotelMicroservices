@@ -1,13 +1,12 @@
-package com.microservice_promotions.dto;
+package com.microservice_rooms.dto;
 
 import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Builder
 public class RoomTypeDTO {
     private Long roomTypeId;
     private String roomType;
