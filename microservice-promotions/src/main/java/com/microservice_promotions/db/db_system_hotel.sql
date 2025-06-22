@@ -5,7 +5,7 @@
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.4
 
--- Started on 2025-06-20 14:48:51
+-- Started on 2025-06-21 19:08:19
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -100,7 +100,7 @@ $$;
 ALTER FUNCTION public.delete_test_entries() OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1255 OID 25394)
+-- TOC entry 231 (class 1255 OID 25394)
 -- Name: insert_all_rooms_to_promotion_room(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -109,9 +109,9 @@ CREATE FUNCTION public.insert_all_rooms_to_promotion_room() RETURNS trigger
     AS $$
 BEGIN
     IF NEW.room_applicability = 'all'::applicability THEN
-        INSERT INTO promotion_room (fk_promotion, fk_room)
-        SELECT NEW.promotion_id, r.room_id
-        FROM rooms r;
+        INSERT INTO promotion_room_type (fk_promotion, fk_room_type)
+        SELECT NEW.promotion_id, rt.id
+        FROM room_types rt;
     END IF;
 
     RETURN NEW;
@@ -122,7 +122,7 @@ $$;
 ALTER FUNCTION public.insert_all_rooms_to_promotion_room() OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1255 OID 25395)
+-- TOC entry 230 (class 1255 OID 25395)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -143,17 +143,17 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 228 (class 1259 OID 25532)
--- Name: promotion_room; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 228 (class 1259 OID 25759)
+-- Name: promotion_room_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.promotion_room (
-    fk_promotion bigint NOT NULL,
-    fk_room bigint NOT NULL
+CREATE TABLE public.promotion_room_type (
+    fk_promotion integer NOT NULL,
+    fk_room_type integer NOT NULL
 );
 
 
-ALTER TABLE public.promotion_room OWNER TO postgres;
+ALTER TABLE public.promotion_room_type OWNER TO postgres;
 
 --
 -- TOC entry 217 (class 1259 OID 25399)
@@ -423,12 +423,15 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 
 
 --
--- TOC entry 4886 (class 0 OID 25532)
+-- TOC entry 4886 (class 0 OID 25759)
 -- Dependencies: 228
--- Data for Name: promotion_room; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: promotion_room_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.promotion_room (fk_promotion, fk_room) FROM stdin;
+COPY public.promotion_room_type (fk_promotion, fk_room_type) FROM stdin;
+19	7
+19	8
+19	9
 \.
 
 
@@ -439,8 +442,7 @@ COPY public.promotion_room (fk_promotion, fk_room) FROM stdin;
 --
 
 COPY public.promotions (promotion_id, promotion_name, promotion_description, discount_value, start_date, end_date, created_at, updated_at, type, is_active, minimun_stay, room_applicability) FROM stdin;
-7	Spooky Sale Added Value	20% off all hallowing items + Free Wine	\N	2025-06-14	2025-07-15	2025-06-11 18:42:04.111194	2025-06-11 18:42:04.111194	added_value	f	1	all
-14	Regular	Test description	20	2025-06-15	2025-07-15	2025-06-13 19:16:41.736387	2025-06-13 19:16:41.736387	percentage	t	1	all
+19	Halloween Offer	Discout of 20% on all suites	20	2025-06-15	2025-07-15	2025-06-20 23:51:28.533655	2025-06-20 23:51:28.533655	percentage	t	0	all
 \.
 
 
@@ -519,7 +521,7 @@ COPY public.tags (id, name) FROM stdin;
 -- Name: promotions_promotion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.promotions_promotion_id_seq', 14, true);
+SELECT pg_catalog.setval('public.promotions_promotion_id_seq', 19, true);
 
 
 --
@@ -559,12 +561,12 @@ SELECT pg_catalog.setval('public.tags_id_seq', 8, true);
 
 
 --
--- TOC entry 4719 (class 2606 OID 25559)
--- Name: promotion_room promotion_room_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 4719 (class 2606 OID 25763)
+-- Name: promotion_room_type promotion_room_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.promotion_room
-    ADD CONSTRAINT promotion_room_pkey PRIMARY KEY (fk_promotion, fk_room);
+ALTER TABLE ONLY public.promotion_room_type
+    ADD CONSTRAINT promotion_room_type_pkey PRIMARY KEY (fk_promotion, fk_room_type);
 
 
 --
@@ -681,21 +683,21 @@ CREATE TRIGGER trigger_promotions_updated_at BEFORE UPDATE ON public.promotions 
 
 
 --
--- TOC entry 4724 (class 2606 OID 25560)
--- Name: promotion_room promotion_room_fk_promotion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 4724 (class 2606 OID 25764)
+-- Name: promotion_room_type promotion_room_type_fk_promotion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.promotion_room
-    ADD CONSTRAINT promotion_room_fk_promotion_fkey FOREIGN KEY (fk_promotion) REFERENCES public.promotions(promotion_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.promotion_room_type
+    ADD CONSTRAINT promotion_room_type_fk_promotion_fkey FOREIGN KEY (fk_promotion) REFERENCES public.promotions(promotion_id) ON DELETE CASCADE;
 
 
 --
--- TOC entry 4725 (class 2606 OID 25549)
--- Name: promotion_room promotion_room_fk_room_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 4725 (class 2606 OID 25769)
+-- Name: promotion_room_type promotion_room_type_fk_room_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.promotion_room
-    ADD CONSTRAINT promotion_room_fk_room_fkey FOREIGN KEY (fk_room) REFERENCES public.rooms(room_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.promotion_room_type
+    ADD CONSTRAINT promotion_room_type_fk_room_type_fkey FOREIGN KEY (fk_room_type) REFERENCES public.room_types(id) ON DELETE CASCADE;
 
 
 --
@@ -734,7 +736,7 @@ ALTER TABLE ONLY public.rooms
     ADD CONSTRAINT rooms_room_type_id_fkey FOREIGN KEY (room_type_id) REFERENCES public.room_types(id) ON DELETE RESTRICT;
 
 
--- Completed on 2025-06-20 14:48:51
+-- Completed on 2025-06-21 19:08:33
 
 --
 -- PostgreSQL database dump complete
