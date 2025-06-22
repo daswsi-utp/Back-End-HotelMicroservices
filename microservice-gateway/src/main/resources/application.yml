@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:5173
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+      routes:
+        - id: microservice-users
+          uri: lb://microservice-users
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=2
+        - id: microservice-bookings
+          uri: lb://microservice-bookings
+          predicates:
+            - Path=/api/bookings/**
+          filters:
+            - StripPrefix=2
+        - id: microservice-promotions
+          uri: lb://microservice-promotions
+          predicates:
+            - Path=/api/promotions/**
+          filters:
+            - StripPrefix=2
+        - id: microservice-rooms
+          uri: lb://micro-rooms
+          predicates:
+            - Path=/api/rooms/**
+          filters:
+            - StripPrefix=2

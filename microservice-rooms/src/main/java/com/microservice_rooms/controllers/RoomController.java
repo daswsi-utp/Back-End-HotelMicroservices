@@ -1,4 +1,5 @@
 package com.microservice_rooms.controllers;
+import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
 import com.microservice_rooms.service.IServiceRoom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/rooms")
+//@RequestMapping("/api/rooms")
+@RequestMapping
 public class RoomController {
 
     @Autowired
@@ -53,5 +55,13 @@ public class RoomController {
     @GetMapping("/search")
     public List<Room> findRoomsByTags(@RequestParam Set<String> tags) {
         return roomService.findRoomsByTags(tags);
+    }
+    @GetMapping("/type/{id}")
+    public RoomTypeDTO getRoomTypeById(@PathVariable Long id){
+        return roomService.getRoomTypeDTOById(id);
+    }
+    @GetMapping("/type/all")
+    public List<RoomTypeDTO> getAllRoomTypes(){
+        return roomService.getAllRoomTypesDTO();
     }
 }

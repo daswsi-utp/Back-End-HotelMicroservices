@@ -1,0 +1,9 @@
+IF YOU HAVE PROBLEMS IMPORTING THE TABLE
+1. GO TO CMD OR INSIDE PGADMIN CLICK THE THIRD OPTION ON THE LEFT SIDEBAR
+2.1 ENTER YOUR SERVER (CMD)
+   2.1.1 (ONLY DO THIS IF YOU DON'T HAVE psql IN YOUR PATH) You first type: cd "C:\Program Files\PostgreSQL\17\bin"
+   2.1.2 Then type: psql -U USER_NAME -h localhost -p 5432 -d DATABASE_NAME
+2.2 ENTER YOUR DATABASE (PGADMIN)
+   2.2.1 ENTER FIRST YOU DATABASE: \c database_name (Replace with database name)
+3. ONCE INSIDE TYPE: \i 'D:/Back-End-HotelMicroservices/microservice-promotions/src/main/java/com/microservice_promotions/db/db_system_hotel.sql'
+(It's \i "absolute route to sql file")
