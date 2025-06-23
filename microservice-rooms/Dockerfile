@@ -1,4 +1,4 @@
-ARG MODULE=microservice-promotions
+ARG MODULE=microservice-rooms
 
 FROM eclipse-temurin:21-jdk as BUILDER
 WORKDIR /build
