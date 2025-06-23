@@ -1,0 +1,72 @@
+version: '3.9'
+services:
+  config-server:
+    build:
+      context: .
+      dockerfile: config-server/Dockerfile
+      args:
+        MODULE: config-server
+    environment:
+      - PORT=8888
+    ports:
+      - "8888:8888"
+
+  eureka:
+    build:
+      context: .
+      dockerfile: eureka/Dockerfile
+      args:
+        MODULE: eureka
+    environment:
+      - PORT=8761
+    ports:
+      - "8761:8761"
+
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+      args:
+        MODULE: gateway
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - PORT=8090
+    ports:
+      - "8090:8090"
+
+  promotions:
+    build:
+      context: .
+      dockerfile: promotions-service/Dockerfile
+      args:
+        MODULE: microservice-promotions
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - PORT=0
+
+  bookings:
+    build:
+      context: .
+      dockerfile: bookings-service/Dockerfile
+      args:
+        MODULE: microservice-bookings
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - PORT=0
+  users:
+    build:
+      context: .
+      dockerfile: users-service/Dockerfile
+      args:
+        MODULE: microservice-users
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - PORT=0

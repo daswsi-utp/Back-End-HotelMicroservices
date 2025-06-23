@@ -1,4 +1,4 @@
-package com.microservice.microservice_message.controller;
+package com.microservice.controller;
 
 import com.microservice.microservice_message.dto.MessageDTO;
 import com.microservice.microservice_message.model.Message;

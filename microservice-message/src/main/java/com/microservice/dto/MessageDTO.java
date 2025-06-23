@@ -1,4 +1,4 @@
-package com.microservice.microservice_message.dto;
+package com.microservice.dto;
 
 public class MessageDTO {
     private String name;
