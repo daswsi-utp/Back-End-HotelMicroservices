@@ -1,13 +1,13 @@
-ARG MODULE=config-server
-
-FROM eclipse-temurin:21-jdk as BUILDER
+FROM eclipse-temurin:21-jdk as builder
 WORKDIR /app
 COPY . .
-#RUN ./mvnw -pl ${MODULE} -am clean package -DskipTests
+#RUN ./mvnw clean package -DskipTests
 
 FROM eclipse-temurin:21-jre
+ARG MODULE=config-server
 WORKDIR /app
-COPY --from=builder /build/${MODULE}/target/*.jar app.jar
+#COPY --from=builder ${MODULE}/target/*.jar app.jar
+COPY ${MODULE}/target/*.jar app.jar
 
 EXPOSE 8888
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]

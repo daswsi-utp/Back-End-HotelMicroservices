@@ -1,11 +1,13 @@
-ARG MODULE=microservice-promotions
-
-FROM eclipse-temurin:21-jdk as BUILDER
+FROM eclipse-temurin:21-jdk as builder
 WORKDIR /app
 COPY . .
-#RUN ./mvnw -pl ${MODULE} -am clean package -DskipTests
-FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=builder /build/${MODULE}/target/*.jar app.jar
+#RUN ./mvnw clean package -DskipTests
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM eclipse-temurin:21-jre
+ARG MODULE=microservice-promotions
+WORKDIR /app
+#COPY --from=builder ${MODULE}/target/*.jar app.jar
+COPY ${MODULE}/target/*.jar app.jar
+
+EXPOSE 8888
+ENTRYPOINT ["java","-jar","/app/app.jar"]
