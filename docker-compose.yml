@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: microservice-eureka/Dockerfile
       args:
-        MODULE: eureka
+        MODULE: microservice-eureka
     environment:
       - PORT=8761
     ports:
@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: microservice-gateway/Dockerfile
       args:
-        MODULE: gateway
+        MODULE: microservice-gateway
     depends_on:
       - eureka
       - config-server
@@ -83,7 +83,7 @@ services:
   messages:
     build:
       context: .
-      dockerfile: microservice-messages/Dockerfile
+      dockerfile: microservice-message/Dockerfile
       args:
         MODULE: microservice-message
     depends_on:

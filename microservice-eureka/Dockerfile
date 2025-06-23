@@ -9,5 +9,5 @@ WORKDIR /app
 #COPY --from=builder ${MODULE}/target/*.jar app.jar
 COPY ${MODULE}/target/*.jar app.jar
 
-EXPOSE 8888
+EXPOSE 8761
 ENTRYPOINT ["java","-jar","/app/app.jar"]
