@@ -16,6 +16,8 @@ public class Booking
 
     private Long roomId;
 
+    private String huespedes;
+
     private LocalDate checkIn;
 
     private LocalDate checkOut;
@@ -46,6 +48,14 @@ public class Booking
 
     public void setRoomId(Long roomId) {
         this.roomId = roomId;
+    }
+
+    public String getHuespedes() {
+        return huespedes;
+    }
+
+    public void setHuespedes(String huespedes) {
+        this.huespedes = huespedes;
     }
 
     public LocalDate getCheckIn() {

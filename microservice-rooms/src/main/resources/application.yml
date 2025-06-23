@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: microservice-rooms
+  profiles:
+    active: default
+  config:
+    import: optional:configserver

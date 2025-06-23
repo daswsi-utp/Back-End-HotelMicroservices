@@ -24,4 +24,7 @@ public class BookingResponseDTO
     private String userLastName;
     private String userEmail;
     private String cellPhone;
+
+
+
 }
