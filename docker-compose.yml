@@ -83,7 +83,7 @@ services:
   messages:
     build:
       context: .
-      dockerfile: microservice-message/Dockerfile
+      dockerfile: microservice-messages/Dockerfile
       args:
         MODULE: microservice-message
     depends_on:

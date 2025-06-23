@@ -1,9 +1,9 @@
 ARG MODULE=config-server
 
 FROM eclipse-temurin:21-jdk as BUILDER
-WORKDIR /build
+WORKDIR /app
 COPY . .
-RUN ./mvnw clean package -pl ${MODULE} -DskipTests
+RUN ./mvnw -pl ${MODULE} -am clean package -DskipTests
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
