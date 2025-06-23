@@ -14,6 +14,15 @@
         <module name="microservice-promotions" />
         <module name="microservice-eureka" />
         <module name="demo" />
+        <module name="microservice-users" />
+      </profile>
+      <profile name="Annotation profile for SpringMicroservices-Hotel" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
         <module name="microservice-bookings" />
       </profile>
     </annotationProcessing>
@@ -34,6 +43,7 @@
       <module name="microservice-gateway" options="-parameters" />
       <module name="microservice-promotions" options="-parameters" />
       <module name="microservice-rooms" options="-parameters" />
+      <module name="microservice-users" options="-parameters" />
       <module name="microservicios-rooms" options="-parameters" />
       <module name="msvc-gateway-server" options="-parameters" />
     </option>

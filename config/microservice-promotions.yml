@@ -8,9 +8,9 @@ spring:
     name: microservice-promotions
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/db_system_hotel
+    url: jdbc:postgresql://localhost:5432/msvc-promotions
     username: postgres
-    password: kenyiaqp10
+    password: admin
   jpa:
     hibernate:
       ddl-auto: none
