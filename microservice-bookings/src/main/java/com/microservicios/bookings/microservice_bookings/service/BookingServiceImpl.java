@@ -140,6 +140,7 @@ public class BookingServiceImpl implements IBookingService
 
 
     //a
+
     @Override
     @Transactional
     public RoomResponseDTO createBooking(RoomsRequest req) {
@@ -170,7 +171,7 @@ public class BookingServiceImpl implements IBookingService
                 room.getRoomNumber(),
                 saved.getCheckIn(),
                 saved.getCheckOut(),
-                saved.getTotal(),
+                total,
                 saved.getStatus()
         );
     }
@@ -236,7 +237,7 @@ public class BookingServiceImpl implements IBookingService
                 room.getRoomNumber(),
                 updated.getCheckIn(),
                 updated.getCheckOut(),
-                updated.getTotal(),
+                booking.getTotal(),
                 updated.getStatus()
         );
     }

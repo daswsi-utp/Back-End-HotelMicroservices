@@ -10,5 +10,5 @@ spring:
       server:
         git:
           uri: https://github.com/daswsi-utp/Back-End-HotelMicroservices.git
-          default-label: chompiras
+          default-label: post
           search-paths: config
