@@ -106,6 +106,16 @@ public class ImplServiceRoom implements IServiceRoom{
         return foundRoomTypesDTO;
     }
 
+    @Override
+    public List<Tag> getAllTags() {
+        return tagRepository.findAll();
+    }
+
+    @Override
+    public Optional<Tag> getTagById(Long id) {
+        return tagRepository.findById(id);
+    }
+
     private Set<Tag> getOrCreateTags(Set<String> tagNames) {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {

@@ -21,4 +21,5 @@ public class UserBookingStatsDTO
     private long totalBookings;
     private double totalAmount;
     private String status;
+
 }

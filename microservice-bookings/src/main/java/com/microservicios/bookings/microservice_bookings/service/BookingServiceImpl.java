@@ -1,29 +1,41 @@
 package com.microservicios.bookings.microservice_bookings.service;
 
+import com.microservicios.bookings.microservice_bookings.client.RoomClient;
 import com.microservicios.bookings.microservice_bookings.client.UserClient;
-import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
-import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO;
-import com.microservicios.bookings.microservice_bookings.dto.UserDTO;
+import com.microservicios.bookings.microservice_bookings.dto.*;
+import com.microservicios.bookings.microservice_bookings.dto2.RoomDTO;
+import com.microservicios.bookings.microservice_bookings.dto2.RoomResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto2.RoomsRequest;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.repositories.BookingRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class BookingServiceImpl implements IBookingService
 {
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
+    private final UserClient userClient;
+    private final RoomClient roomClient;
 
-    @Autowired
-    private UserClient userClient;
-
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              UserClient userClient,
+                              RoomClient roomClient) {
+        this.bookingRepository = bookingRepository;
+        this.userClient = userClient;
+        this.roomClient = roomClient;
+    }
     @Override
     @Transactional(readOnly = true)
     public List<Booking> findAll() {
@@ -124,4 +136,115 @@ public class BookingServiceImpl implements IBookingService
                 .collect(Collectors.toList());
     }
 
+
+
+
+    //a
+    @Override
+    @Transactional
+    public RoomResponseDTO createBooking(RoomsRequest req) {
+        UserDTO user = userClient.getUserById(req.getUserId());
+        RoomDTO room = roomClient.getRoomById(req.getRoomId());
+
+        long nights = ChronoUnit.DAYS.between(req.getCheckIn(), req.getCheckOut());
+        if (nights <= 0) {
+            throw new IllegalArgumentException("La fecha de fin debe ser posterior a la de inicio");
+        }
+
+        double total = nights * room.getPricePerNight();
+
+        Booking booking = new Booking();
+        booking.setUserId(req.getUserId());
+        booking.setRoomId(req.getRoomId());
+        booking.setCheckIn(req.getCheckIn());
+        booking.setCheckOut(req.getCheckOut());
+        booking.setTotal(total);
+        booking.setStatus("PENDING");
+
+        Booking saved = bookingRepository.save(booking);
+
+        return new RoomResponseDTO(
+                saved.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                saved.getCheckIn(),
+                saved.getCheckOut(),
+                saved.getTotal(),
+                saved.getStatus()
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RoomResponseDTO getBookingById(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
+
+        UserDTO user = userClient.getUserById(booking.getUserId());
+        RoomDTO room = roomClient.getRoomById(booking.getRoomId());
+
+        return new RoomResponseDTO(
+                booking.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                booking.getCheckIn(),
+                booking.getCheckOut(),
+                booking.getTotal(),
+                booking.getStatus()
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoomResponseDTO> listAll() {
+        return bookingRepository.findAll().stream()
+                .map(b -> {
+                    UserDTO user = userClient.getUserById(b.getUserId());
+                    RoomDTO room = roomClient.getRoomById(b.getRoomId());
+                    return new RoomResponseDTO(
+                            b.getId(),
+                            user.getName() + " " + user.getLastName(),
+                            user.getEmail(),
+                            room.getRoomNumber(),
+                            b.getCheckIn(),
+                            b.getCheckOut(),
+                            b.getTotal(),
+                            b.getStatus()
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public RoomResponseDTO cancelBooking(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
+
+        booking.setStatus("CANCELLED");
+        Booking updated = bookingRepository.save(booking);
+
+        UserDTO user = userClient.getUserById(updated.getUserId());
+        RoomDTO room = roomClient.getRoomById(updated.getRoomId());
+
+        return new RoomResponseDTO(
+                updated.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                updated.getCheckIn(),
+                updated.getCheckOut(),
+                updated.getTotal(),
+                updated.getStatus()
+        );
+    }
+
+
+
 }
+
+
+
+
