@@ -46,7 +46,11 @@ services:
       - config-server
     environment:
       - PORT=0
-
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
   bookings:
     build:
       context: .
@@ -58,6 +62,11 @@ services:
       - config-server
     environment:
       - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_BOOKINGS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
   users:
     build:
       context: .
@@ -69,6 +78,11 @@ services:
       - config-server
     environment:
       - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB-USERS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
   rooms:
     build:
       context: .
@@ -80,6 +94,11 @@ services:
       - config-server
     environment:
       - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
   messages:
     build:
       context: .
@@ -91,3 +110,8 @@ services:
       - config-server
     environment:
       - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_MYSQL}/${DB_MESSAGES}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_MYSQL}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_MYSQL}
+    env_file:
+      - .env
