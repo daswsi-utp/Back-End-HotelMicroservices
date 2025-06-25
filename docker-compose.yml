@@ -126,8 +126,8 @@ services:
     depends_on:
       eureka:
         condition: service_healthy
-      config-server:
-        condition: service_healthy
+      #config-server:
+        #condition: service_healthy
     environment:
       - PORT=0
       - SPRING_DATASOURCE_URL=${DB_HOST_MYSQL}/${DB_MESSAGES}
