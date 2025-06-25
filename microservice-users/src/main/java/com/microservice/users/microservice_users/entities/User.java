@@ -13,26 +13,17 @@ public class User
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String lastName;
     @Email
     @NotBlank
     private String email;
-
     private String cellPhone;
-
     private LocalDate joinDate;
-
     private String country;
-
     private String city;
-
     private String state;
-
     private LocalDate birthDate;
-
     @NotBlank
     private String password;
 
