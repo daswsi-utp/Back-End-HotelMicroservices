@@ -126,7 +126,7 @@ services:
     depends_on:
       eureka:
         condition: service_healthy
-        #config-server:
+      #config-server:
         #condition: service_healthy
     environment:
       - PORT=0
