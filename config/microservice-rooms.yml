@@ -18,7 +18,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 eureka:
   instance:
-    hostname: localhost
+    hostname: microservice-eureka
   client:
     #This line is used for testing.
     #enabled: false

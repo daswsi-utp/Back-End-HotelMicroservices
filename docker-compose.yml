@@ -9,7 +9,11 @@ services:
       - PORT=8888
     ports:
       - "8888:8888"
-
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   eureka:
     build:
       context: .
@@ -20,7 +24,11 @@ services:
       - PORT=8761
     ports:
       - "8761:8761"
-
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   gateway:
     build:
       context: .
@@ -28,13 +36,15 @@ services:
       args:
         MODULE: microservice-gateway
     depends_on:
-      - eureka
-      - config-server
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
       - PORT=8090
     ports:
       - "8090:8090"
-#Modules
+  #Modules
   promotions:
     build:
       context: .
@@ -42,8 +52,10 @@ services:
       args:
         MODULE: microservice-promotions
     depends_on:
-      - eureka
-      - config-server
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
       - PORT=0
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
@@ -58,8 +70,10 @@ services:
       args:
         MODULE: microservice-bookings
     depends_on:
-      - eureka
-      - config-server
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
       - PORT=0
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_BOOKINGS}
@@ -74,8 +88,10 @@ services:
       args:
         MODULE: microservice-users
     depends_on:
-      - eureka
-      - config-server
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
       - PORT=0
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB-USERS}
@@ -90,8 +106,10 @@ services:
       args:
         MODULE: microservice-rooms
     depends_on:
-      - eureka
-      - config-server
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
       - PORT=0
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
@@ -106,8 +124,10 @@ services:
       args:
         MODULE: microservice-message
     depends_on:
-      - eureka
-      - config-server
+      eureka:
+        condition: service_healthy
+        #config-server:
+        #condition: service_healthy
     environment:
       - PORT=0
       - SPRING_DATASOURCE_URL=${DB_HOST_MYSQL}/${DB_MESSAGES}
