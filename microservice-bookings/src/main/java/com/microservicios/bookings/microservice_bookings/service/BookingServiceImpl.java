@@ -171,7 +171,7 @@ public class BookingServiceImpl implements IBookingService
                 room.getRoomNumber(),
                 saved.getCheckIn(),
                 saved.getCheckOut(),
-                total,
+                saved.getTotal(),
                 saved.getStatus()
         );
     }
