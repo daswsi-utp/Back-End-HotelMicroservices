@@ -24,4 +24,4 @@ eureka:
     #enabled: false
     enabled: true
     service-url:
-      defaultZone: ${SPRING_DATASOURCE_EUREKA}
+      defaultZone: https://hotel-eureka-v1-0.onrender.com/eureka/
