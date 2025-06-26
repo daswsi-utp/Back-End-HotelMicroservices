@@ -4,4 +4,4 @@ spring:
   profiles:
     active: default
   config:
-    import: optional:configserver:${SPRING_DATASOURCE_CONFIG-SERVER}
+    import: optional:configserver:${SPRING_DATASOURCE_CONFIG_SERVER}

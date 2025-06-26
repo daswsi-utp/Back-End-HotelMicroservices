@@ -48,6 +48,7 @@ services:
       - PORT=8090
       - SPRING_DATASOURCE_FRONT_PROD=${URL_FRONT_PROD}
       - SPRING_DATASOURCE_FRONT_DEV=${URL_FRONT_DEV}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     ports:
       - "8090:8090"
     image: italomoroco/hotel-gateway:v1.0
@@ -145,7 +146,7 @@ services:
     depends_on:
       eureka:
         condition: service_healthy
-      #config-server:
+        #config-server:
         #condition: service_healthy
     environment:
       - PORT=0
@@ -157,3 +158,6 @@ services:
     env_file:
       - .env
     image: italomoroco/hotel-messages:v1.0
+spring:
+  config:
+    import=optional:configserver:${SPRING_DATASOURCE_CONFIG-SERVER}:
