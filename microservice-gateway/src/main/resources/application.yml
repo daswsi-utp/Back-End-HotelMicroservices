@@ -5,7 +5,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins:
-              - http://localhost:5173
+              - ${SPRING_DATASOURCE_FRONT_PROD},${SPRING_DATASOURCE_FRONT_DEV}
             allowedMethods:
               - GET
               - POST

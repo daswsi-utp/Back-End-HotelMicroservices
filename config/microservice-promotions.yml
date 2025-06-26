@@ -24,4 +24,4 @@ eureka:
     #enabled: false
     enabled: true
     service-url:
-      defaultZone: http://microservice-eureka:8761/eureka
+      defaultZone: ${SPRING_DATASOURCE_EUREKA}

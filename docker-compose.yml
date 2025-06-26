@@ -14,6 +14,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    env_file:
+      - .env
+    image: italomoroco/hotel-config-server
   eureka:
     build:
       context: .
@@ -29,6 +32,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    image: italomoroco/hotel-eureka
   gateway:
     build:
       context: .
@@ -42,8 +46,11 @@ services:
         condition: service_healthy
     environment:
       - PORT=8090
+      - SPRING_DATASOURCE_FRONT_PROD=${URL_FRONT_PROD}
+      - SPRING_DATASOURCE_FRONT_DEV=${URL_FRONT_DEV}
     ports:
       - "8090:8090"
+    image: italomoroco/hotel-gateway
   #Modules
   promotions:
     build:
@@ -61,8 +68,11 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG-SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
+    image: italomoroco/hotel-promotions
   bookings:
     build:
       context: .
@@ -79,8 +89,11 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_BOOKINGS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG-SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
+    image: italomoroco/hotel-bookings
   users:
     build:
       context: .
@@ -97,8 +110,11 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB-USERS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG-SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
+    image: italomoroco/hotel-users
   rooms:
     build:
       context: .
@@ -115,8 +131,11 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG-SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
+    image: italomoroco/hotel-rooms
   messages:
     build:
       context: .
@@ -133,5 +152,8 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_MYSQL}/${DB_MESSAGES}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_MYSQL}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_MYSQL}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG-SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
+    image: italomoroco/hotel-messages
