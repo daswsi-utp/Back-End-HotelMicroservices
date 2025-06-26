@@ -46,6 +46,8 @@ services:
         condition: service_healthy
     environment:
       - PORT=8090
+      - SPRING_DATASOURCE_FRONT_PROD=${URL_FRONT_PROD}
+      - SPRING_DATASOURCE_FRONT_DEV=${URL_FRONT_DEV}
     ports:
       - "8090:8090"
     image: italomoroco/hotel-gateway:v1.0
@@ -66,6 +68,8 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG_SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
     image: italomoroco/hotel-promotions:v1.0
@@ -85,6 +89,8 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_BOOKINGS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG_SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
     image: italomoroco/hotel-bookings:v1.0
@@ -104,6 +110,8 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_USERS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG_SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
     image: italomoroco/hotel-users:v1.0
@@ -123,6 +131,8 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG_SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
     image: italomoroco/hotel-rooms:v1.0
@@ -142,6 +152,8 @@ services:
       - SPRING_DATASOURCE_URL=${DB_HOST_MYSQL}/${DB_MESSAGES}
       - SPRING_DATASOURCE_USER=${DB_USERNAME_MYSQL}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_MYSQL}
+      - SPRING_DATASOURCE_CONFIG-SERVER=${URL_CONFIG_SERVER}
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     env_file:
       - .env
     image: italomoroco/hotel-messages:v1.0
