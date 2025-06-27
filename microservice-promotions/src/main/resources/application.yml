@@ -4,4 +4,4 @@ spring:
   profiles:
     active: default
   config:
-    import: optional:configserver:https://hotel-config-server-v1-0.onrender.com
+    import: optional:configserver:https://config-server-d5ar.onrender.com/

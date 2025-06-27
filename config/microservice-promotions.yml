@@ -24,4 +24,4 @@ eureka:
     #enabled: false
     enabled: true
     service-url:
-      defaultZone: https://hotel-eureka-v1-0.onrender.com/eureka/
+      defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
