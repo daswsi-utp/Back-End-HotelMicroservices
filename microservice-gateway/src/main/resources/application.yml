@@ -40,3 +40,9 @@ spring:
             - Path=/api/rooms/**
           filters:
             - StripPrefix=2
+        - id: microservice-message
+          uri: lb://microservice-message
+          predicates:
+            - Path=/api/messages/**
+          filters:
+            - StripPrefix=2
