@@ -1,6 +1,8 @@
 package com.microservice_rooms.controllers;
 import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
+import com.microservice_rooms.entities.RoomType;
+import com.microservice_rooms.entities.Tag;
 import com.microservice_rooms.service.IServiceRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -63,5 +65,16 @@ public class RoomController {
     @GetMapping("/type/all")
     public List<RoomTypeDTO> getAllRoomTypes(){
         return roomService.getAllRoomTypesDTO();
+    }
+
+    @GetMapping("/room/Detail")
+    public List<Tag> getAllTags() {
+        return roomService.getAllTags();
+    }
+
+    @GetMapping("/room/Detail/{id}")
+    public ResponseEntity<Tag> getTagById(@PathVariable Long id) {
+        Optional<Tag> tag = roomService.getTagById(id);
+        return tag.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

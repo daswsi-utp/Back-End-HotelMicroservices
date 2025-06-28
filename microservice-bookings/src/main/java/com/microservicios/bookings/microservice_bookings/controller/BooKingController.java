@@ -1,7 +1,9 @@
 package com.microservicios.bookings.microservice_bookings.controller;
 
 import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto2.RoomResponseDTO;
 import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO;
+import com.microservicios.bookings.microservice_bookings.dto2.RoomsRequest;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+//@RequestMapping("/api/bookings")
 public class BooKingController
 {
     @Autowired
@@ -63,5 +66,35 @@ public class BooKingController
     public ResponseEntity<UserBookingStatsDTO> getUserStats(@PathVariable Long userId) {
         return ResponseEntity.ok(bookingService.getUserBookingStats(userId));
     }
+
+
+    //ff
+    @PostMapping("/save")
+    public ResponseEntity<RoomResponseDTO> createBookingDto(@RequestBody RoomsRequest req) {
+        RoomResponseDTO dto = bookingService.createBooking(req);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(dto);
+    }
+
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<RoomResponseDTO> getBookingDtoById(@PathVariable Long id) {
+        RoomResponseDTO dto = bookingService.getBookingById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<List<RoomResponseDTO>> listAllBookingDtos() {
+        List<RoomResponseDTO> dtos = bookingService.listAll();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @PutMapping("/detail/{id}/cancel")
+    public ResponseEntity<RoomResponseDTO> cancelBookingDto(@PathVariable Long id) {
+        RoomResponseDTO dto = bookingService.cancelBooking(id);
+        return ResponseEntity.ok(dto);
+    }
+
+
 
 }

@@ -1,5 +1,5 @@
 server:
-  port: 9093
+  port: ${PORT:0}
 spring:
   output:
     ansi:
@@ -8,9 +8,9 @@ spring:
     name: microservice-rooms
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/db_system_hotel
-    username: postgres
-    password: kenyiaqp10
+    url: ${DB_HOST_POSTGRES_PROMOTION_ROOMS}
+    username: ${DB_USERNAME_POSTGRES}
+    password: ${DB_PASSWORD_POSTGRES}
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,10 +18,15 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 eureka:
   instance:
-    hostname: localhost
+    hostname: microservice-rooms.onrender.com
+    prefer-ip-address: false
+    secure-port: 443
+    secure-port-enabled: true
+    metadata-map:
+      instance: ${spring.application.name}:${random.value}
   client:
     #This line is used for testing.
     #enabled: false
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
 

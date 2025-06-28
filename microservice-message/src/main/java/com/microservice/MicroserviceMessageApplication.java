@@ -1,4 +1,4 @@
-package com.microservice.microservice_message;
+package com.microservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,9 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @EnableCaching  
-public class ReservaHotelApplication {
+public class MicroserviceMessageApplication {
 
     public static void main(String[] args) {
-        
-        SpringApplication.run(ReservaHotelApplication.class, args);
+        SpringApplication.run(MicroserviceMessageApplication.class, args);
     }
 }

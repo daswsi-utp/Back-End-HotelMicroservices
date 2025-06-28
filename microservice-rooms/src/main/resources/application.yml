@@ -4,4 +4,4 @@ spring:
   profiles:
     active: default
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:https://config-server-d5ar.onrender.com/

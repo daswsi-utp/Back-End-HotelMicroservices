@@ -1,15 +1,16 @@
-package com.microservice.microservice_message.controller;
+package com.microservice.controller;
 
-import com.microservice.microservice_message.dto.MessageDTO;
-import com.microservice.microservice_message.model.Message;
-import com.microservice.microservice_message.service.MessageService;
+import com.microservice.dto.MessageDTO;
+import com.microservice.model.Message;
+import com.microservice.service.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/messages")
+//@RequestMapping("/api/messages")
+@RequestMapping
 public class MessageController {
 
     private final MessageService service;

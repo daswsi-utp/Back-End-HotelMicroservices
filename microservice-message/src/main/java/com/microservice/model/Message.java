@@ -1,4 +1,4 @@
-package com.microservice.microservice_message.model;
+package com.microservice.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;

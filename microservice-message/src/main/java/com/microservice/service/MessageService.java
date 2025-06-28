@@ -1,8 +1,8 @@
-package com.microservice.microservice_message.service;
+package com.microservice.service;
 
-import com.microservice.microservice_message.dto.MessageDTO;
-import com.microservice.microservice_message.model.Message;
-import com.microservice.microservice_message.repository.MessageRepository;
+import com.microservice.dto.MessageDTO;
+import com.microservice.repository.MessageRepository;
+import com.microservice.model.Message;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

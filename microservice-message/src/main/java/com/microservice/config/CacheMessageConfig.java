@@ -1,4 +1,4 @@
-package com.microservice.microservice_message.config;
+package com.microservice.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;

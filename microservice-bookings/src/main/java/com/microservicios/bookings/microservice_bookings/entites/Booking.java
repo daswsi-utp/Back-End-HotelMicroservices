@@ -6,31 +6,16 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "bookings")
-public class Booking
-{
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long userId;
-
     private Long roomId;
-
     private LocalDate checkIn;
-
     private LocalDate checkOut;
-
     private Double total;
-
     private String status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;
@@ -38,6 +23,14 @@ public class Booking
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getRoomId() {
