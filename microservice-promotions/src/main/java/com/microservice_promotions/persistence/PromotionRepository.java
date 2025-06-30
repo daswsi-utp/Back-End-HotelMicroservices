@@ -11,7 +11,7 @@ public interface PromotionRepository extends  JpaRepository<Promotion, Long>{
     List<Promotion> findByNameContainingIgnoreCase(String name);
     List<Promotion> findByIsActive(boolean isActive);
     @Query("SELECT p FROM Promotion p " +
-            "WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', COALESCE(:name, ''), '%'))) " +
+            "WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:name AS string), '%'))) " +
             "AND (:isActive IS NULL OR p.isActive = :isActive)")
     List<Promotion> findByNameAndStatus(@Param("name") String name,@Param("isActive") Boolean isActive);
 }
