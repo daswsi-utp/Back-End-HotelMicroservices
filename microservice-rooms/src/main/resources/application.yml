@@ -5,3 +5,5 @@ spring:
     active: default
   config:
     import: optional:configserver:https://config-server-d5ar.onrender.com/
+file:
+  upload-dir: uploads/rooms
