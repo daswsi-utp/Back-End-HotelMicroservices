@@ -1,9 +1,10 @@
 package com.microservice_rooms.service;
 import com.microservice_rooms.entities.Room;
+import com.microservice_rooms.entities.RoomImage;
 import com.microservice_rooms.entities.Tag;
 import com.microservice_rooms.persistence.RoomRepository;
 import com.microservice_rooms.persistence.TagRepository;
-
+import org.springframework.data.domain.Sort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,12 @@ public class ImplServiceRoom implements IServiceRoom{
 
     @Override
     public Room createRoom(Room room, Set<String> tagNames) {
+        if (room.getImages() != null) {
+            for (RoomImage image : room.getImages()) {
+                image.setRoom(room); // <- Esto es CLAVE
+            }
+        }
+
         Set<Tag> tags = getOrCreateTags(tagNames);
         room.setTags(tags);
         return roomRepository.save(room);
@@ -36,7 +43,7 @@ public class ImplServiceRoom implements IServiceRoom{
 
     @Override
     public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+        return roomRepository.findAll(Sort.by("roomId").ascending());
     }
 
     @Override
