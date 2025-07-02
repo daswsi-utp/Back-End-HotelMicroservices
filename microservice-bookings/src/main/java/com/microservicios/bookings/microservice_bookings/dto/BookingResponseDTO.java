@@ -17,6 +17,7 @@ public class BookingResponseDTO
     private LocalDate checkOut;
     private Double total;
     private String status;
+    private Double discount;
 
     // Datos del usuario
     private Long userId;
