@@ -123,6 +123,15 @@ public class ImplServiceRoom implements IServiceRoom{
         return tagRepository.findById(id);
     }
 
+    @Override
+    public Room updateRoomStatus(Long id, Room.AvailabilityStatus newStatus) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Room no encontrada con ID: " + id));
+
+        room.setAvailabilityStatus(newStatus);
+        return roomRepository.save(room);
+    }
+
     private Set<Tag> getOrCreateTags(Set<String> tagNames) {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {

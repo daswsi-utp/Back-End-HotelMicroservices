@@ -22,4 +22,5 @@ public interface IServiceRoom {
     List<Tag> getAllTags();
     Optional<Tag> getTagById(Long id);
 
+    Room updateRoomStatus(Long id, Room.AvailabilityStatus newStatus);
 }

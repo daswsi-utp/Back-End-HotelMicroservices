@@ -19,6 +19,9 @@ public class RoomImage {
     @Column(name = "filename", nullable = false, length = 1000)
     private String filename;
 
+    @Column(name = "is_main")
+    private boolean isMain;
+
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     @JsonIgnore
