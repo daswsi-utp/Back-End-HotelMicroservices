@@ -33,14 +33,23 @@ public class RoomController {
     public ResponseEntity<Room> createRoom(
             @RequestPart("room") Room room,
             @RequestParam(value = "tags", required = false) Set<String> tags,
-            @RequestParam(value = "images", required = false) MultipartFile[] images
+            @RequestParam(value = "images", required = false) MultipartFile[] images,
+            @RequestParam(value = "mainImageIndex", required = false) Integer mainImageIndex
     ) throws IOException {
         if (images != null) {
-            for (MultipartFile img : images) {
+            for (int i = 0; i < images.length; i++) {
+                MultipartFile img = images[i];
                 String filename = fileStorage.storefile(img);
                 RoomImage ri = new RoomImage();
                 ri.setFilename(filename);
                 ri.setRoom(room);
+                boolean isMain = false;
+                if (mainImageIndex != null) {
+                    isMain = mainImageIndex == i;
+                } else if (images.length == 1) {
+                    isMain = true; // Si solo hay una imagen, será la principal automáticamente
+                }
+                ri.setMain(isMain);
                 room.getImages().add(ri);
             }
         }
@@ -54,34 +63,66 @@ public class RoomController {
             @RequestPart("room") Room roomDetails,
             @RequestParam(value = "tags", required = false) Set<String> tags,
             @RequestParam(value = "newImages", required = false) MultipartFile[] newImages,
-            @RequestParam(value = "removeImageIds", required = false) Set<Long> removeImageIds
+            @RequestParam(value = "removeImageIds", required = false) Set<Long> removeImageIds,
+            @RequestParam(value = "mainImageIndex", required = false) Integer mainImageIndex,
+            @RequestParam(value = "mainImageId", required = false) Long mainImageId
     ) throws IOException {
-        // Eliminar archivos físicos
-        if (removeImageIds != null) {
-            roomService.getRoomById(id).ifPresent(room ->
-                    room.getImages().stream()
-                            .filter(img -> removeImageIds.contains(img.getId()))
-                            .forEach(img -> {
-                                try { fileStorage.deletefile(img.getFilename()); } catch (IOException ignored) {}
-                            })
-            );
+
+        // Obtener y actualizar imágenes eliminadas (tanto archivo como entidad)
+        if (removeImageIds != null && !removeImageIds.isEmpty()) {
+            Optional<Room> optionalRoom = roomService.getRoomById(id);
+            if (optionalRoom.isPresent()) {
+                Room room = optionalRoom.get();
+
+                // Eliminar archivos físicos
+                room.getImages().stream()
+                        .filter(img -> removeImageIds.contains(img.getId()))
+                        .forEach(img -> {
+                            try { fileStorage.deletefile(img.getFilename()); } catch (IOException ignored) {}
+                        });
+
+                // Remover entidades de imagen (para que JPA las borre)
+                room.getImages().removeIf(img -> removeImageIds.contains(img.getId()));
+
+                // Guardar la eliminación de las imágenes
+                roomService.updateRoom(id, room, tags != null ? tags : Set.of());
+            }
         }
-        // Actualiza entidad (orphanRemoval borrará RoomImage huérfanas)
+
+        // Actualiza los datos generales de la habitación
         Room updated = roomService.updateRoom(id, roomDetails, tags != null ? tags : Set.of());
 
         // Añadir nuevas imágenes
-        if (newImages != null) {
-            for (MultipartFile img : newImages) {
+        if (newImages != null && newImages.length > 0) {
+            // Desmarcar todas como principal
+            updated.getImages().forEach(img -> img.setMain(false));
+
+            // Añadir nuevas
+            for (int i = 0; i < newImages.length; i++) {
+                MultipartFile img = newImages[i];
                 String filename = fileStorage.storefile(img);
                 RoomImage ri = new RoomImage();
                 ri.setFilename(filename);
                 ri.setRoom(updated);
+                boolean isMain = mainImageIndex != null && mainImageIndex == i;
+                ri.setMain(isMain);
                 updated.getImages().add(ri);
             }
+
+            updated = roomService.updateRoom(id, updated, tags != null ? tags : Set.of());
+
+        } else if (mainImageId != null) {
+            // Cambiar imagen principal existente
+            for (RoomImage img : updated.getImages()) {
+                img.setMain(img.getId().equals(mainImageId));
+            }
+
             updated = roomService.updateRoom(id, updated, tags != null ? tags : Set.of());
         }
+
         return ResponseEntity.ok(updated);
     }
+
     @GetMapping
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
@@ -98,6 +139,7 @@ public class RoomController {
         roomService.getRoomById(id).ifPresent(room ->
                 room.getImages().forEach(img -> {
                     try { fileStorage.deletefile(img.getFilename()); } catch (IOException ignored) {}
+
                 })
         );
         roomService.deleteRoom(id);
@@ -109,6 +151,7 @@ public class RoomController {
         Resource file = fileStorage.loadFileResource(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+                .header(HttpHeaders.CACHE_CONTROL, "no-store")
                 .body(file);
     }
     @GetMapping("/search")
