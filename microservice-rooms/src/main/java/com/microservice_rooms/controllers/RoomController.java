@@ -127,6 +127,18 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Room> updateRoomStatus(
+            @PathVariable Long id,
+            @RequestParam("status") Room.AvailabilityStatus status
+    ) {
+        try {
+            Room updatedRoom = roomService.updateRoomStatus(id, status);
+            return ResponseEntity.ok(updatedRoom);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
