@@ -28,5 +28,4 @@ public class User
     private String cellPhone;
     @NotBlank
     private String password;
-
 }
