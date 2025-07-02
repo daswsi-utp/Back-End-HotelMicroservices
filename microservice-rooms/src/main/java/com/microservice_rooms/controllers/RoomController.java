@@ -21,7 +21,7 @@ import java.util.*;
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 //@RequestMapping("/api/rooms")
-@RequestMapping
+@RequestMapping("/main")
 public class RoomController {
 
     @Autowired
