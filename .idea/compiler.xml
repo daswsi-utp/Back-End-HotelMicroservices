@@ -15,13 +15,13 @@
         <module name="microservice-eureka" />
         <module name="demo" />
         <module name="microservice-users" />
+        <module name="microservice-oauth" />
       </profile>
       <profile name="Annotation profile for microservice-message" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
         <module name="microservice-message" />
@@ -31,7 +31,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="microservice-bookings" />
@@ -53,6 +52,7 @@
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
       <module name="microservice-message" options="-parameters" />
+      <module name="microservice-oauth" options="-parameters" />
       <module name="microservice-promotions" options="-parameters" />
       <module name="microservice-rooms" options="-parameters" />
       <module name="microservice-users" options="-parameters" />
