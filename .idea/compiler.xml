@@ -28,6 +28,8 @@
     <bytecodeTargetLevel>
       <module name="config" target="21" />
       <module name="microservice-config" target="21" />
+      <module name="microservice-message" target="21" />
+      <module name="microservice-promotions" target="21" />
       <module name="microservicios-rooms" target="21" />
     </bytecodeTargetLevel>
   </component>
@@ -40,6 +42,8 @@
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-message" options="-parameters" />
+      <module name="microservice-promotions" options="-parameters" />
       <module name="microservice-rooms" options="-parameters" />
       <module name="microservice-users" options="-parameters" />
       <module name="microservicios-rooms" options="-parameters" />
