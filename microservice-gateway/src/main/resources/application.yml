@@ -33,7 +33,7 @@ spring:
         - id: microservice-rooms
           uri: lb://microservice-rooms
           predicates:
-            - Path=/api/rooms/**
+            - Path=/api/rooms/
             - Path=/api/tags/**
             - Path=/api/roomtype/**
           filters:
