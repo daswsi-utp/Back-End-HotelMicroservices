@@ -28,4 +28,7 @@ public interface IBookingService
     RoomResponseDTO cancelBooking(Long id);
 
     RoomResponseDTO updateBookingStatus(Long id, String newStatus);
+    Long countBookings();
+    Double calculateTotalIncome();
+
 }

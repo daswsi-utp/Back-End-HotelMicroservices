@@ -100,5 +100,15 @@ public class BooKingController
         RoomResponseDTO dto = bookingService.updateBookingStatus(id, newStatus);
         return ResponseEntity.ok(dto);
     }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalBookingsCount() {
+        return ResponseEntity.ok(bookingService.countBookings());
+    }
+
+    @GetMapping("/total-income")
+    public ResponseEntity<Double> getTotalIncome() {
+        return ResponseEntity.ok(bookingService.calculateTotalIncome());
+    }
+
 
 }

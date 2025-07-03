@@ -72,4 +72,8 @@ public class Booking {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public double getTotalPrice() {
+        return 0;
+    }
 }

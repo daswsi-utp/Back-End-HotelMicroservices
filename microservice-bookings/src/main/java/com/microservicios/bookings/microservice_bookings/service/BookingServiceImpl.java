@@ -281,6 +281,19 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
+    @Override
+    public Long countBookings() {
+        return bookingRepository.count();
+    }
+
+    @Override
+    public Double calculateTotalIncome() {
+        return bookingRepository.findAll()
+                .stream()
+                .mapToDouble(Booking::getTotalPrice)
+                .sum();
+    }
+
 }
 
 

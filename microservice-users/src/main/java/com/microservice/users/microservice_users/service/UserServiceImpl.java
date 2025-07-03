@@ -63,6 +63,11 @@ import java.util.Optional;
             return userRepository.findByUsername(username);
         }
 
+        @Override
+        public Long countUsers() {
+            return userRepository.count();
+        }
+
 
         @Override
         @Transactional

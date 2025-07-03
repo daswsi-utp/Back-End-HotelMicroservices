@@ -172,4 +172,10 @@ public class RoomController {
     public List<Room> findRoomsByTags(@RequestParam Set<String> tags) {
         return roomService.findRoomsByTags(tags);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalRoomsCount() {
+        return ResponseEntity.ok(roomService.countRooms());
+    }
+
 }

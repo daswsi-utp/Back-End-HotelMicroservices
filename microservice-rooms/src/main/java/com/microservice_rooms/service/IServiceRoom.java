@@ -14,4 +14,6 @@ public interface IServiceRoom {
     Room updateRoom(Long id, Room roomDetails, Set<String> tagNames);
     void deleteRoom(Long id);
     Room updateRoomStatus(Long id, Room.AvailabilityStatus newStatus);
+    Long countRooms();
+
 }

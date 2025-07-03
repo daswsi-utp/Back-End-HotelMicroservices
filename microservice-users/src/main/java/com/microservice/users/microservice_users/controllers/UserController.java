@@ -61,4 +61,9 @@ public class UserController
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalUsersCount() {
+        return ResponseEntity.ok(userService.countUsers());
+    }
+
 }
