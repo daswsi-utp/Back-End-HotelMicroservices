@@ -45,7 +45,7 @@ public class BooKingController
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBooking);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteBookings(@PathVariable Long id){
         bookingService.deleteById(id);
         return ResponseEntity.noContent().build();
