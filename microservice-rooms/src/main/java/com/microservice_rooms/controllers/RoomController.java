@@ -127,6 +127,8 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
+
+
     @PutMapping("/{id}/status")
     public ResponseEntity<Room> updateRoomStatus(
             @PathVariable Long id,

@@ -12,11 +12,4 @@ public class RoomDTO {
     private Integer roomNumber;
     private Double pricePerNight;
     private Integer capacity;
-    private AvailabilityStatus availabilityStatus;
-
-    public enum AvailabilityStatus {
-        AVAILABLE,
-        BOOKED,
-        MAINTENANCE
-    }
 }
