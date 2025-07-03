@@ -29,12 +29,23 @@ spring:
             - Path=/api/bookings/**
           filters:
             - StripPrefix=2
-
         - id: microservice-rooms
           uri: lb://microservice-rooms
           predicates:
             - Path=/api/rooms/**
+          filters:
+            - StripPrefix=1
+
+        - id: microservice-roomtype
+          uri: lb://microservice-rooms
+          predicates:
             - Path=/api/roomtype/**
+          filters:
+            - StripPrefix=1
+
+        - id: microservice-tags
+          uri: lb://microservice-rooms
+          predicates:
             - Path=/api/tags/**
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
