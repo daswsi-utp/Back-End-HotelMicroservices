@@ -1,0 +1,148 @@
+services:
+  config-server:
+    build:
+      context: .
+      dockerfile: config-server/Dockerfile
+      args:
+        MODULE: config-server
+    environment:
+      - PORT=8888
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+    image: italomoroco/hotel-config-server:v1.0
+  eureka:
+    build:
+      context: .
+      dockerfile: microservice-eureka/Dockerfile
+      args:
+        MODULE: microservice-eureka
+    environment:
+      - PORT=8761
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    image: italomoroco/hotel-eureka:v1.0
+  gateway:
+    build:
+      context: .
+      dockerfile: microservice-gateway/Dockerfile
+      args:
+        MODULE: microservice-gateway
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - PORT=8090
+      - SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
+    ports:
+      - "8090:8090"
+    image: italomoroco/hotel-gateway:v1.0
+  #Modules
+  promotions:
+    build:
+      context: .
+      dockerfile: microservice-promotions/Dockerfile
+      args:
+        MODULE: microservice-promotions
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
+    image: italomoroco/hotel-promotions:v1.0
+  bookings:
+    build:
+      context: .
+      dockerfile: microservice-bookings/Dockerfile
+      args:
+        MODULE: microservice-bookings
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_BOOKINGS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
+    image: italomoroco/hotel-bookings:v1.0
+  users:
+    build:
+      context: .
+      dockerfile: microservice-users/Dockerfile
+      args:
+        MODULE: microservice-users
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_USERS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
+    image: italomoroco/hotel-users:v1.0
+  rooms:
+    build:
+      context: .
+      dockerfile: microservice-rooms/Dockerfile
+      args:
+        MODULE: microservice-rooms
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_POSTGRES}/${DB_PROMOTIONS_ROOMS}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_POSTGRES}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_POSTGRES}
+    env_file:
+      - .env
+    image: italomoroco/hotel-rooms:v1.0
+  messages:
+    build:
+      context: .
+      dockerfile: microservice-message/Dockerfile
+      args:
+        MODULE: microservice-message
+    depends_on:
+      eureka:
+        condition: service_healthy
+        #config-server:
+        #condition: service_healthy
+    environment:
+      - PORT=0
+      - SPRING_DATASOURCE_URL=${DB_HOST_MYSQL}/${DB_MESSAGES}
+      - SPRING_DATASOURCE_USER=${DB_USERNAME_MYSQL}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD_MYSQL}
+    env_file:
+      - .env
+    image: italomoroco/hotel-messages:v1.0

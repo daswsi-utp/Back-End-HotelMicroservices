@@ -49,6 +49,8 @@ public class Room {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    // Faltan campos que pediste: capacity, roomSize, description
+
     @Column(name = "capacity")
     private Integer capacity;
 
@@ -58,7 +60,10 @@ public class Room {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    // Relaciones que faltan: imágenes y etiquetas
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private Set<RoomImage> images = new HashSet<>();
 
     @ManyToMany

@@ -16,6 +16,7 @@ public class Booking {
     private LocalDate checkOut;
     private Double total;
     private String status;
+    private Double discount;
 
     public Long getUserId() {
         return userId;
@@ -71,5 +72,13 @@ public class Booking {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }
