@@ -1,14 +1,12 @@
 package com.microservice.oauth.microservice_oauth.models;
 
+import lombok.Getter;
+import lombok.Setter;
 
-
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.time.LocalDate;
 import java.util.List;
 
-
+@Getter
+@Setter
 public class User
 {
 
@@ -29,5 +27,10 @@ public class User
 
 
     private Boolean admin;
-
+    public Boolean isEnabled() {
+        return enabled;
+    }
+    public Boolean isAdmin() {
+        return admin;
+    }
 }

@@ -39,7 +39,7 @@ public class AuthController {
     @PostMapping("/login")
     public Mono<ResponseEntity<Map<String, String>>> login(@RequestBody User user) {
         UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 
         return authenticationManager.authenticate(authToken)
                 .flatMap(auth -> {

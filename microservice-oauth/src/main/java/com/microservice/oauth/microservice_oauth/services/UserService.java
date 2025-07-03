@@ -2,6 +2,7 @@ package com.microservice.oauth.microservice_oauth.services;
 
 import com.microservice.oauth.microservice_oauth.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,16 +23,16 @@ public class UserService implements ReactiveUserDetailsService {
     private WebClient.Builder client;
 
     @Override
-    public Mono<UserDetails> findByUsername(String email) {
+    public Mono<UserDetails> findByUsername(String username) {
         return client.build()
                 .get()
-                .uri("/email/{email}", email)
+                .uri("/username/{username}", username)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(User.class)
                 .map(this::convertToUserDetails)
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new UsernameNotFoundException("Usuario no encontrado con email: " + email))
+                        Mono.error(new UsernameNotFoundException("Usuario no encontrado con el Username: " + username))
                 ));
     }
 
@@ -41,7 +42,7 @@ public class UserService implements ReactiveUserDetailsService {
                 .map(rol -> new SimpleGrantedAuthority(rol.getName()))
                 .collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
+                user.getUsername(),
                 user.getPassword(),
                 user.isEnabled(),
                 true, // accountNonExpired
