@@ -5,6 +5,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins:
+              - https://fronted-hotel-vercel-prod.vercel.app
               - http://localhost:3000
             allowedMethods:
               - GET
@@ -22,11 +23,16 @@ spring:
             - Path=/api/users/**
           filters:
             - StripPrefix=2
-
         - id: microservice-bookings
           uri: lb://microservice-bookings
           predicates:
             - Path=/api/bookings/**
+          filters:
+            - StripPrefix=2
+        - id: microservice-promotions
+          uri: lb://microservice-promotions
+          predicates:
+            - Path=/api/promotions/**
           filters:
             - StripPrefix=2
         - id: microservice-rooms
@@ -49,3 +55,9 @@ spring:
             - Path=/api/tags/**
           filters:
             - StripPrefix=1
+        - id: microservice-message
+          uri: lb://microservice-message
+          predicates:
+            - Path=/api/messages/**
+          filters:
+            - StripPrefix=2

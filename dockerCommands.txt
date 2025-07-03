@@ -1,0 +1,4 @@
+docker build -f MODULE_NAME/Dockerfile -t MODULE_NAME . (To create the image)
+docker run -it --entrypoint /bin/sh MODULE_NAME (To enter the docker bash itself)
+-> ls -l /app (to see if .jar files were created inside the image)
+docker run -p PORT:PORT MODULE_NAME (To run the docker image)

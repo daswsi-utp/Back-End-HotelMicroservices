@@ -1,0 +1,18 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: micro-eureka
+  config:
+    import: optional:configserver:http://localhost:8888
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${HOSTNAME}:${server.port}
+    metadata-map:
+      zone: primary
+  client:
+    register-with-eureka: true
+    fetch-registry: true

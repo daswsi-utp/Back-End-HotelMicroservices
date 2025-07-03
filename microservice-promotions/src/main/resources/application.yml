@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: microservice-promotions
+  profiles:
+    active: default
+  config:
+    import: optional:configserver:https://config-server-d5ar.onrender.com/

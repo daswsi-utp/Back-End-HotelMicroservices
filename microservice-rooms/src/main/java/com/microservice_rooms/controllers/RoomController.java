@@ -1,5 +1,8 @@
 package com.microservice_rooms.controllers;
+import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
+import com.microservice_rooms.entities.RoomType;
+import com.microservice_rooms.entities.Tag;
 import com.microservice_rooms.entities.RoomImage;
 import com.microservice_rooms.service.IServiceFileStorage;
 import com.microservice_rooms.service.IServiceRoom;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.util.*;
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+//@RequestMapping("/api/rooms")
 @RequestMapping("/rooms")
 public class RoomController {
 
@@ -127,8 +131,6 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
-
-
     @PutMapping("/{id}/status")
     public ResponseEntity<Room> updateRoomStatus(
             @PathVariable Long id,
@@ -171,5 +173,24 @@ public class RoomController {
     @GetMapping("/search")
     public List<Room> findRoomsByTags(@RequestParam Set<String> tags) {
         return roomService.findRoomsByTags(tags);
+    }
+    @GetMapping("/type/{id}")
+    public RoomTypeDTO getRoomTypeById(@PathVariable Long id){
+        return roomService.getRoomTypeDTOById(id);
+    }
+    @GetMapping("/type/all")
+    public List<RoomTypeDTO> getAllRoomTypes(){
+        return roomService.getAllRoomTypesDTO();
+    }
+
+    @GetMapping("/room/Detail")
+    public List<Tag> getAllTags() {
+        return roomService.getAllTags();
+    }
+
+    @GetMapping("/room/Detail/{id}")
+    public ResponseEntity<Tag> getTagById(@PathVariable Long id) {
+        Optional<Tag> tag = roomService.getTagById(id);
+        return tag.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

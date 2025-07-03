@@ -1,0 +1,32 @@
+server:
+  port: ${PORT:0}
+spring:
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: microservice-rooms
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_HOST_POSTGRES_PROMOTION_ROOMS}
+    username: ${DB_USERNAME_POSTGRES}
+    password: ${DB_PASSWORD_POSTGRES}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+eureka:
+  instance:
+    hostname: microservice-rooms.onrender.com
+    prefer-ip-address: false
+    secure-port: 443
+    secure-port-enabled: true
+    metadata-map:
+      instance: ${spring.application.name}:${random.value}
+  client:
+    #This line is used for testing.
+    #enabled: false
+    service-url:
+      defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
+

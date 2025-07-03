@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,9 +60,10 @@ import java.util.Optional;
 
                 usDb.setEmail(user.getEmail());
                 usDb.setName(user.getName());
-                usDb.setCity(user.getCity());
-                usDb.setCountry(user.getCountry());
+                usDb.setSecondName(user.getSecondName());
                 usDb.setLastName(user.getLastName());
+                usDb.setCellPhone(user.getCellPhone());
+                usDb.setPassword(user.getPassword());
                 return Optional.of(userRepository.save(usDb));
             }).orElseGet(()->Optional.empty());
         }

@@ -1,8 +1,11 @@
 package com.microservice_rooms.service;
+import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
+import com.microservice_rooms.entities.RoomType;
 import com.microservice_rooms.entities.RoomImage;
 import com.microservice_rooms.entities.Tag;
 import com.microservice_rooms.persistence.RoomRepository;
+import com.microservice_rooms.persistence.RoomTypeRepository;
 import com.microservice_rooms.persistence.TagRepository;
 import org.springframework.data.domain.Sort;
 import jakarta.transaction.Transactional;
@@ -17,10 +20,12 @@ public class ImplServiceRoom implements IServiceRoom{
 
     private final RoomRepository roomRepository;
     private final TagRepository tagRepository;
+    private final RoomTypeRepository roomTypeRepository;
 
-    public ImplServiceRoom(RoomRepository roomRepository, TagRepository tagRepository) {
+    public ImplServiceRoom(RoomRepository roomRepository, TagRepository tagRepository, RoomTypeRepository roomTypeRepository) {
         this.roomRepository = roomRepository;
         this.tagRepository = tagRepository;
+        this.roomTypeRepository = roomTypeRepository;
     }
 
     @Override
@@ -91,6 +96,32 @@ public class ImplServiceRoom implements IServiceRoom{
         roomRepository.deleteById(id);
     }
 
+    @Override
+    public RoomTypeDTO getRoomTypeDTOById(Long id) {
+        RoomType foundRoomType = roomTypeRepository.findById(id).orElseThrow();
+        return new RoomTypeDTO(foundRoomType.getId(), foundRoomType.getName());
+    }
+
+    @Override
+    public List<RoomTypeDTO> getAllRoomTypesDTO() {
+        List<RoomType> foundRoomTypes = roomTypeRepository.findAll();
+        List<RoomTypeDTO> foundRoomTypesDTO = new ArrayList<>();
+        for(RoomType rt : foundRoomTypes){
+            RoomTypeDTO dto = new RoomTypeDTO(rt.getId(), rt.getName());
+           foundRoomTypesDTO.add(dto);
+        }
+        return foundRoomTypesDTO;
+    }
+
+    @Override
+    public List<Tag> getAllTags() {
+        return tagRepository.findAll();
+    }
+
+    @Override
+    public Optional<Tag> getTagById(Long id) {
+        return tagRepository.findById(id);
+    }
 
     @Override
     public Room updateRoomStatus(Long id, Room.AvailabilityStatus newStatus) {
