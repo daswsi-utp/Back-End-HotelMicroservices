@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/rooms")
+//@RequestMapping("/api/rooms")
 public class RoomController {
 
     @Autowired
