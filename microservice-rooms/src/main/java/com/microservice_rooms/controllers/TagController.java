@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-//@RequestMapping("/api/tags")
+@RequestMapping("/api/tags")
 public class TagController {
 
     private final IServiceTag tagService;
