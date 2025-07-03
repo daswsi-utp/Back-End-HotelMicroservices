@@ -40,7 +40,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/users").permitAll()
-
+                        .pathMatchers(HttpMethod.GET, "/api/rooms").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/roomtype").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/oauth/login").permitAll()
                         .pathMatchers(HttpMethod.GET, "api/users/check-username").permitAll()
                         .anyExchange().authenticated()

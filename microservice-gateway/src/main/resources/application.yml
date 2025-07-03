@@ -47,3 +47,17 @@ spring:
             - Path=/api/oauth/**
           filters:
             - StripPrefix=2
+
+        - id: microservice-roomtype
+          uri: lb://microservice-rooms
+          predicates:
+            - Path=/api/roomtype/**
+          filters:
+            - StripPrefix=1
+
+        - id: microservice-tags
+          uri: lb://microservice-rooms
+          predicates:
+            - Path=/api/tags/**
+          filters:
+            - StripPrefix=1
