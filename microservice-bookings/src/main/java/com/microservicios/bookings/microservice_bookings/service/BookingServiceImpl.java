@@ -137,32 +137,6 @@ public class BookingServiceImpl implements IBookingService
     }
 
 
-    @Override
-    public BookingResponseDTO updateStatus(Long bookingId, String status) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
-
-        if (!status.equalsIgnoreCase("ACTIVE") && !status.equalsIgnoreCase("INACTIVE")) {
-            throw new IllegalArgumentException("Only ACTIVE or INACTIVE status are allowed.");
-        }
-
-        booking.setStatus(status.toUpperCase());
-        Booking updated = bookingRepository.save(booking);
-
-        BookingResponseDTO dto = new BookingResponseDTO();
-        dto.setId(booking.getId());
-        dto.setRoomId(booking.getRoomId());
-        dto.setCheckIn(booking.getCheckIn());
-        dto.setCheckOut(booking.getCheckOut());
-        dto.setTotal(booking.getTotal());
-        dto.setStatus(booking.getStatus());
-
-        return dto;
-    }
-
-
-
-
     //a
 
     @Override
@@ -266,6 +240,21 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
+
+    @Override
+    @Transactional
+    public void updateBookingsStatusByUserId(Long userId, String status) {
+        if (!status.equalsIgnoreCase("ACTIVE") && !status.equalsIgnoreCase("INACTIVE")) {
+            throw new IllegalArgumentException("Only ACTIVE or INACTIVE status are allowed.");
+        }
+
+        List<Booking> bookings = bookingRepository.findByUserId(userId);
+        for (Booking booking : bookings) {
+            booking.setStatus(status.toUpperCase());
+        }
+
+        bookingRepository.saveAll(bookings);
+    }
 }
 
 

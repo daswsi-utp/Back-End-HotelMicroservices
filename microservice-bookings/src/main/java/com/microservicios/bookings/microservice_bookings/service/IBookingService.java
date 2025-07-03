@@ -19,7 +19,9 @@ public interface IBookingService
     BookingResponseDTO getBookingWithUser(Long bookingId);
     UserBookingStatsDTO getUserBookingStats(Long userId);
     List<UserBookingStatsDTO> getAllUsersBookingStats();
-    BookingResponseDTO updateStatus(Long bookingId, String status);
+    void updateBookingsStatusByUserId(Long userId, String status);
+
+
 
     RoomResponseDTO createBooking(RoomsRequest req);
     RoomResponseDTO getBookingById(Long id);
