@@ -25,6 +25,7 @@
     <module>microservice-users</module>
     <module>microservice-bookings</module>
     <module>microservice-rooms</module>
+    <module>microservice-oauth</module>
   </modules>
 
 

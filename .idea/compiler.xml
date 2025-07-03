@@ -14,6 +14,7 @@
         <module name="microservice-eureka" />
         <module name="demo" />
         <module name="microservice-users" />
+        <module name="microservice-oauth" />
       </profile>
       <profile name="Annotation profile for SpringMicroservices-Hotel" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -40,6 +41,7 @@
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="microservice-oauth" options="-parameters" />
       <module name="microservice-rooms" options="-parameters" />
       <module name="microservice-users" options="-parameters" />
       <module name="microservicios-rooms" options="-parameters" />

@@ -13,5 +13,6 @@ public interface IUserService
           User save(User user);
           Optional<User> update(User user, Long id);
           void deleteById(Long id);
+         Optional<User> findByUsername(String username);
 
 }

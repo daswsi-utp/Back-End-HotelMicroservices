@@ -1,6 +1,8 @@
 package com.microservice.users.microservice_users.service;
 
+import com.microservice.users.microservice_users.entities.Role;
 import com.microservice.users.microservice_users.entities.User;
+import com.microservice.users.microservice_users.repositories.RoleRepository;
 import com.microservice.users.microservice_users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +19,8 @@ import java.util.Optional;
         @Autowired
         private UserRepository userRepository;
 
+        @Autowired
+        private RoleRepository roleRepository;
 
         @Autowired
         private PasswordEncoder passwordEncoder;
@@ -44,12 +48,19 @@ import java.util.Optional;
         @Transactional
         public User save(User user) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setEnabled(true);
+            user.setRoles(getRoles(user));
             return userRepository.save(user);
         }
         @Override
         @Transactional
         public void deleteById(Long id) {
             userRepository.deleteById(id);
+        }
+
+        @Override
+        public Optional<User> findByUsername(String username) {
+            return userRepository.findByUsername(username);
         }
 
 
@@ -61,11 +72,26 @@ import java.util.Optional;
 
                 usDb.setEmail(user.getEmail());
                 usDb.setName(user.getName());
-                usDb.setCity(user.getCity());
-                usDb.setCountry(user.getCountry());
+                usDb.setSecondName(user.getSecondName());
                 usDb.setLastName(user.getLastName());
+                usDb.setCellPhone(user.getCellPhone());
+                usDb.setPassword(user.getPassword());
+                if(user.isEnabled()==null)
+                        usDb.setEnabled(true);
+                else
+                    usDb.setEnabled(user.isEnabled());
                 return Optional.of(userRepository.save(usDb));
             }).orElseGet(()->Optional.empty());
+        }
+        private List<Role> getRoles(User  user) {
+            List<Role> roles = new ArrayList<>();
+            Optional<Role> roleOptional = roleRepository.findByName("ROLE_USER");
+            roleOptional.ifPresent(roles::add); //otra forma
+            if(Boolean.TRUE.equals(user.isAdmin())) {
+                Optional<Role> adminRoleOptional = roleRepository.findByName("ROLE_ADMIN");
+                adminRoleOptional.ifPresent(roles::add);
+            }
+            return roles;
         }
 
 
