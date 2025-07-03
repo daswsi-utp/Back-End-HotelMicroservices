@@ -91,6 +91,7 @@ public class ImplServiceRoom implements IServiceRoom{
         roomRepository.deleteById(id);
     }
 
+
     @Override
     public Room updateRoomStatus(Long id, Room.AvailabilityStatus newStatus) {
         Room room = roomRepository.findById(id)
