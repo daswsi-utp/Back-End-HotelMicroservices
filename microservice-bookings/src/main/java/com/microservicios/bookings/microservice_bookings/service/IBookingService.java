@@ -19,7 +19,7 @@ public interface IBookingService
     BookingResponseDTO getBookingWithUser(Long bookingId);
     UserBookingStatsDTO getUserBookingStats(Long userId);
     List<UserBookingStatsDTO> getAllUsersBookingStats();
-    void updateBookingsStatusByUserId(Long userId, String status);
+    //void updateBookingsStatusByUserId(Long userId, String status);
 
 
 

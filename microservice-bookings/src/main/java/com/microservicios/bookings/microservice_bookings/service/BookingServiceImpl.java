@@ -240,7 +240,7 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
-
+/*
     @Override
     @Transactional
     public void updateBookingsStatusByUserId(Long userId, String status) {
@@ -254,7 +254,7 @@ public class BookingServiceImpl implements IBookingService
         }
 
         bookingRepository.saveAll(bookings);
-    }
+    }*/
 }
 
 

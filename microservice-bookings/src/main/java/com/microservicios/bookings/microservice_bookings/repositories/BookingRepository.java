@@ -15,7 +15,7 @@ public interface BookingRepository extends JpaRepository
         <Booking,Long>
 {
     long countByUserId(Long userId);
-    List<Booking> findByUserId(Long userId);
+    //List<Booking> findByUserId(Long userId);
 
     @Query("SELECT DISTINCT b.userId FROM Booking b")
     List<Long> findDistinctUserIds();
