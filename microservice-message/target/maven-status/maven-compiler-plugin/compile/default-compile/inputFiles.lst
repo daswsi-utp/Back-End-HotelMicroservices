@@ -1,0 +1,11 @@
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\config\CacheMessageConfig.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\config\RedisMessageConfig.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\config\SecurityMessageConfig.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\config\WebMessageConfig.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\controller\MessageController.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\dto\MessageDTO.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\MicroserviceMessageApplication.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\model\Message.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\repository\MessageRepository.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\service\EmailService.java
+D:\Back-End-HotelMicroservices\microservice-message\src\main\java\com\microservice\service\MessageService.java

@@ -1,0 +1,12 @@
+com\microservice\config\WebMessageConfig.class
+com\microservice\config\SecurityMessageConfig.class
+com\microservice\dto\MessageDTO.class
+com\microservice\model\Message.class
+com\microservice\config\WebMessageConfig$1.class
+com\microservice\MicroserviceMessageApplication.class
+com\microservice\controller\MessageController.class
+com\microservice\service\MessageService.class
+com\microservice\config\RedisMessageConfig.class
+com\microservice\config\CacheMessageConfig.class
+com\microservice\repository\MessageRepository.class
+com\microservice\service\EmailService.class

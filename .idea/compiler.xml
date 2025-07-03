@@ -39,6 +39,8 @@
     <bytecodeTargetLevel>
       <module name="config" target="21" />
       <module name="microservice-config" target="21" />
+      <module name="microservice-message" target="21" />
+      <module name="microservice-promotions" target="21" />
       <module name="microservicios-rooms" target="21" />
     </bytecodeTargetLevel>
   </component>
