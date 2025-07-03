@@ -6,6 +6,7 @@ import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO
 import com.microservicios.bookings.microservice_bookings.dto2.RoomsRequest;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.service.IBookingService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,7 @@ public class BooKingController
     }
 
 
+
     //ff
     @PostMapping("/save")
     public ResponseEntity<RoomResponseDTO> createBookingDto(@RequestBody RoomsRequest req) {
@@ -95,10 +97,14 @@ public class BooKingController
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/detail/{id}/status")
-    public ResponseEntity<RoomResponseDTO> updateBookingStatus(@PathVariable Long id, @RequestParam String newStatus) {
-        RoomResponseDTO dto = bookingService.updateBookingStatus(id, newStatus);
-        return ResponseEntity.ok(dto);
+    @PutMapping("/{id}/status")
+    public ResponseEntity<BookingResponseDTO> updateBookingStatus(
+            @PathVariable("id") Long bookingId,
+            @RequestParam("status") String status) {
+
+        BookingResponseDTO updatedBooking = bookingService.updateStatus(bookingId, status);
+        return ResponseEntity.ok(updatedBooking);
     }
+
 
 }

@@ -137,6 +137,30 @@ public class BookingServiceImpl implements IBookingService
     }
 
 
+    @Override
+    public BookingResponseDTO updateStatus(Long bookingId, String status) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
+
+        if (!status.equalsIgnoreCase("ACTIVE") && !status.equalsIgnoreCase("INACTIVE")) {
+            throw new IllegalArgumentException("Only ACTIVE or INACTIVE status are allowed.");
+        }
+
+        booking.setStatus(status.toUpperCase());
+        Booking updated = bookingRepository.save(booking);
+
+        BookingResponseDTO dto = new BookingResponseDTO();
+        dto.setId(booking.getId());
+        dto.setRoomId(booking.getRoomId());
+        dto.setCheckIn(booking.getCheckIn());
+        dto.setCheckOut(booking.getCheckOut());
+        dto.setTotal(booking.getTotal());
+        dto.setStatus(booking.getStatus());
+
+        return dto;
+    }
+
+
 
 
     //a
@@ -230,27 +254,6 @@ public class BookingServiceImpl implements IBookingService
         UserDTO user = userClient.getUserById(updated.getUserId());
         RoomDTO room = roomClient.getRoomById(updated.getRoomId());
 
-        return new RoomResponseDTO(
-                updated.getId(),
-                user.getName() + " " + user.getLastName(),
-                user.getEmail(),
-                room.getRoomNumber(),
-                updated.getCheckIn(),
-                updated.getCheckOut(),
-                booking.getTotal(),
-                updated.getStatus()
-        );
-    }
-
-    @Override
-    @Transactional
-    public RoomResponseDTO updateBookingStatus(Long id, String newStatus) {
-        Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
-        booking.setStatus(newStatus);
-        Booking updated = bookingRepository.save(booking);
-        UserDTO user = userClient.getUserById(updated.getUserId());
-        RoomDTO room = roomClient.getRoomById(updated.getRoomId());
         return new RoomResponseDTO(
                 updated.getId(),
                 user.getName() + " " + user.getLastName(),
