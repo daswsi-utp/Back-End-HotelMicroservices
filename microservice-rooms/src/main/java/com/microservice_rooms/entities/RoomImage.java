@@ -16,8 +16,11 @@ public class RoomImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "image_url", nullable = false, length = 1000)
-    private String imageUrl;
+    @Column(name = "filename", nullable = false, length = 1000)
+    private String filename;
+
+    @Column(name = "is_main")
+    private boolean isMain;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)

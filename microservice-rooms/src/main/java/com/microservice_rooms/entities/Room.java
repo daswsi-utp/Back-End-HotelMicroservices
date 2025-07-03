@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -39,13 +41,13 @@ public class Room {
     @Column(name = "availability_status")
     private AvailabilityStatus availabilityStatus = AvailabilityStatus.AVAILABLE;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
-
-    // Faltan campos que pediste: capacity, roomSize, description
 
     @Column(name = "capacity")
     private Integer capacity;
@@ -56,10 +58,7 @@ public class Room {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    // Relaciones que faltan: imágenes y etiquetas
-
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-
     private Set<RoomImage> images = new HashSet<>();
 
     @ManyToMany

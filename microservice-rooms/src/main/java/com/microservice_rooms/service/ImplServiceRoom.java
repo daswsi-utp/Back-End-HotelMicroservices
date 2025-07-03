@@ -1,12 +1,10 @@
 package com.microservice_rooms.service;
-import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
-import com.microservice_rooms.entities.RoomType;
+import com.microservice_rooms.entities.RoomImage;
 import com.microservice_rooms.entities.Tag;
 import com.microservice_rooms.persistence.RoomRepository;
-import com.microservice_rooms.persistence.RoomTypeRepository;
 import com.microservice_rooms.persistence.TagRepository;
-
+import org.springframework.data.domain.Sort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +17,20 @@ public class ImplServiceRoom implements IServiceRoom{
 
     private final RoomRepository roomRepository;
     private final TagRepository tagRepository;
-    private final RoomTypeRepository roomTypeRepository;
 
-    public ImplServiceRoom(RoomRepository roomRepository, TagRepository tagRepository, RoomTypeRepository roomTypeRepository) {
+    public ImplServiceRoom(RoomRepository roomRepository, TagRepository tagRepository) {
         this.roomRepository = roomRepository;
         this.tagRepository = tagRepository;
-        this.roomTypeRepository = roomTypeRepository;
     }
 
     @Override
     public Room createRoom(Room room, Set<String> tagNames) {
+        if (room.getImages() != null) {
+            for (RoomImage image : room.getImages()) {
+                image.setRoom(room); // <- Esto es CLAVE
+            }
+        }
+
         Set<Tag> tags = getOrCreateTags(tagNames);
         room.setTags(tags);
         return roomRepository.save(room);
@@ -41,7 +43,7 @@ public class ImplServiceRoom implements IServiceRoom{
 
     @Override
     public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+        return roomRepository.findAll(Sort.by("roomId").ascending());
     }
 
     @Override
@@ -89,31 +91,14 @@ public class ImplServiceRoom implements IServiceRoom{
         roomRepository.deleteById(id);
     }
 
-    @Override
-    public RoomTypeDTO getRoomTypeDTOById(Long id) {
-        RoomType foundRoomType = roomTypeRepository.findById(id).orElseThrow();
-        return new RoomTypeDTO(foundRoomType.getId(), foundRoomType.getName());
-    }
 
     @Override
-    public List<RoomTypeDTO> getAllRoomTypesDTO() {
-        List<RoomType> foundRoomTypes = roomTypeRepository.findAll();
-        List<RoomTypeDTO> foundRoomTypesDTO = new ArrayList<>();
-        for(RoomType rt : foundRoomTypes){
-            RoomTypeDTO dto = new RoomTypeDTO(rt.getId(), rt.getName());
-           foundRoomTypesDTO.add(dto);
-        }
-        return foundRoomTypesDTO;
-    }
+    public Room updateRoomStatus(Long id, Room.AvailabilityStatus newStatus) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Room no encontrada con ID: " + id));
 
-    @Override
-    public List<Tag> getAllTags() {
-        return tagRepository.findAll();
-    }
-
-    @Override
-    public Optional<Tag> getTagById(Long id) {
-        return tagRepository.findById(id);
+        room.setAvailabilityStatus(newStatus);
+        return roomRepository.save(room);
     }
 
     private Set<Tag> getOrCreateTags(Set<String> tagNames) {
