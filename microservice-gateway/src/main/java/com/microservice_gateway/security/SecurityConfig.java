@@ -35,13 +35,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(
-                                "/api/security/login",
-                                "/api/security/oauth2/**",
                                 "/.well-known/jwks.json",
                                 "/actuator/health"
                         ).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/users").permitAll()
+
                         .pathMatchers(HttpMethod.POST, "/api/oauth/login").permitAll()
                         .pathMatchers(HttpMethod.GET, "api/users/check-username").permitAll()
                         .anyExchange().authenticated()

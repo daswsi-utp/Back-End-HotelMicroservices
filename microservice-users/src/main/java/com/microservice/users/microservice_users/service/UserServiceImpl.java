@@ -76,6 +76,8 @@ import java.util.Optional;
                 usDb.setLastName(user.getLastName());
                 usDb.setCellPhone(user.getCellPhone());
                 usDb.setPassword(user.getPassword());
+                if (user.getAdmin() != null)
+                    usDb.setAdmin(user.getAdmin());
                 if(user.isEnabled()==null)
                         usDb.setEnabled(true);
                 else
