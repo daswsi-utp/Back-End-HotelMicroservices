@@ -242,7 +242,26 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
-
+    @Override
+    @Transactional
+    public RoomResponseDTO updateBookingStatus(Long id, String newStatus) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
+        booking.setStatus(newStatus);
+        Booking updated = bookingRepository.save(booking);
+        UserDTO user = userClient.getUserById(updated.getUserId());
+        RoomDTO room = roomClient.getRoomById(updated.getRoomId());
+        return new RoomResponseDTO(
+                updated.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                updated.getCheckIn(),
+                updated.getCheckOut(),
+                booking.getTotal(),
+                updated.getStatus()
+        );
+    }
 
 }
 

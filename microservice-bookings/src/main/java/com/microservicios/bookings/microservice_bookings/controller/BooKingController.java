@@ -95,6 +95,10 @@ public class BooKingController
         return ResponseEntity.ok(dto);
     }
 
-
+    @PutMapping("/detail/{id}/status")
+    public ResponseEntity<RoomResponseDTO> updateBookingStatus(@PathVariable Long id, @RequestParam String newStatus) {
+        RoomResponseDTO dto = bookingService.updateBookingStatus(id, newStatus);
+        return ResponseEntity.ok(dto);
+    }
 
 }

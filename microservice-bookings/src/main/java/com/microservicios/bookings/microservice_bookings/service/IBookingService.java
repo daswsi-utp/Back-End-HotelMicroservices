@@ -26,5 +26,5 @@ public interface IBookingService
     List<RoomResponseDTO> listAll();
     RoomResponseDTO cancelBooking(Long id);
 
-
+    RoomResponseDTO updateBookingStatus(Long id, String newStatus);
 }
