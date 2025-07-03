@@ -19,6 +19,7 @@ public interface IBookingService
     BookingResponseDTO getBookingWithUser(Long bookingId);
     UserBookingStatsDTO getUserBookingStats(Long userId);
     List<UserBookingStatsDTO> getAllUsersBookingStats();
+    UserBookingStatsDTO updateStatus(Long userId, String nowStatus);
 
 
     RoomResponseDTO createBooking(RoomsRequest req);
@@ -26,5 +27,5 @@ public interface IBookingService
     List<RoomResponseDTO> listAll();
     RoomResponseDTO cancelBooking(Long id);
 
-
+    RoomResponseDTO updateBookingStatus(Long id, String newStatus);
 }

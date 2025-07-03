@@ -40,7 +40,7 @@ spring:
           predicates:
             - Path=/api/rooms/**
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
         - id: microservice-oauth
           uri: lb://microservice-oauth
           predicates:

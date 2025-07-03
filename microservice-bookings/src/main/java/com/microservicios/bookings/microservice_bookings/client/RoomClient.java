@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name="microservice-rooms")
 public interface RoomClient {
-    @GetMapping("/{id}")
+    @GetMapping("/rooms/{id}")
     RoomDTO getRoomById(@PathVariable("id") Long id);
 }
