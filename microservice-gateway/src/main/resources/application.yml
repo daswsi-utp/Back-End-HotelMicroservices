@@ -29,6 +29,7 @@ spring:
             - Path=/api/bookings/**
           filters:
             - StripPrefix=2
+
         - id: microservice-rooms
           uri: lb://microservice-rooms
           predicates:
@@ -36,4 +37,4 @@ spring:
             - Path=/api/roomtype/**
             - Path=/api/tags/**
           filters:
-              - StripPrefix=2
+            - StripPrefix=2

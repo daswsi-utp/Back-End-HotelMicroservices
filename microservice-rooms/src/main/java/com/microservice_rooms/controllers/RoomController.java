@@ -15,7 +15,7 @@ import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.util.*;
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
