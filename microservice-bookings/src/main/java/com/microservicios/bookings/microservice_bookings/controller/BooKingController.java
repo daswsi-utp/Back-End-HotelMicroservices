@@ -98,7 +98,7 @@ public class BooKingController
         RoomResponseDTO dto = bookingService.cancelBooking(id);
         return ResponseEntity.ok(dto);
     }
-
+/*
     @PutMapping("/stats/{userId}/status")
     public ResponseEntity<String> updateUserBookingStatus(
             @PathVariable Long userId,
@@ -107,6 +107,6 @@ public class BooKingController
         bookingService.updateBookingsStatusByUserId(userId, statusDTO.getStatus());
         return ResponseEntity.ok("User booking status updated successfully.");
     }
-
+*/
 
 }
