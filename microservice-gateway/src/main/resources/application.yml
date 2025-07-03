@@ -34,7 +34,17 @@ spring:
           uri: lb://microservice-rooms
           predicates:
             - Path=/api/rooms/**
-            - Path=/api/tags/**
+          filters:
+            - StripPrefix=2
+        - id: microservice-rooms
+          uri: lb://microservice-rooms
+          predicates:
+            - Path=/api/roomtype/**
+          filters:
+            - StripPrefix=2
+        - id: microservice-rooms
+          uri: lb://microservice-rooms
+          predicates:
             - Path=/api/roomtype/**
           filters:
             - StripPrefix=2
