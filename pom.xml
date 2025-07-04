@@ -27,6 +27,7 @@
     <module>microservice-bookings</module>
     <module>microservice-promotions</module>
     <module>microservice-message</module>
+      <module>microservice-oauth</module>
   </modules>
 
 

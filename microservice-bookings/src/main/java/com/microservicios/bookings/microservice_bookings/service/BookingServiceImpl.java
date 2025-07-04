@@ -56,6 +56,7 @@ public class BookingServiceImpl implements IBookingService
         booking.setTotal(booking.getTotal());
         booking.setRoomId(booking.getRoomId());
         booking.setUserId(booking.getUserId());
+        booking.setDiscount(booking.getDiscount());
         return bookingRepository.save(booking);
     }
 
@@ -69,6 +70,7 @@ public class BookingServiceImpl implements IBookingService
            bOp.setStatus(booking.getStatus());
            bOp.setCheckOut(booking.getCheckOut());
            bOp.setCheckIn(booking.getCheckOut());
+           bOp.setDiscount(booking.getDiscount());
            return Optional.of(bookingRepository.save(bOp));
        }).orElseGet(()->Optional.empty());
     }
@@ -92,6 +94,7 @@ public class BookingServiceImpl implements IBookingService
         dto.setCheckOut(booking.getCheckOut());
         dto.setTotal(booking.getTotal());
         dto.setStatus(booking.getStatus());
+        dto.setDiscount(booking.getDiscount());
 
         dto.setUserId(user.getId());
         dto.setUserName(user.getName());

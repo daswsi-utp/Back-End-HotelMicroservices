@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9100
   cloud:
     gateway:
       globalcors:
@@ -40,7 +45,27 @@ spring:
           predicates:
             - Path=/api/rooms/**
           filters:
+            - StripPrefix=1
+        - id: microservice-oauth
+          uri: lb://microservice-oauth
+          predicates:
+            - Path=/api/oauth/**
+          filters:
             - StripPrefix=2
+
+        - id: microservice-roomtype
+          uri: lb://microservice-rooms
+          predicates:
+            - Path=/api/roomtype/**
+          filters:
+            - StripPrefix=1
+
+        - id: microservice-tags
+          uri: lb://microservice-rooms
+          predicates:
+            - Path=/api/tags/**
+          filters:
+            - StripPrefix=1
         - id: microservice-message
           uri: lb://microservice-message
           predicates:

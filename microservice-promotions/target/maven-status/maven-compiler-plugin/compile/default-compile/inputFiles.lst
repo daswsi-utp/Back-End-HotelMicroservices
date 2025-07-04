@@ -1,0 +1,13 @@
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\client\RoomClient.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\controller\PromotionController.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\dto\PromotionRequestDTO.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\dto\PromotionResponseDTO.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\dto\RoomTypeDTO.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\entitites\Promotion.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\entitites\PromotionRoomType.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\entitites\PromotionRoomTypeKey.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\MicroservicePromotionsApplication.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\persistence\PromotionRepository.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\persistence\PromotionRoomTypeRepository.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\service\IPromotionService.java
+D:\Back-End-HotelMicroservices\microservice-promotions\src\main\java\com\microservice_promotions\service\PromotionServiceImp.java

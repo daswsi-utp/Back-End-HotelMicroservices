@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "microservice-rooms")
 // @FeignClient(name = "micro-rooms", url = "http://localhost:8090/api/rooms")
 public interface RoomClient {
-   @GetMapping("/type/{id}")
+   @GetMapping("/rooms/type/{id}")
    RoomTypeDTO getRoomTypeById(@PathVariable Long id);
 }

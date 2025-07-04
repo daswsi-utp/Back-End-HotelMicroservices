@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: microservice-rooms
-  profiles:
-    active: default
-  config:
-    import: optional:configserver:https://config-server-d5ar.onrender.com/

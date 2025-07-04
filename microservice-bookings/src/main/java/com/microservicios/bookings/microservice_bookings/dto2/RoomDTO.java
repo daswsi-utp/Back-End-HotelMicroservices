@@ -12,5 +12,4 @@ public class RoomDTO {
     private Integer roomNumber;
     private Double pricePerNight;
     private Integer capacity;
-
 }
