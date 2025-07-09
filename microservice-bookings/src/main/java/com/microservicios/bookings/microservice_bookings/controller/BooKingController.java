@@ -45,7 +45,7 @@ public class BooKingController
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBooking);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteBookings(@PathVariable Long id){
         bookingService.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -95,6 +95,20 @@ public class BooKingController
         return ResponseEntity.ok(dto);
     }
 
+    @PutMapping("/detail/{id}/status")
+    public ResponseEntity<RoomResponseDTO> updateBookingStatus(@PathVariable Long id, @RequestParam String newStatus) {
+        RoomResponseDTO dto = bookingService.updateBookingStatus(id, newStatus);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalBookingsCount() {
+        return ResponseEntity.ok(bookingService.countBookings());
+    }
+
+    @GetMapping("/total-income")
+    public ResponseEntity<Double> getTotalIncome() {
+        return ResponseEntity.ok(bookingService.calculateTotalIncome());
+    }
 
 
 }

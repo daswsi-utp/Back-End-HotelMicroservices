@@ -140,6 +140,24 @@ public class BookingServiceImpl implements IBookingService
     }
 
 
+    @Override
+    @Transactional
+    public UserBookingStatsDTO updateStatus(Long userId, String nowStatus) {
+        // Obtener todas las reservas del usuario
+        List<Booking> userBookings = bookingRepository.findAll().stream()
+                .filter(booking -> booking.getUserId().equals(userId))
+                .collect(Collectors.toList());
+        if (userBookings.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron reservas para el usuario con ID: " + userId);
+        }
+        // Actualizar el estado de cada reserva del usuario
+        for (Booking booking : userBookings) {
+            booking.setStatus(nowStatus);
+            bookingRepository.save(booking);
+        }
+        // Recalcular y devolver las estadísticas actualizadas del usuario
+        return getUserBookingStats(userId);
+    }
 
 
     //a
@@ -245,7 +263,40 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
+    @Override
+    @Transactional
+    public RoomResponseDTO updateBookingStatus(Long id, String newStatus) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
+        booking.setStatus(newStatus);
+        Booking updated = bookingRepository.save(booking);
+        UserDTO user = userClient.getUserById(updated.getUserId());
+        RoomDTO room = roomClient.getRoomById(updated.getRoomId());
 
+        return new RoomResponseDTO(
+                updated.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                updated.getCheckIn(),
+                updated.getCheckOut(),
+                booking.getTotal(),
+                updated.getStatus()
+        );
+    }
+
+    @Override
+    public Long countBookings() {
+        return bookingRepository.count();
+    }
+
+    @Override
+    public Double calculateTotalIncome() {
+        return bookingRepository.findAll()
+                .stream()
+                .mapToDouble(Booking::getTotalPrice)
+                .sum();
+    }
 
 }
 

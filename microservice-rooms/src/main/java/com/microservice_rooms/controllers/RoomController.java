@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.*;
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-//@RequestMapping("/api/rooms")
 @RequestMapping("/rooms")
 public class RoomController {
 
@@ -131,6 +130,8 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
+
+
     @PutMapping("/{id}/status")
     public ResponseEntity<Room> updateRoomStatus(
             @PathVariable Long id,
@@ -192,5 +193,10 @@ public class RoomController {
     public ResponseEntity<Tag> getTagById(@PathVariable Long id) {
         Optional<Tag> tag = roomService.getTagById(id);
         return tag.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalRoomsCount() {
+        return ResponseEntity.ok(roomService.countRooms());
     }
 }
