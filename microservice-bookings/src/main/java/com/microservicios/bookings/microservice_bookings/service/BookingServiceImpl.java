@@ -140,8 +140,6 @@ public class BookingServiceImpl implements IBookingService
     }
 
 
-
-
     //a
 
     @Override
@@ -245,8 +243,21 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
+/*
+    @Override
+    @Transactional
+    public void updateBookingsStatusByUserId(Long userId, String status) {
+        if (!status.equalsIgnoreCase("ACTIVE") && !status.equalsIgnoreCase("INACTIVE")) {
+            throw new IllegalArgumentException("Only ACTIVE or INACTIVE status are allowed.");
+        }
 
+        List<Booking> bookings = bookingRepository.findByUserId(userId);
+        for (Booking booking : bookings) {
+            booking.setStatus(status.toUpperCase());
+        }
 
+        bookingRepository.saveAll(bookings);
+    }*/
 }
 
 
