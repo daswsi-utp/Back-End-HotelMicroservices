@@ -18,10 +18,12 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 eureka:
   instance:
-    hostname: microservice-promotions.onrender.com
-    prefer-ip-address: false
-    secure-port: 443
-    secure-port-enabled: true
+    #hostname: microservice-promotions.onrender.com
+    hostname: microservice-promotions
+    #prefer-ip-address: false
+    prefer-ip-address: true
+    #secure-port: 443
+    #secure-port-enabled: true
     metadata-map:
       instance: ${spring.application.name}:${random.value}
   client:
@@ -29,4 +31,5 @@ eureka:
     #enabled: false
     enabled: true
     service-url:
-      defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
+      #defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
+      defaultZone: http://microservice-eureka/eureka/
