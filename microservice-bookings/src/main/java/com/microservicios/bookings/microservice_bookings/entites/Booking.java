@@ -74,6 +74,8 @@ public class Booking {
         this.status = status;
     }
 
+
+
     public Double getDiscount() {
         return discount;
     }

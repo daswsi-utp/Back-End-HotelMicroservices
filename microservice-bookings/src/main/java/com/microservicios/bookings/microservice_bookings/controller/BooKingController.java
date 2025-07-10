@@ -71,7 +71,6 @@ public class BooKingController
     }
 
 
-
     //ff
     @PostMapping("/save")
     public ResponseEntity<RoomResponseDTO> createBookingDto(@RequestBody RoomsRequest req) {
@@ -98,6 +97,21 @@ public class BooKingController
         RoomResponseDTO dto = bookingService.cancelBooking(id);
         return ResponseEntity.ok(dto);
     }
+
+    @PutMapping("/detail/{id}/status")
+    public ResponseEntity<RoomResponseDTO> updateBookingStatus(@PathVariable Long id, @RequestParam String newStatus) {
+        RoomResponseDTO dto = bookingService.updateBookingStatus(id, newStatus);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalBookingsCount() {
+        return ResponseEntity.ok(bookingService.countBookings());
+    }
+
+    @GetMapping("/total-income")
+    public ResponseEntity<Double> getTotalIncome() {
+        return ResponseEntity.ok(bookingService.calculateTotalIncome());
+    }
 /*
     @PutMapping("/stats/{userId}/status")
     public ResponseEntity<String> updateUserBookingStatus(
@@ -108,5 +122,4 @@ public class BooKingController
         return ResponseEntity.ok("User booking status updated successfully.");
     }
 */
-
 }

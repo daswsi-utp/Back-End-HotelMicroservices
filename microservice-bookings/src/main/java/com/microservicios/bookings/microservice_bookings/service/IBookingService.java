@@ -19,13 +19,16 @@ public interface IBookingService
     BookingResponseDTO getBookingWithUser(Long bookingId);
     UserBookingStatsDTO getUserBookingStats(Long userId);
     List<UserBookingStatsDTO> getAllUsersBookingStats();
-    //void updateBookingsStatusByUserId(Long userId, String status);
-
+    UserBookingStatsDTO updateStatus(Long userId, String nowStatus);
 
 
     RoomResponseDTO createBooking(RoomsRequest req);
     RoomResponseDTO getBookingById(Long id);
     List<RoomResponseDTO> listAll();
     RoomResponseDTO cancelBooking(Long id);
+
+    RoomResponseDTO updateBookingStatus(Long id, String newStatus);
+    Long countBookings();
+    Double calculateTotalIncome();
 
 }

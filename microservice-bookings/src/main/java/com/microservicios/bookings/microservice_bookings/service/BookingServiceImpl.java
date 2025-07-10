@@ -140,6 +140,26 @@ public class BookingServiceImpl implements IBookingService
     }
 
 
+    @Override
+    @Transactional
+    public UserBookingStatsDTO updateStatus(Long userId, String nowStatus) {
+        // Obtener todas las reservas del usuario
+        List<Booking> userBookings = bookingRepository.findAll().stream()
+                .filter(booking -> booking.getUserId().equals(userId))
+                .collect(Collectors.toList());
+        if (userBookings.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron reservas para el usuario con ID: " + userId);
+        }
+        // Actualizar el estado de cada reserva del usuario
+        for (Booking booking : userBookings) {
+            booking.setStatus(nowStatus);
+            bookingRepository.save(booking);
+        }
+        // Recalcular y devolver las estadísticas actualizadas del usuario
+        return getUserBookingStats(userId);
+    }
+
+
     //a
 
     @Override
@@ -243,21 +263,41 @@ public class BookingServiceImpl implements IBookingService
         );
     }
 
-/*
     @Override
     @Transactional
-    public void updateBookingsStatusByUserId(Long userId, String status) {
-        if (!status.equalsIgnoreCase("ACTIVE") && !status.equalsIgnoreCase("INACTIVE")) {
-            throw new IllegalArgumentException("Only ACTIVE or INACTIVE status are allowed.");
-        }
+    public RoomResponseDTO updateBookingStatus(Long id, String newStatus) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
+        booking.setStatus(newStatus);
+        Booking updated = bookingRepository.save(booking);
+        UserDTO user = userClient.getUserById(updated.getUserId());
+        RoomDTO room = roomClient.getRoomById(updated.getRoomId());
 
-        List<Booking> bookings = bookingRepository.findByUserId(userId);
-        for (Booking booking : bookings) {
-            booking.setStatus(status.toUpperCase());
-        }
+        return new RoomResponseDTO(
+                updated.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                updated.getCheckIn(),
+                updated.getCheckOut(),
+                booking.getTotal(),
+                updated.getStatus()
+        );
+    }
 
-        bookingRepository.saveAll(bookings);
-    }*/
+    @Override
+    public Long countBookings() {
+        return bookingRepository.count();
+    }
+
+    @Override
+    public Double calculateTotalIncome() {
+        return bookingRepository.findAll()
+                .stream()
+                .mapToDouble(Booking::getTotalPrice)
+                .sum();
+    }
+
 }
 
 

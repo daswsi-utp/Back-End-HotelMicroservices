@@ -132,6 +132,11 @@ public class ImplServiceRoom implements IServiceRoom{
         return roomRepository.save(room);
     }
 
+    @Override
+    public Long countRooms() {
+        return roomRepository.count();
+    }
+
     private Set<Tag> getOrCreateTags(Set<String> tagNames) {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {
