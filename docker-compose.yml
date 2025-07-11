@@ -46,6 +46,7 @@ services:
         condition: service_healthy
     environment:
       - PORT=8090
+      - EUREKA_URL=${EUREKA_URL}
       #- SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     ports:
       - "8090:8090"
@@ -67,6 +68,8 @@ services:
       - DB_HOST_POSTGRES_PROMOTION_ROOMS=${DB_HOST_POSTGRES_PROMOTION_ROOMS}
       - DB_USERNAME_POSTGRES=${DB_USERNAME_POSTGRES}
       - DB_PASSWORD_POSTGRES=${DB_PASSWORD_POSTGRES}
+      - EUREKA_URL=${EUREKA_URL}
+      - CONFIG_SERVER_URL=${CONFIG_SERVER}
     env_file:
       - .env
     image: italomoroco/hotel-promotions:v1.0
@@ -86,6 +89,8 @@ services:
       - DB_HOST_POSTGRES_BOOKINGS=${DB_HOST_POSTGRES_BOOKINGS}
       - DB_USERNAME_POSTGRES=${DB_USERNAME_POSTGRES}
       - DB_PASSWORD_POSTGRES=${DB_PASSWORD_POSTGRES}
+      - EUREKA_URL=${EUREKA_URL}
+      - CONFIG_SERVER_URL=${CONFIG_SERVER}
     env_file:
       - .env
     image: italomoroco/hotel-bookings:v1.0
@@ -105,6 +110,8 @@ services:
       - DB_HOST_POSTGRES_USERS=${DB_HOST_POSTGRES_USERS}
       - DB_USERNAME_POSTGRES=${DB_USERNAME_POSTGRES}
       - DB_PASSWORD_POSTGRES=${DB_PASSWORD_POSTGRES}
+      - EUREKA_URL=${EUREKA_URL}
+      - CONFIG_SERVER_URL=${CONFIG_SERVER}
     env_file:
       - .env
     image: italomoroco/hotel-users:v1.0
@@ -124,9 +131,32 @@ services:
       - DB_HOST_POSTGRES_PROMOTION_ROOMS=${DB_HOST_POSTGRES_PROMOTION_ROOMS}
       - DB_USERNAME_POSTGRES=${DB_USERNAME_POSTGRES}
       - DB_PASSWORD_POSTGRES=${DB_PASSWORD_POSTGRES}
+      - EUREKA_URL=${EUREKA_URL}
+      - CONFIG_SERVER_URL=${CONFIG_SERVER}
     env_file:
       - .env
     image: italomoroco/hotel-rooms:v1.0
+  oauth:
+    build:
+      context: .
+      dockerfile: microservice-oauth/Dockerfile
+      args:
+        MODULE: microservice-oauth
+    depends_on:
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - PORT=0
+      - DB_HOST_POSTGRES_PROMOTION_ROOMS=${DB_HOST_POSTGRES_PROMOTION_ROOMS}
+      - DB_USERNAME_POSTGRES=${DB_USERNAME_POSTGRES}
+      - DB_PASSWORD_POSTGRES=${DB_PASSWORD_POSTGRES}
+      - EUREKA_URL=${EUREKA_URL}
+      - CONFIG_SERVER_URL=${CONFIG_SERVER}
+    env_file:
+      - .env
+    image: italomoroco/hotel-oauth:v1.0
   messages:
     build:
       context: .
@@ -143,6 +173,11 @@ services:
       - DB_HOST_MYSQL_MESSAGES=${DB_HOST_MYSQL_MESSAGES}
       - DB_USERNAME_MYSQL=${DB_USERNAME_MYSQL}
       - DB_PASSWORD_MYSQL=${DB_PASSWORD_MYSQL}
+      - EUREKA_URL=${EUREKA_URL}
+      - CONFIG_SERVER_URL=${CONFIG_SERVER}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     env_file:
       - .env
     image: italomoroco/hotel-messages:v1.0

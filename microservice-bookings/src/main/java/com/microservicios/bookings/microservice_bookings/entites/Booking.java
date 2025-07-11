@@ -74,13 +74,14 @@ public class Booking {
         this.status = status;
     }
 
-
-
     public Double getDiscount() {
         return discount;
     }
 
     public void setDiscount(Double discount) {
         this.discount = discount;
+    }
+    public Double getTotalPrice(){
+        return 0.0;
     }
 }
