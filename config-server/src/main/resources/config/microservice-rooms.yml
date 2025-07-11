@@ -16,6 +16,12 @@ spring:
       ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      max-file-size: 5MB
+      max-request-size: 50MB
 eureka:
   instance:
     hostname: microservice-rooms-nkk9.onrender.com
@@ -32,4 +38,13 @@ eureka:
     service-url:
       #defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
       defaultZone: ${EUREKA_URL}
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: us-east-2
+    stack:
+      auto: false
 
