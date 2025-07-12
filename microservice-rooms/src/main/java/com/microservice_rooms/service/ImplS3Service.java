@@ -2,6 +2,7 @@ package com.microservice_rooms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -22,6 +23,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ImplS3Service implements  IS3Service{
     @Value("${spring.destination.folder}")
     private String destinationFolder;
