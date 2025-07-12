@@ -5,10 +5,11 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-public interface IServiceFileStorage {
+public interface ILocalFileCacheService {
 
-    String storefile(MultipartFile file) throws IOException;
+    //String storefile(MultipartFile file) throws IOException;
     void deletefile(String filename) throws IOException;
-    Resource loadFileResource(String filename) throws MalformedURLException;
+    //Resource loadFileResource(String filename) throws MalformedURLException;
+    Resource loadOrDownload(String bucketName, String key) throws IOException;
 
 }

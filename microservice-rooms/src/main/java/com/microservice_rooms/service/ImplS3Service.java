@@ -119,4 +119,15 @@ public class ImplS3Service implements  IS3Service{
         URL presignUrl = presignedRequest.url();
         return presignUrl.toString();
     }
+    @Override
+    public void deleteFile(String bucketName, String key){
+        try{
+            this.s3Client.deleteObject(DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(key)
+                    .build());
+        } catch (S3Exception e){
+            throw new RuntimeException("Failed to delete file from S3: " + e.awsErrorDetails().errorMessage());
+        }
+    }
 }

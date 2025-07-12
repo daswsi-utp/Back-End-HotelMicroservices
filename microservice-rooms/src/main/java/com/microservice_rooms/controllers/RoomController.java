@@ -1,12 +1,11 @@
 package com.microservice_rooms.controllers;
 import com.microservice_rooms.dto.RoomTypeDTO;
 import com.microservice_rooms.entities.Room;
-import com.microservice_rooms.entities.RoomType;
 import com.microservice_rooms.entities.Tag;
 import com.microservice_rooms.entities.RoomImage;
-import com.microservice_rooms.service.IServiceFileStorage;
+import com.microservice_rooms.service.ILocalFileCacheService;
+import com.microservice_rooms.service.IS3Service;
 import com.microservice_rooms.service.IServiceRoom;
-import com.microservice_rooms.service.ImplServiceFileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -25,11 +26,13 @@ public class RoomController {
 
     @Autowired
     private final IServiceRoom roomService;
-    private final IServiceFileStorage fileStorage;
+    private final ILocalFileCacheService fileStorage;
+    private final IS3Service s3Service;
 
-    public RoomController(IServiceRoom roomService, IServiceFileStorage fileStorage) {
+    public RoomController(IServiceRoom roomService, ILocalFileCacheService fileStorage, IS3Service s3Service) {
         this.roomService = roomService;
         this.fileStorage= fileStorage;
+        this.s3Service = s3Service;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -42,7 +45,16 @@ public class RoomController {
         if (images != null) {
             for (int i = 0; i < images.length; i++) {
                 MultipartFile img = images[i];
-                String filename = fileStorage.storefile(img);
+                //String filename = fileStorage.storefile(img);
+                String filename = UUID.randomUUID() + "-" + img.getOriginalFilename();
+                Path tempFile = Files.createTempFile("upload-", filename);
+                Files.write(tempFile, img.getBytes());
+
+                boolean uploaded = s3Service.uploadFile("hotel-room-images-utp", filename, tempFile);
+                Files.delete(tempFile);
+                if(!uploaded){
+                    throw new IOException("Failed to upload file to S3");
+                }
                 RoomImage ri = new RoomImage();
                 ri.setFilename(filename);
                 ri.setRoom(room);
@@ -81,7 +93,9 @@ public class RoomController {
                 room.getImages().stream()
                         .filter(img -> removeImageIds.contains(img.getId()))
                         .forEach(img -> {
-                            try { fileStorage.deletefile(img.getFilename()); } catch (IOException ignored) {}
+                            try {
+                                fileStorage.deletefile(img.getFilename());
+                            } catch (IOException ignored) {}
                         });
 
                 // Remover entidades de imagen (para que JPA las borre)
@@ -103,7 +117,16 @@ public class RoomController {
             // Añadir nuevas
             for (int i = 0; i < newImages.length; i++) {
                 MultipartFile img = newImages[i];
-                String filename = fileStorage.storefile(img);
+                //String filename = fileStorage.(img);
+                String filename = UUID.randomUUID() + "-" + img.getOriginalFilename();
+                Path tempFile = Files.createTempFile("upload-", filename);
+                Files.write(tempFile, img.getBytes());
+
+                boolean uploaded = s3Service.uploadFile("hotel-room-images-utp", filename, tempFile);
+                Files.delete(tempFile);
+                if(!uploaded){
+                    throw new IOException("Failed to upload file to S3");
+                }
                 RoomImage ri = new RoomImage();
                 ri.setFilename(filename);
                 ri.setRoom(updated);
@@ -155,7 +178,9 @@ public class RoomController {
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         roomService.getRoomById(id).ifPresent(room ->
                 room.getImages().forEach(img -> {
-                    try { fileStorage.deletefile(img.getFilename()); } catch (IOException ignored) {}
+                    try {
+                        fileStorage.deletefile(img.getFilename());
+                    } catch (IOException ignored) {}
 
                 })
         );
@@ -165,7 +190,7 @@ public class RoomController {
 
     @GetMapping("/images/{filename:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String filename) throws IOException {
-        Resource file = fileStorage.loadFileResource(filename);
+        Resource file = fileStorage.loadOrDownload("hotel-room-images-utp", filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .header(HttpHeaders.CACHE_CONTROL, "no-store")
