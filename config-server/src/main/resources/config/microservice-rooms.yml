@@ -39,7 +39,7 @@ eureka:
     #enabled: false
     service-url:
       #defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
-      defaultZone: ${EUREKA_URL}
+      defaultZone: ${EUREKA_URL}/eureka/
 cloud:
   aws:
     credentials:
