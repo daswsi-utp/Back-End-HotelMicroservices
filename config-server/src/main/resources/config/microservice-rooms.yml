@@ -49,4 +49,9 @@ cloud:
       auto: false
 file:
   upload-dir: src/main/resources/uploads/rooms/
+logging:
+  level:
+    root: INFO
+    org.springframework.beans.factory: DEBUG
+
 
