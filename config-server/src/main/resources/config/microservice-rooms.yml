@@ -22,6 +22,8 @@ spring:
       file-size-threshold: 1MB
       max-file-size: 5MB
       max-request-size: 50MB
+  destination:
+    folder: src/main/resources/uploads/rooms/
 eureka:
   instance:
     hostname: microservice-rooms-nkk9.onrender.com
