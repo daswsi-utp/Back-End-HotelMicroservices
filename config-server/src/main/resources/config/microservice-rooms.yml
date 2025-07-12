@@ -27,9 +27,7 @@ spring:
 eureka:
   instance:
     hostname: microservice-rooms-nkk9.onrender.com
-    #hostname: microservice-rooms
     prefer-ip-address: false
-    #prefer-ip-address: true
     secure-port: 443
     secure-port-enabled: true
     metadata-map:
@@ -38,7 +36,6 @@ eureka:
     #This line is used for testing.
     #enabled: false
     service-url:
-      #defaultZone: https://microservice-eureka-mmco.onrender.com/eureka/
       defaultZone: ${EUREKA_URL}/eureka/
 cloud:
   aws:
