@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.List;
 
 @RestController
@@ -58,4 +59,14 @@ public class S3Controller {
        this.is3Service.downloadFile(bucketName,key);
        return ResponseEntity.ok("File was downloaded correctly");
    }
+   @PostMapping("/upload/presigned")
+   public ResponseEntity<String> generatePresignedUploadUrl(@RequestParam String bucketName, @RequestParam String key, @RequestParam Long time){
+       Duration durationToLive = Duration.ofMinutes(time);
+       return ResponseEntity.ok(this.is3Service.generatePreSignedUpUploadUrl(bucketName, key, durationToLive));
+   }
+   @GetMapping("/download/presigned")
+    public ResponseEntity<String> generatePresignedDownlaodUrl(@RequestParam String bucketName, @RequestParam String key, @RequestParam Long time){
+        Duration durationToLive = Duration.ofMinutes(time);
+        return ResponseEntity.ok(this.is3Service.generatePreSignedUpDownloadUrl(bucketName, key, durationToLive));
+    }
 }

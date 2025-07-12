@@ -6,10 +6,16 @@ import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -22,7 +28,7 @@ public class ImplS3Service implements  IS3Service{
     @Autowired
     private S3Client s3Client;
     @Autowired
-    private S3AsyncClient s3AsyncClient;
+    private S3Presigner s3Presigner;
     @Override
     public String createBucket(String bucketName) {
         CreateBucketResponse response = this.s3Client.createBucket(bucketBuilder -> bucketBuilder.bucket(bucketName));
@@ -86,11 +92,31 @@ public class ImplS3Service implements  IS3Service{
 
     @Override
     public String generatePreSignedUpUploadUrl(String bucketName, String key, Duration duration) {
-        return "";
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+        PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
+                .signatureDuration(duration)
+                .putObjectRequest(putObjectRequest)
+                .build();
+        PresignedPutObjectRequest presignedPutObjectRequest = this.s3Presigner.presignPutObject(presignRequest);
+        URL presignedUrl = presignedPutObjectRequest.url();
+        return presignedUrl.toString();
     }
 
     @Override
     public String generatePreSignedUpDownloadUrl(String bucketName, String key, Duration duration) {
-        return "";
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+        GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+                .signatureDuration(duration)
+                .getObjectRequest(getObjectRequest)
+                .build();
+        PresignedGetObjectRequest presignedRequest = this.s3Presigner.presignGetObject(presignRequest);
+        URL presignUrl = presignedRequest.url();
+        return presignUrl.toString();
     }
 }
