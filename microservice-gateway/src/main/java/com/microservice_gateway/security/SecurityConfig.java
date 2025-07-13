@@ -55,6 +55,12 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/roomtype").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/oauth/login").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/users/check-username").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/promotions/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/promotions/**").permitAll()
+                        .pathMatchers(HttpMethod.PUT, "/api/promotions/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/messages/**").permitAll()
+                        .pathMatchers(HttpMethod.PUT, "/api/messages/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/messages/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
