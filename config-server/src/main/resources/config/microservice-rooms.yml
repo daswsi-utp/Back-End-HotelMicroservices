@@ -30,10 +30,10 @@ eureka:
     prefer-ip-address: false
     secure-port: 443
     secure-port-enabled: true
-    instance:
-      instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.value}"
-    metadata-map:
-      instance: ${spring.application.name}:${random.value}
+    #instance:
+    #  instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.value}"
+    #metadata-map:
+    #  instance: ${spring.application.name}:${random.value}
   client:
     #This line is used for testing.
     #enabled: false
