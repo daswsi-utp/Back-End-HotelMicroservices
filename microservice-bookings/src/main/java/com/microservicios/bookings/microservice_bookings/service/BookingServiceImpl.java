@@ -1,6 +1,5 @@
 package com.microservicios.bookings.microservice_bookings.service;
 
-import com.microservicios.bookings.microservice_bookings.client.PromotionClient;
 import com.microservicios.bookings.microservice_bookings.client.RoomClient;
 import com.microservicios.bookings.microservice_bookings.client.UserClient;
 import com.microservicios.bookings.microservice_bookings.dto.*;
@@ -11,11 +10,9 @@ import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.repositories.BookingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -29,8 +26,6 @@ public class BookingServiceImpl implements IBookingService
     private final BookingRepository bookingRepository;
     private final UserClient userClient;
     private final RoomClient roomClient;
-   @Autowired
-   private PromotionClient promotionClient;
 
     public BookingServiceImpl(BookingRepository bookingRepository,
                               UserClient userClient,
@@ -53,13 +48,6 @@ public class BookingServiceImpl implements IBookingService
 
     @Override
     public Booking save(Booking booking) {
-        booking.setCheckIn(booking.getCheckIn());
-        booking.setCheckOut(booking.getCheckOut());
-        booking.setStatus(booking.getStatus());
-        booking.setTotal(booking.getTotal());
-        booking.setRoomId(booking.getRoomId());
-        booking.setUserId(booking.getUserId());
-        booking.setDiscount(booking.getDiscount());
         return bookingRepository.save(booking);
     }
 
@@ -305,7 +293,6 @@ public class BookingServiceImpl implements IBookingService
                 .mapToDouble(Booking::getTotalPrice)
                 .sum();
     }
-
 }
 
 
