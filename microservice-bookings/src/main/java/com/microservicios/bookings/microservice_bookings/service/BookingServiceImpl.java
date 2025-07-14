@@ -1,5 +1,6 @@
 package com.microservicios.bookings.microservice_bookings.service;
 
+import com.microservicios.bookings.microservice_bookings.client.PromotionClient;
 import com.microservicios.bookings.microservice_bookings.client.RoomClient;
 import com.microservicios.bookings.microservice_bookings.client.UserClient;
 import com.microservicios.bookings.microservice_bookings.dto.*;
@@ -28,6 +29,8 @@ public class BookingServiceImpl implements IBookingService
     private final BookingRepository bookingRepository;
     private final UserClient userClient;
     private final RoomClient roomClient;
+   @Autowired
+   private PromotionClient promotionClient;
 
     public BookingServiceImpl(BookingRepository bookingRepository,
                               UserClient userClient,
@@ -193,7 +196,8 @@ public class BookingServiceImpl implements IBookingService
                 saved.getCheckIn(),
                 saved.getCheckOut(),
                 saved.getTotal(),
-                saved.getStatus()
+                saved.getStatus(),
+                saved.getDiscount()
         );
     }
 
@@ -214,7 +218,8 @@ public class BookingServiceImpl implements IBookingService
                 booking.getCheckIn(),
                 booking.getCheckOut(),
                 booking.getTotal(),
-                booking.getStatus()
+                booking.getStatus(),
+                booking.getDiscount()
         );
     }
 
@@ -233,7 +238,8 @@ public class BookingServiceImpl implements IBookingService
                             b.getCheckIn(),
                             b.getCheckOut(),
                             b.getTotal(),
-                            b.getStatus()
+                            b.getStatus(),
+                            b.getDiscount()
                     );
                 })
                 .collect(Collectors.toList());
@@ -259,7 +265,8 @@ public class BookingServiceImpl implements IBookingService
                 updated.getCheckIn(),
                 updated.getCheckOut(),
                 booking.getTotal(),
-                updated.getStatus()
+                updated.getStatus(),
+                updated.getDiscount()
         );
     }
 
@@ -281,7 +288,8 @@ public class BookingServiceImpl implements IBookingService
                 updated.getCheckIn(),
                 updated.getCheckOut(),
                 booking.getTotal(),
-                updated.getStatus()
+                updated.getStatus(),
+                updated.getDiscount()
         );
     }
 

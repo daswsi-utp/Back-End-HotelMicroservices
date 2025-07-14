@@ -14,4 +14,10 @@ public interface PromotionRepository extends  JpaRepository<Promotion, Long>{
             "WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:name AS string), '%'))) " +
             "AND (:isActive IS NULL OR p.isActive = :isActive)")
     List<Promotion> findByNameAndStatus(@Param("name") String name,@Param("isActive") Boolean isActive);
+    @Query("""
+            select p from Promotion p
+            join p.promotionRoomTypeList prt
+            where prt.id.roomTypeId = :roomTypeId
+            """)
+    List<Promotion> findByRoomTypeId(@Param("roomTypeId") Long roomTypeId);
 }
