@@ -31,6 +31,16 @@ public class ImplS3Service implements  IS3Service{
     private S3Client s3Client;
     @Autowired
     private S3Presigner s3Presigner;
+    @Value("${s3.base.builder}")
+    private String baseFolder;
+
+    private String buildKey(String key){
+        if(baseFolder.endsWith("/")) {
+            return baseFolder + key;
+        }
+        return baseFolder + "/" + key;
+    }
+
     @Override
     public String createBucket(String bucketName) {
         CreateBucketResponse response = this.s3Client.createBucket(bucketBuilder -> bucketBuilder.bucket(bucketName));
@@ -63,7 +73,7 @@ public class ImplS3Service implements  IS3Service{
     public Boolean uploadFile(String bucketName, String key, Path fileLocation) {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
-                .key(key)
+                .key(buildKey(key))
                 .build();
         PutObjectResponse putObjectResponse = this.s3Client.putObject(putObjectRequest, fileLocation);
         return putObjectResponse.sdkHttpResponse().isSuccessful();
@@ -73,7 +83,7 @@ public class ImplS3Service implements  IS3Service{
     public void downloadFile(String bucket, String key) throws IOException {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucket)
-                .key(key)
+                .key(buildKey(key))
                 .build();
         ResponseBytes<GetObjectResponse> objectBytes = this.s3Client.getObjectAsBytes(getObjectRequest);
         String filename;
@@ -96,7 +106,7 @@ public class ImplS3Service implements  IS3Service{
     public String generatePreSignedUpUploadUrl(String bucketName, String key, Duration duration) {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
-                .key(key)
+                .key(buildKey(key))
                 .build();
         PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
                 .signatureDuration(duration)
@@ -111,7 +121,7 @@ public class ImplS3Service implements  IS3Service{
     public String generatePreSignedUpDownloadUrl(String bucketName, String key, Duration duration) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
-                .key(key)
+                .key(buildKey(key))
                 .build();
         GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
                 .signatureDuration(duration)
@@ -126,7 +136,7 @@ public class ImplS3Service implements  IS3Service{
         try{
             this.s3Client.deleteObject(DeleteObjectRequest.builder()
                     .bucket(bucketName)
-                    .key(key)
+                    .key(buildKey(key))
                     .build());
         } catch (S3Exception e){
             throw new RuntimeException("Failed to delete file from S3: " + e.awsErrorDetails().errorMessage());
