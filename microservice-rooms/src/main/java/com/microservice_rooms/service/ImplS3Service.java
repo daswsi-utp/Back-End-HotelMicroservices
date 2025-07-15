@@ -31,7 +31,7 @@ public class ImplS3Service implements  IS3Service{
     private S3Client s3Client;
     @Autowired
     private S3Presigner s3Presigner;
-    @Value("${s3.base.builder}")
+    @Value("${s3.base-folder}")
     private String baseFolder;
 
     private String buildKey(String key){
