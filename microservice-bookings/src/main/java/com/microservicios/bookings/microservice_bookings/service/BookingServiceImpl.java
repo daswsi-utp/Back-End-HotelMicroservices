@@ -55,8 +55,12 @@ public class BookingServiceImpl implements IBookingService
     public Optional<Booking> update(Booking booking, Long id) {
        Optional<Booking> bookingOptional = this.findById(id);
        return bookingOptional.map( bOp -> {
-           bOp.setUserId(booking.getUserId());
-           bOp.setRoomId(booking.getRoomId());
+           if(booking.getUserId() != null) {
+               bOp.setUserId(booking.getUserId());
+           }
+           if(booking.getRoomId() != null){
+               bOp.setRoomId(booking.getRoomId());
+           }
            bOp.setTotal(booking.getTotal());
            bOp.setStatus(booking.getStatus());
            bOp.setCheckOut(booking.getCheckOut());
