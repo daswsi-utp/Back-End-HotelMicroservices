@@ -1,8 +1,11 @@
+oauth:
+  warmup-url: ${OAUTH_URL}
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
+          jwt-set-uri: ${OAUTH_URL}/.well-known/jwks.json
           issuer-uri: http://127.0.0.1:9100
   cloud:
     gateway:
@@ -52,6 +55,15 @@ spring:
             - Path=/api/oauth/**
           filters:
             - StripPrefix=2
+            - name: Retry
+              args:
+                retries: 1
+                statuses: BAD_GATEWAY, INTERNAL_SERVER_ERROR, SERVICE_UNAVAILABLE
+                methods: POST
+                backoff:
+                  firstBackoff: 200ms
+                  maxBackoff: 1s
+                  factor: 2
         - id: microservice-roomtype
           uri: lb://microservice-rooms
           predicates:
