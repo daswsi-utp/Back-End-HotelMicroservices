@@ -27,9 +27,9 @@ spring:
 eureka:
   instance:
     hostname: microservice-rooms-nkk9.onrender.com
-    prefer-ip-address: false
-    secure-port: 443
-    secure-port-enabled: true
+    prefer-ip-address: true
+    #secure-port: 443
+    secure-port-enabled: false
     #instance:
     #  instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.value}"
     #metadata-map:

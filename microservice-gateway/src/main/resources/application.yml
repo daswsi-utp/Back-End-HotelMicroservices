@@ -7,6 +7,7 @@ spring:
   cloud:
     gateway:
       globalcors:
+        add-to-simple-url-handler-mapping: true
         corsConfigurations:
           '[/**]':
             allowedOrigins:
@@ -52,15 +53,6 @@ spring:
             - Path=/api/oauth/**
           filters:
             - StripPrefix=2
-            - name: Retry
-              args:
-                retries: 3
-                statuses: BAD_GATEWAY, INTERNAL_SERVER_ERROR, SERVICE_UNAVAILABLE
-                methods: POST
-                backoff:
-                  firstBackoff: 200ms
-                  maxBackoff: 1s
-                  factor: 2
         - id: microservice-roomtype
           uri: lb://microservice-rooms
           predicates:

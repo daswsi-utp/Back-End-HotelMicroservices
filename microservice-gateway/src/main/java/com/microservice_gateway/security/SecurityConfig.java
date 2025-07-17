@@ -83,7 +83,7 @@ public class SecurityConfig {
                 .build();
 
         return NimbusReactiveJwtDecoder
-                .withJwkSetUri("https://microservice-oauth.onrender.com/.well-known/jwks.json")
+                .withJwkSetUri("https://microservice-oauth-wx76.onrender.com/.well-known/jwks.json")
                 .webClient(webClient)
                 .build();
     }
