@@ -1,0 +1,58 @@
+server:
+  port: ${PORT:0}
+spring:
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: microservice-rooms
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_HOST_POSTGRES_PROMOTION_ROOMS}
+    username: ${DB_USERNAME_POSTGRES}
+    password: ${DB_PASSWORD_POSTGRES}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      max-file-size: 5MB
+      max-request-size: 50MB
+  destination:
+    folder: /tmp/uploads/rooms/
+eureka:
+  instance:
+    hostname: microservice-rooms-nkk9.onrender.com
+    prefer-ip-address: false
+    secure-port: 443
+    secure-port-enabled: true
+    #instance:
+    #  instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.value}"
+    #metadata-map:
+    #  instance: ${spring.application.name}:${random.value}
+  client:
+    #This line is used for testing.
+    #enabled: false
+    service-url:
+      defaultZone: ${EUREKA_URL}/eureka/
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: us-east-2
+    stack:
+      auto: false
+s3:
+  base-folder: rooms/images/
+file:
+  upload-dir: /tmp/uploads/rooms/
+logging:
+  level:
+    root: INFO
+    org.springframework.beans.factory: DEBUG

@@ -2,13 +2,17 @@ server:
   port: 8888
 
 spring:
+  profiles:
+    active: native
   application:
     name: config-server
 
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/daswsi-utp/Back-End-HotelMicroservices.git
-          default-label: italo_promotion_gateway_redo
-          search-paths: config
+        native:
+          search-locations: classpath:/config
+        #git:
+        #  uri: https://github.com/daswsi-utp/Back-End-HotelMicroservices.git
+        #  default-label: italo_promotion_gateway_redo
+        #  search-paths: config

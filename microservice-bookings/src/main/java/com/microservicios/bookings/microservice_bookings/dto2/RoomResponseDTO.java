@@ -17,4 +17,5 @@ public class RoomResponseDTO {
     private LocalDate checkOut;
     private double total;
     private String status;
+    private Double discount;
 }

@@ -30,6 +30,10 @@ public class PromotionController {
         return ResponseEntity.ok(iPromotionService.findById(id));
     }
 
+    @GetMapping("/roomType/{roomTypeId}")
+    public ResponseEntity<?> findPromotionByRoomTypeId(@PathVariable Long id) {
+        return ResponseEntity.ok(iPromotionService.getPromotionByRoomTypeId(id));
+    }
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody PromotionRequestDTO promotion){
         return ResponseEntity.ok(iPromotionService.update(id, promotion));

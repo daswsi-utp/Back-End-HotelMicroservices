@@ -10,11 +10,9 @@ import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.repositories.BookingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -50,13 +48,6 @@ public class BookingServiceImpl implements IBookingService
 
     @Override
     public Booking save(Booking booking) {
-        booking.setCheckIn(booking.getCheckIn());
-        booking.setCheckOut(booking.getCheckOut());
-        booking.setStatus(booking.getStatus());
-        booking.setTotal(booking.getTotal());
-        booking.setRoomId(booking.getRoomId());
-        booking.setUserId(booking.getUserId());
-        booking.setDiscount(booking.getDiscount());
         return bookingRepository.save(booking);
     }
 
@@ -64,8 +55,12 @@ public class BookingServiceImpl implements IBookingService
     public Optional<Booking> update(Booking booking, Long id) {
        Optional<Booking> bookingOptional = this.findById(id);
        return bookingOptional.map( bOp -> {
-           bOp.setUserId(booking.getUserId());
-           bOp.setRoomId(booking.getRoomId());
+           if(booking.getUserId() != null) {
+               bOp.setUserId(booking.getUserId());
+           }
+           if(booking.getRoomId() != null){
+               bOp.setRoomId(booking.getRoomId());
+           }
            bOp.setTotal(booking.getTotal());
            bOp.setStatus(booking.getStatus());
            bOp.setCheckOut(booking.getCheckOut());
@@ -140,6 +135,24 @@ public class BookingServiceImpl implements IBookingService
     }
 
 
+    @Override
+    @Transactional
+    public UserBookingStatsDTO updateStatus(Long userId, String nowStatus) {
+        // Obtener todas las reservas del usuario
+        List<Booking> userBookings = bookingRepository.findAll().stream()
+                .filter(booking -> booking.getUserId().equals(userId))
+                .collect(Collectors.toList());
+        if (userBookings.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron reservas para el usuario con ID: " + userId);
+        }
+        // Actualizar el estado de cada reserva del usuario
+        for (Booking booking : userBookings) {
+            booking.setStatus(nowStatus);
+            bookingRepository.save(booking);
+        }
+        // Recalcular y devolver las estadísticas actualizadas del usuario
+        return getUserBookingStats(userId);
+    }
 
 
     //a
@@ -175,7 +188,8 @@ public class BookingServiceImpl implements IBookingService
                 saved.getCheckIn(),
                 saved.getCheckOut(),
                 saved.getTotal(),
-                saved.getStatus()
+                saved.getStatus(),
+                saved.getDiscount()
         );
     }
 
@@ -196,7 +210,8 @@ public class BookingServiceImpl implements IBookingService
                 booking.getCheckIn(),
                 booking.getCheckOut(),
                 booking.getTotal(),
-                booking.getStatus()
+                booking.getStatus(),
+                booking.getDiscount()
         );
     }
 
@@ -215,7 +230,8 @@ public class BookingServiceImpl implements IBookingService
                             b.getCheckIn(),
                             b.getCheckOut(),
                             b.getTotal(),
-                            b.getStatus()
+                            b.getStatus(),
+                            b.getDiscount()
                     );
                 })
                 .collect(Collectors.toList());
@@ -241,12 +257,46 @@ public class BookingServiceImpl implements IBookingService
                 updated.getCheckIn(),
                 updated.getCheckOut(),
                 booking.getTotal(),
-                updated.getStatus()
+                updated.getStatus(),
+                updated.getDiscount()
         );
     }
 
+    @Override
+    @Transactional
+    public RoomResponseDTO updateBookingStatus(Long id, String newStatus) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking no encontrado: " + id));
+        booking.setStatus(newStatus);
+        Booking updated = bookingRepository.save(booking);
+        UserDTO user = userClient.getUserById(updated.getUserId());
+        RoomDTO room = roomClient.getRoomById(updated.getRoomId());
 
+        return new RoomResponseDTO(
+                updated.getId(),
+                user.getName() + " " + user.getLastName(),
+                user.getEmail(),
+                room.getRoomNumber(),
+                updated.getCheckIn(),
+                updated.getCheckOut(),
+                booking.getTotal(),
+                updated.getStatus(),
+                updated.getDiscount()
+        );
+    }
 
+    @Override
+    public Long countBookings() {
+        return bookingRepository.count();
+    }
+
+    @Override
+    public Double calculateTotalIncome() {
+        return bookingRepository.findAll()
+                .stream()
+                .mapToDouble(Booking::getTotalPrice)
+                .sum();
+    }
 }
 
 

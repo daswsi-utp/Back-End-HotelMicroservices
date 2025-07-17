@@ -1,11 +1,14 @@
 package com.microservicios.bookings.microservice_bookings.controller;
 
 import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto.UserStatusUpdateDTO;
 import com.microservicios.bookings.microservice_bookings.dto2.RoomResponseDTO;
 import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO;
 import com.microservicios.bookings.microservice_bookings.dto2.RoomsRequest;
 import com.microservicios.bookings.microservice_bookings.entites.Booking;
 import com.microservicios.bookings.microservice_bookings.service.IBookingService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -95,6 +98,28 @@ public class BooKingController
         return ResponseEntity.ok(dto);
     }
 
+    @PutMapping("/detail/{id}/status")
+    public ResponseEntity<RoomResponseDTO> updateBookingStatus(@PathVariable Long id, @RequestParam String newStatus) {
+        RoomResponseDTO dto = bookingService.updateBookingStatus(id, newStatus);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalBookingsCount() {
+        return ResponseEntity.ok(bookingService.countBookings());
+    }
 
+    @GetMapping("/total-income")
+    public ResponseEntity<Double> getTotalIncome() {
+        return ResponseEntity.ok(bookingService.calculateTotalIncome());
+    }
+/*
+    @PutMapping("/stats/{userId}/status")
+    public ResponseEntity<String> updateUserBookingStatus(
+            @PathVariable Long userId,
+            @Valid @RequestBody UserStatusUpdateDTO statusDTO) {
 
+        bookingService.updateBookingsStatusByUserId(userId, statusDTO.getStatus());
+        return ResponseEntity.ok("User booking status updated successfully.");
+    }
+*/
 }

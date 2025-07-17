@@ -39,11 +39,28 @@ public class SecurityConfig {
                                 "/actuator/health"
                         ).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/bookings/detail").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/bookings/stats").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/rooms/count").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/users/username/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/users/username/{useranme}").hasAnyRole("USER")
+                        .pathMatchers(HttpMethod.GET,"/api/rooms/**").permitAll()
+                        .pathMatchers(HttpMethod.PUT,"/api/rooms/**").permitAll()
+                        .pathMatchers( "/api/users").permitAll()
+                        .pathMatchers( HttpMethod.PUT,"/api/rooms/{id}").permitAll()
+                        .pathMatchers( "/api/rooms/images/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/bookings/save").permitAll()
+                        .pathMatchers( "/api/tags").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/rooms").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/roomtype").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/oauth/login").permitAll()
-                        .pathMatchers(HttpMethod.GET, "api/users/check-username").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/users/check-username").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/promotions/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/promotions/**").permitAll()
+                        .pathMatchers(HttpMethod.PUT, "/api/promotions/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/messages/**").permitAll()
+                        .pathMatchers(HttpMethod.PUT, "/api/messages/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/messages/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -66,7 +83,7 @@ public class SecurityConfig {
                 .build();
 
         return NimbusReactiveJwtDecoder
-                .withJwkSetUri("http://localhost:9100/.well-known/jwks.json")
+                .withJwkSetUri("https://microservice-oauth.onrender.com/.well-known/jwks.json")
                 .webClient(webClient)
                 .build();
     }

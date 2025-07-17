@@ -17,7 +17,7 @@ import com.microservice.model.Message;
 import com.microservice.service.MessageService;
 
 @RestController
-@RequestMapping("/api/messages")
+@RequestMapping
 public class MessageController {
 
     private final MessageService service;

@@ -14,5 +14,6 @@ public interface IUserService
           Optional<User> update(User user, Long id);
           void deleteById(Long id);
          Optional<User> findByUsername(String username);
+    Long countUsers();
 
 }

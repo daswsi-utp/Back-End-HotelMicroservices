@@ -126,6 +126,11 @@ public class PromotionServiceImp implements IPromotionService{
     }
 
     @Override
+    public List<PromotionResponseDTO> getPromotionByRoomTypeId(Long id){
+        List<Promotion> matchingPromotions = promotionRepository.findByRoomTypeId(id);
+        return createPromotionResponseList(matchingPromotions);
+    }
+    @Override
     public List<PromotionResponseDTO> getPromotionsByIsActive(boolean isActive) {
         List<Promotion> matchingPromotions = promotionRepository.findByIsActive(isActive);
         return createPromotionResponseList(matchingPromotions);

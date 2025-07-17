@@ -1,6 +1,7 @@
 package com.microservicios.bookings.microservice_bookings.service;
 
 import com.microservicios.bookings.microservice_bookings.dto.BookingResponseDTO;
+import com.microservicios.bookings.microservice_bookings.dto2.RoomDTO;
 import com.microservicios.bookings.microservice_bookings.dto2.RoomResponseDTO;
 import com.microservicios.bookings.microservice_bookings.dto.UserBookingStatsDTO;
 import com.microservicios.bookings.microservice_bookings.dto2.RoomsRequest;
@@ -19,6 +20,7 @@ public interface IBookingService
     BookingResponseDTO getBookingWithUser(Long bookingId);
     UserBookingStatsDTO getUserBookingStats(Long userId);
     List<UserBookingStatsDTO> getAllUsersBookingStats();
+    UserBookingStatsDTO updateStatus(Long userId, String nowStatus);
 
 
     RoomResponseDTO createBooking(RoomsRequest req);
@@ -26,5 +28,7 @@ public interface IBookingService
     List<RoomResponseDTO> listAll();
     RoomResponseDTO cancelBooking(Long id);
 
-
+    RoomResponseDTO updateBookingStatus(Long id, String newStatus);
+    Long countBookings();
+    Double calculateTotalIncome();
 }
