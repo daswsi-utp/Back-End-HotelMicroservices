@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwt-set-uri: ${OAUTH_URL}/.well-known/jwks.json
+          jwk-set-uri: ${OAUTH_URL}/.well-known/jwks.json
           issuer-uri: http://127.0.0.1:9100
   cloud:
     gateway:
