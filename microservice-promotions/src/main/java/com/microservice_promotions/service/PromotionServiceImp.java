@@ -156,7 +156,7 @@ public class PromotionServiceImp implements IPromotionService{
         for(PromotionRoomType pr : promotionRoomTypes){
             Long promotionId = pr.getId().getPromotionId();
             RoomTypeDTO roomTypeDTO = roomClient.getRoomTypeById(pr.getId().getRoomTypeId());
-            System.out.println("DTO ID: " + roomTypeDTO.getRoomTypeId() + "Hash" + roomTypeDTO.hashCode());
+            System.out.println("DTO ID: " + roomTypeDTO.getId() + "Hash" + roomTypeDTO.hashCode());
             roomTypeDTOS.add(roomTypeDTO);
         }
         return roomTypeDTOS;
