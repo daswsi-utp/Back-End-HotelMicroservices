@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers(
+                                "/login",
                                 "/.well-known/jwks.json",
                                 "/.well-known/openid-configuration",
                                 "/oauth2/jwks",  // Asegúrate de incluir esta ruta
