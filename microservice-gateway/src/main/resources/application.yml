@@ -54,7 +54,7 @@ spring:
             - StripPrefix=2
             - name: Retry
               args:
-                retries: 3
+                retries: 1
                 statuses: BAD_GATEWAY, INTERNAL_SERVER_ERROR, SERVICE_UNAVAILABLE
                 methods: POST
                 backoff:
