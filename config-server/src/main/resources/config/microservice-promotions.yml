@@ -20,10 +20,10 @@ eureka:
   instance:
     hostname: microservice-promotions-ucmr.onrender.com
     #hostname: microservice-promotions
-    prefer-ip-address: false
-    #prefer-ip-address: true
-    secure-port: 443
-    secure-port-enabled: true
+    #prefer-ip-address: false
+    prefer-ip-address: true
+   # secure-port: 443
+    secure-port-enabled: false
     #instance:
     #  instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.value}"
     #metadata-map:
