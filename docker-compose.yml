@@ -47,6 +47,7 @@ services:
     environment:
       - PORT=8090
       - EUREKA_URL=${EUREKA_URL}
+      - OAUTH_URL=${OAUTH_URL}
       #- SPRING_DATASOURCE_EUREKA=${URL_EUREKA}
     ports:
       - "8090:8090"
