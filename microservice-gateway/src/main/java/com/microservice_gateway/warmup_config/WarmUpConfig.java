@@ -14,7 +14,7 @@ public class WarmUpConfig {
     public void warmUpOAuth(){
         webClientBuilder.build()
                 .get()
-                .uri("https://microservice-oauth-wx76.onrender.com")
+                .uri("https://hotel-oauth-production.up.railway.app")
                 .retrieve()
                 .toBodilessEntity()
                 .subscribe(
