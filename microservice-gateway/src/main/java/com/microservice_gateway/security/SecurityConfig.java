@@ -1,4 +1,5 @@
 package com.microservice_gateway.security;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -27,6 +28,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebFluxSecurity
 @Configuration
 public class SecurityConfig {
+    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+    private String jwkSetUri;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -43,7 +46,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/bookings/stats").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/rooms/count").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/users/username/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/users/username/{useranme}").hasAnyRole("USER")
+                        .pathMatchers(HttpMethod.GET, "/api/users/username/{username}").hasAnyRole("USER")
                         .pathMatchers(HttpMethod.GET,"/api/rooms/**").permitAll()
                         .pathMatchers(HttpMethod.PUT,"/api/rooms/**").permitAll()
                         .pathMatchers( "/api/users").permitAll()
@@ -83,7 +86,7 @@ public class SecurityConfig {
                 .build();
 
         return NimbusReactiveJwtDecoder
-                .withJwkSetUri("https://microservice-oauth-wx76.onrender.com/.well-known/jwks.json")
+                .withJwkSetUri(jwkSetUri)
                 .webClient(webClient)
                 .build();
     }
