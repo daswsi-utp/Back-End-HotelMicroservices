@@ -9,6 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class RoomTypeDTO {
-    private Long roomTypeId;
-    private String roomType;
+    private Long id;
+    private String name;
 }
