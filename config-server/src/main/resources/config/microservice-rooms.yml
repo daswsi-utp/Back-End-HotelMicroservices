@@ -49,7 +49,7 @@ cloud:
     stack:
       auto: false
 s3:
-  base-folder: rooms/images/
+  base-folder: rooms/
 file:
   upload-dir: /tmp/uploads/rooms/
 logging:
